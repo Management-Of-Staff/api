@@ -18,7 +18,7 @@ public class AuthService {
 
     @Transactional
     public MemberDto register(MemberDto memberDto){
-        memberValidator.checkMemberEmailDuplicate(memberDto);
+        memberValidator.checkMemberDuplicate(memberDto);
 
         return memberDto;
 

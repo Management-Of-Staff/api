@@ -13,6 +13,8 @@ public enum ErrorCode{
     // HttpStatus.UNAUTHORIZED
     MAIL_ADDRESS_PARSING_FAIL(HttpStatus.UNAUTHORIZED.value(), "잘못된 메일 주소입니다"),
     UNAUTHORIZED_ERROR(HttpStatus.UNAUTHORIZED.value(), "권한이 없습니다."),
+    EMAIL_DUPLICATE(HttpStatus.BAD_REQUEST.value(), "이미 사용중인 이메일입니다."),
+
     ;
 
     private int value;
