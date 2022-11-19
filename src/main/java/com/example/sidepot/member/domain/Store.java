@@ -1,4 +1,4 @@
-package com.example.sidepotback.member.domain;
+package com.example.sidepot.member.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
