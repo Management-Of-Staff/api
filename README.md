@@ -9,7 +9,7 @@
 
 #### 2022 / 11 / 21
 
- -  UserDetailsServe() - UserDetail() 인터페이스 구현을 확장할 것인지 그냥 사용할 것인지?
+ - UserDetailsServe() - UserDetail() 인터페이스 구현을 확장할 것인지 그냥 사용할 것인지?
    
    - DB 레이어에서 사용할 경우
    - Manager가 붙어서 Detail()이 필요한 경우
