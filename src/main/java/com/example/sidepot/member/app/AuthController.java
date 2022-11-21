@@ -1,12 +1,10 @@
 package com.example.sidepot.member.app;
 
 import com.example.sidepot.global.Path;
-import com.example.sidepot.member.dto.MemberDto;
 import com.example.sidepot.member.dto.MemberDto.OwnerDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,5 +21,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(ownerDto));
     }
 
+    @ApiOperation("알바생 회원 가입")
 
 }
