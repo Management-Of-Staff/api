@@ -1,9 +1,22 @@
 # 오직(오너와 직원) 서비스 Spring Server
 
 ### domain
+- 설정파일 : global
 - 회원관리 : auth
 - 근무시간관리 : manage
 - 정산관리 : salary
+
+### 패키지
+<img width="141" alt="스크린샷 2022-11-22 오전 11 19 59" src="https://user-images.githubusercontent.com/76679995/203203343-7c422cc7-eb88-478f-8d90-a3a70b30eb5c.png">
+
+- app
+   - service
+   - controller
+- domain
+   - entity
+   - repository
+- dto
+
 
 ---
 
