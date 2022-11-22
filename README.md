@@ -1,4 +1,4 @@
-# 근무시간 관리 어플리케이션 Spring Server
+# 오직(오너와 직원) 서비스 Spring Server
 
 ### domain
 - 회원관리 : auth
