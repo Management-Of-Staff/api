@@ -30,7 +30,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
                 .securityContexts(List.of(securityContext()))
                 .securitySchemes(List.of(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("sidepot.com"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.sidepot"))
                 .paths(PathSelectors.any())
                 .build();
 
