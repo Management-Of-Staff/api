@@ -1,6 +1,6 @@
 package com.example.sidepot.member.app;
 
-import com.example.sidepot.member.domain.OwnerRepoitory;
+import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.member.dto.MemberDto;
 import com.example.sidepot.member.dto.MemberDto.OwnerDto;
@@ -14,14 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final MemberValidator memberValidator;
-    private final OwnerRepoitory memberRepoitory;
+    private final OwnerRepository memberRepository;
 
     @Transactional
     public OwnerDto register(OwnerDto ownerDto){
         memberValidator.checkMemberDuplicate(ownerDto.getPhone());
         Owner owner = memberValidator.ownerDtoToEntity(ownerDto);
-        memberRepoitory.save(owner);
+        memberRepository.save(owner);
         return OwnerDto.from(owner);
     }
-
 }

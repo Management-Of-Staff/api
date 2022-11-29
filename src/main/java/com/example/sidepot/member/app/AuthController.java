@@ -20,7 +20,4 @@ public class AuthController {
     public ResponseEntity<OwnerDto> register(@RequestBody OwnerDto ownerDto) {
         return ResponseEntity.ok(authService.register(ownerDto));
     }
-
-    @ApiOperation("알바생 회원 가입")
-
 }

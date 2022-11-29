@@ -2,8 +2,9 @@ package com.example.sidepot.member.app;
 
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.domain.OwnerRepoitory;
+import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.member.domain.Owner;
+import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.member.dto.MemberDto.OwnerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,12 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class MemberValidator {
+
     private final PasswordEncoder passwordEncoder;
-    private final OwnerRepoitory memberRepoitory;
+    private final OwnerRepository memberRepository;
 
     @Transactional
     public void checkMemberDuplicate(String phone){
-        if(memberRepoitory.existsByPhone(phone)){
+        if(memberRepository.existsByPhone(phone)){
             throw new Exception(ErrorCode.EMAIL_DUPLICATE);
         }
     }

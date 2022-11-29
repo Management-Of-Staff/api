@@ -33,7 +33,6 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
                 .apis(RequestHandlerSelectors.basePackage("com.example.sidepot"))
                 .paths(PathSelectors.any())
                 .build();
-
     }
 
     private ApiInfo apiInfo(){
