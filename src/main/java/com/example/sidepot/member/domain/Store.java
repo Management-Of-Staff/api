@@ -1,10 +1,11 @@
 package com.example.sidepot.member.domain;
 
+import com.example.sidepot.member.domain.owner.Owner;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -22,7 +23,6 @@ public class Store {
     @Column(name = "store_name")
     private String storeName;
 
-
     @Column(name = "store_phone")
     private String storePhone;
 
@@ -31,15 +31,11 @@ public class Store {
     private String storeAddress;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
 
-    @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private Staff staff;
+    @OneToMany(mappedBy = "store")
+    private List<Employment> staffStore;
 
-    public void deleteOwnerByStore(){
-        this.owner = null;
-    }
 }
 
