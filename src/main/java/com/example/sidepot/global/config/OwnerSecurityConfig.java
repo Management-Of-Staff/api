@@ -50,10 +50,12 @@ public class OwnerSecurityConfig extends WebSecurityConfigurerAdapter {
                     .addFilter(new LoginFilter(authenticationManagerBean(), baseEntityRepository, tokenProvider, objectMapper))// swagger API 호출시 403 에러 발생 방지 // 토큰 방식도 안 씀
                     .addFilter(new JwtFilter(authenticationManagerBean(), tokenProvider, baseEntityRepository))
                     .authorizeRequests()
-                    .antMatchers("/rest/v1/owners/login").hasRole("OWNER") //로그인을 아래로 내리고 다른 기능 추가
-                    .antMatchers("/rest/v1/owners/register").permitAll()
+                    //TODO Matchers 수정해야함 - API 나오고,
                     .antMatchers(PERMIT_URL_ARRAY).permitAll()
+                    .antMatchers("/rest/v1/owners/register","/rest/v1/owners/login").permitAll() //순서 존나 중요
+                    .antMatchers("/rest/v1/owners/**").hasRole("OWNER")
                     .anyRequest().hasRole("OWNER")
+
                     .and()
                     .headers().frameOptions().disable()
                     .and()

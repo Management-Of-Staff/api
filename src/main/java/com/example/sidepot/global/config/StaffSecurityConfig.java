@@ -38,6 +38,7 @@ public class StaffSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .addFilter(loginFilter)// swagger API 호출시 403 에러 발생 방지 // 토큰 방식도 안 씀
                 .addFilter(jwtFilter)
+                //TODO Matchers 오너 직원 다 수정해야함 - API 나오고
                 .requestMatchers()
                 .antMatchers("/rest/v1/staff/**").and()
                 .authorizeRequests()
@@ -50,7 +51,6 @@ public class StaffSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ;
-
     }
 
     @Override
@@ -62,6 +62,4 @@ public class StaffSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(staffService).passwordEncoder(passwordEncoder.bCryptPasswordEncoder());
     }
-
-
 }

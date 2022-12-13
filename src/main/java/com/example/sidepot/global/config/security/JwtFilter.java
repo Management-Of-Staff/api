@@ -34,22 +34,27 @@ public class JwtFilter<T extends BaseEntity> extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String reqHeader = request.getHeader("Authorization");
-
+        //헤더에 토큰이 없으면 다음 필터
         if(reqHeader == null || !reqHeader.startsWith("Bearer ")){
             chain.doFilter(request,response);
             return;
         }
+        //토큰 받아와서 검증
         String token = reqHeader.substring("Bearer ".length());
         Claims claims = tokenProvider.validAndGetUserPhone(token);
+        //검증된 유저라면
+        if(claims.getSubject() != null){
+            String userId = claims.getSubject();
 
-        String userId = claims.getSubject();
+            Optional<T> base = baseEntityRepository.findByPhone(userId);
+            T t = base.orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
-        Optional<T> base = baseEntityRepository.findByPhone(userId);
-        T t = base.orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
-
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(t.getPhone(), null, t.getAuthorities())
-        );
+            SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(t.getPhone(), null, t.getAuthorities())
+            );
+        } else{
+            throw new IllegalArgumentException("이상한 토큰??");
+        }
 
         chain.doFilter(request, response);
     }

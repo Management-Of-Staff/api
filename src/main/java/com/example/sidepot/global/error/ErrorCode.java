@@ -16,8 +16,6 @@ public enum ErrorCode{
     EMAIL_DUPLICATE(HttpStatus.BAD_REQUEST.value(), "이미 사용중인 이메일입니다."),
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "회원 가입되지 않은 사용자입니다."),
     MEMBER_PASSWORD(HttpStatus.BAD_REQUEST.value(), "잘못된 비밀번호 입니다."),
-
-
     REFRESH_TOKEN_EXPIRE(HttpStatus.BAD_REQUEST.value(), "(로그인타입이 올바르지 않음) 다시 로그인 해주세요 -> 로그인페이지"),
     NOT_FOUND_REFRESH_TOKEN(HttpStatus.BAD_REQUEST.value(), "리프레쉬 토큰이 없음"),
     INVALID_LOGIN_TYPE(HttpStatus.BAD_REQUEST.value(), "올바르지 못한 로그인 입니다 -> 유형(폼), 유형(리프레쉬)")

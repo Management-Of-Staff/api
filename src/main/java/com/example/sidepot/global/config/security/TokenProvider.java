@@ -20,7 +20,7 @@ public class TokenProvider {
     public static final String REFRESH_HEADER = "refresh-token";
     public static final String BEARER = "Bearer ";
     private SecretKey key;
-    SidePotProperties sidePotProperties;
+    private final SidePotProperties sidePotProperties;
 
     public enum TokenType{
         ACCESS,
@@ -32,10 +32,11 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(
                 sidePotProperties.getSignKey().getBytes(StandardCharsets.UTF_8));
     }
-
+    //access 토큰만 테스트에서 발급받도록 하기 위한 임시 메서드
     public String singleToken(String user){
         return generateToken(user, TokenType.ACCESS);
     }
+
     public String generateToken(String user, TokenType type){
         return Jwts.builder()
                 .signWith(key)
@@ -64,12 +65,13 @@ public class TokenProvider {
                 .getBody();
         return claims;
     }
+
     public boolean validateToken(String jwt){
         return this.getClaims(jwt) != null;
     }
 
     private Claims getClaims(String jwt){
-
+        //TODO 예외처리 추가해야함.
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

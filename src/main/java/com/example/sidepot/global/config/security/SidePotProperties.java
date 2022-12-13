@@ -12,8 +12,7 @@ import java.util.Date;
 public class SidePotProperties {
 
     private String signKey = "develop-secret-value-as89ef7yqcpn349icr5q398rnAWEUIFYADLJH!";
-    private Long tokenLifeTime = 600L;
-    private Long refreshTime = 60 * 60 * 24L;
+
     private Date expiryAccess = Date.from(
             Instant.now()
                     .plus(10, ChronoUnit.SECONDS)

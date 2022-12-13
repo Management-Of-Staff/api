@@ -7,6 +7,7 @@ import com.example.sidepot.member.domain.BaseEntityRepository;
 import com.example.sidepot.member.dto.MemberDto.ReqMemberLoginDto.LoginType;
 import com.example.sidepot.member.dto.MemberDto.ReqMemberLoginDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.bind.v2.TODO;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,12 +30,16 @@ import java.util.Map;
 
 @Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
-
     private final AuthenticationManager authenticationManager;
+
     private final BaseEntityRepository baseEntityRepository;
+
     private final TokenProvider tokenProvider;
+
     private final ObjectMapper mapper;
-    public LoginFilter(AuthenticationManager authenticationManager, BaseEntityRepository baseEntityRepository, TokenProvider tokenProvider, ObjectMapper mapper) {
+
+    public LoginFilter(AuthenticationManager authenticationManager, BaseEntityRepository baseEntityRepository,
+                       TokenProvider tokenProvider, ObjectMapper mapper) {
         this.authenticationManager = authenticationManager;
         this.baseEntityRepository = baseEntityRepository;
         this.tokenProvider = tokenProvider;
@@ -43,26 +48,27 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         setFilterProcessesUrl("/rest/v1/staff/login");
     }
 
-
-
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         ReqMemberLoginDto member = mapper.readValue(request.getInputStream(), ReqMemberLoginDto.class);
-
+        //최초 로그인 - 또는 재로그인
         if(member.getLoginType().equals(LoginType.FORM)){
+            //로그인 창에서 로그인 - 검증 x
             UsernamePasswordAuthenticationToken authenticationToken
                     = new UsernamePasswordAuthenticationToken(
                     member.getPhone(), member.getPassword());
 
-          return authenticationManager.authenticate(authenticationToken);
+            return authenticationManager.authenticate(authenticationToken);
 
-        } else if(member.getLoginType().equals(LoginType.REFRESH)){
+        } else if(member.getLoginType().equals(LoginType.REFRESH)){ //리프레쉬 토큰 로그인
 
             if(StringUtils.isEmpty(member.getLoginType())) {throw new Exception(ErrorCode.NOT_FOUND_REFRESH_TOKEN);}
-
+            //TODO 토큰 예외처리 추가해야함
+            //유효한 토큰이면
             if(tokenProvider.validateToken(member.getRefreshToken())){
+               //유저 검색 -> 관리자 위임 -> 관리자가 또 검색
                BaseEntity baseEntity = (BaseEntity) baseEntityRepository.findByPhone(member.getPhone()).get();
                return new UsernamePasswordAuthenticationToken(
                                baseEntity.getPhone(),null, baseEntity.getAuthorities());
@@ -78,19 +84,18 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-
+        //Authentication 인증 성공하면
         UserDetails user = (UserDetails) authResult.getPrincipal();
-
+        //엑스스 토큰과 리프레쉬 토큰 발급
         response.addHeader(tokenProvider.AUTH_HEADER,
                 TokenProvider.BEARER + tokenProvider.generateToken(user.getUsername(), TokenProvider.TokenType.ACCESS));
-
         response.addHeader(tokenProvider.REFRESH_HEADER,
                 TokenProvider.BEARER + tokenProvider.generateToken(user.getUsername(), TokenProvider.TokenType.REFRESH));
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-
+        //인증 실패
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
