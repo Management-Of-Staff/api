@@ -34,6 +34,7 @@ public class JwtFilter<T extends BaseEntity> extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String reqHeader = request.getHeader("Authorization");
+        log.info("요청헤더: "+ reqHeader);
         //헤더에 토큰이 없으면 다음 필터
         if(reqHeader == null || !reqHeader.startsWith("Bearer ")){
             chain.doFilter(request,response);
@@ -41,11 +42,12 @@ public class JwtFilter<T extends BaseEntity> extends BasicAuthenticationFilter {
         }
         //토큰 받아와서 검증
         String token = reqHeader.substring("Bearer ".length());
+        log.info("토큰: "+ token);
         Claims claims = tokenProvider.validAndGetUserPhone(token);
         //검증된 유저라면
         if(claims.getSubject() != null){
             String userId = claims.getSubject();
-
+            log.info("유저 아이디(폰): " + userId);
             Optional<T> base = baseEntityRepository.findByPhone(userId);
             T t = base.orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 

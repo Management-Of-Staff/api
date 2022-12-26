@@ -15,12 +15,12 @@ public class SidePotProperties {
 
     private Date expiryAccess = Date.from(
             Instant.now()
-                    .plus(10, ChronoUnit.SECONDS)
+                    .plus(59, ChronoUnit.MINUTES)
     );
 
     private Date expiryRefresh= Date.from(
             Instant.now()
-                    .plus(59,ChronoUnit.MINUTES)
+                    .plus(120,ChronoUnit.MINUTES)
     );
 
 }

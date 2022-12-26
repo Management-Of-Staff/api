@@ -44,7 +44,7 @@ public class StaffSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/rest/v1/staff/register").permitAll()
                 .antMatchers("/rest/v1/staff/login").authenticated() // 로그인을 위로 올리고 여기는 다른 기능
-                .anyRequest().hasRole("STAFF")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .disable()

@@ -31,7 +31,6 @@ public abstract class BaseEntity implements UserDetails {
     // private DateTime created;
     // private DateTime updated;
 
-
     public BaseEntity(String name, String phone, String password, Role role) {
         this.name = name;
         this.phone = phone;

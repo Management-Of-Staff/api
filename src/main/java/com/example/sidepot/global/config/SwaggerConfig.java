@@ -43,7 +43,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
                 .build();
     }
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "jwt", "header");
+        return new ApiKey("Authorization", "Authorization", "header");
     }
 
     @Override

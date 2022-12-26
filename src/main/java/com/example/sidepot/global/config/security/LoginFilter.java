@@ -52,6 +52,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
+
         ReqMemberLoginDto member = mapper.readValue(request.getInputStream(), ReqMemberLoginDto.class);
         //최초 로그인 - 또는 재로그인
         if(member.getLoginType().equals(LoginType.FORM)){
@@ -61,8 +62,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                     member.getPhone(), member.getPassword());
 
             return authenticationManager.authenticate(authenticationToken);
-
-        } else if(member.getLoginType().equals(LoginType.REFRESH)){ //리프레쉬 토큰 로그인
+            //TODO 엑세스 토큰 발급 분기 추가...
+            //리프레쉬 토큰 로그인이면
+        } else if(member.getLoginType().equals(LoginType.REFRESH)){
 
             if(StringUtils.isEmpty(member.getLoginType())) {throw new Exception(ErrorCode.NOT_FOUND_REFRESH_TOKEN);}
             //TODO 토큰 예외처리 추가해야함
@@ -87,6 +89,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //Authentication 인증 성공하면
         UserDetails user = (UserDetails) authResult.getPrincipal();
         //엑스스 토큰과 리프레쉬 토큰 발급
+        //TODO 엑세스 토큰과 리프레쉬토큰 각각 또는 최초 공용 발급 분기 추가...
         response.addHeader(tokenProvider.AUTH_HEADER,
                 TokenProvider.BEARER + tokenProvider.generateToken(user.getUsername(), TokenProvider.TokenType.ACCESS));
         response.addHeader(tokenProvider.REFRESH_HEADER,

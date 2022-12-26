@@ -54,8 +54,8 @@ public class OwnerSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(PERMIT_URL_ARRAY).permitAll()
                     .antMatchers("/rest/v1/owners/register","/rest/v1/owners/login").permitAll() //순서 존나 중요
                     .antMatchers("/rest/v1/owners/**").hasRole("OWNER")
-                    .anyRequest().hasRole("OWNER")
-
+                    .anyRequest().permitAll()
+                    //.anyRequest().permitAll()
                     .and()
                     .headers().frameOptions().disable()
                     .and()

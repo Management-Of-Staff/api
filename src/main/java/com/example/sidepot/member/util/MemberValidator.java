@@ -1,5 +1,6 @@
 package com.example.sidepot.member.util;
 
+import com.example.sidepot.member.domain.BaseEntity;
 import com.example.sidepot.member.domain.owner.Owner;
 import com.example.sidepot.member.domain.owner.OwnerRepository;
 import com.example.sidepot.member.domain.staff.Staff;
@@ -8,6 +9,8 @@ import com.example.sidepot.member.dto.MemberDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +43,22 @@ public class MemberValidator {
     @Transactional(readOnly = true)
     public Staff staffDtoToEntity(MemberDto.StaffDto staffDto){
         return Staff.of(staffDto.getName(), staffDto.getPhone(), encodePassword(staffDto.getPassword()), staffDto.getRole());
+    }
+
+    public static String getLoginUsername(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+    public static BaseEntity getLoginUser(){
+        return (BaseEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public static Owner getLoginOwner(){
+        return (Owner) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public static Staff getLoginStaff(){
+        return (Staff) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public String encodePassword(String password){
