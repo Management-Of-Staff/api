@@ -1,23 +1,25 @@
 package com.example.sidepot.member.dto;
 
 import io.swagger.annotations.ApiModel;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 public class AuthDto {
 
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @ApiModel(value = "memberDto")
-    public class MemberDto{
-        private String name;
+    @ApiModel(value = "MemberLoginDto")
+    public class MemberLoginDto{
         private String phone;
         private String password;
     }
 
+    @Getter
+    @AllArgsConstructor
+    @ApiModel(value = "tokenDto")
     public class TokenDto{
-        private String refreshToken;
         private String accessToken;
+        private String refreshToken;
+
     }
+
 }
