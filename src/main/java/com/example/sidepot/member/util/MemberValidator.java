@@ -1,10 +1,10 @@
 package com.example.sidepot.member.util;
 
-import com.example.sidepot.member.domain.BaseEntity;
-import com.example.sidepot.member.domain.owner.Owner;
-import com.example.sidepot.member.domain.owner.OwnerRepository;
-import com.example.sidepot.member.domain.staff.Staff;
-import com.example.sidepot.member.domain.staff.StaffRepository;
+import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.member.domain.Owner;
+import com.example.sidepot.member.domain.OwnerRepository;
+import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.member.domain.StaffRepository;
 import com.example.sidepot.member.dto.MemberDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
@@ -49,8 +49,8 @@ public class MemberValidator {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
-    public static BaseEntity getLoginUser(){
-        return (BaseEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public static Auth getLoginUser(){
+        return (Auth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public static Owner getLoginOwner(){

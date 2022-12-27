@@ -1,8 +1,7 @@
-package com.example.sidepot.member.domain.staff;
+package com.example.sidepot.member.domain;
 
-import com.example.sidepot.member.domain.BaseEntity;
-import com.example.sidepot.member.domain.Role;
-import com.example.sidepot.member.domain.Employment;
+import com.example.sidepot.security.domain.Auth;
+//import com.example.sidepot.member.domain.Employment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,17 +17,18 @@ import java.util.List;
 @NoArgsConstructor
 @DiscriminatorValue("staff")
 @Table(name = "staff")
-public class Staff extends BaseEntity {
+public class Staff extends Auth {
 
+    /*
     @OneToMany(mappedBy = "staff")
     private List<Employment> store = new ArrayList<>();
+     */
 
     public Staff(String name, String phone, String password, Role role) {
         super(name, phone, password, role);
     }
 
     public static Staff of(String name, String phone, String password, Role role){ return new Staff(name, phone, password, role);}
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -37,32 +37,4 @@ public class Staff extends BaseEntity {
         return authorities;
     }
 
-    @Override
-    public String getUsername() {
-        return super.getPhone();
-    }
-
-    public String getPassword(){
-        return super.getPassword();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

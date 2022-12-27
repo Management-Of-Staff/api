@@ -22,15 +22,8 @@ public class StaffController {
 
     @ApiOperation("직원 회원 가입")
     @PostMapping(Path.REST_BASE_PATH + "/staff/register")
-    public ResponseEntity<?> register(@RequestBody MemberDto.StaffDto dto) {
-        return ResponseEntity.ok().body(staffService.register(dto));
-    }
-
-    @ApiOperation("직원 로그인")
-    @PostMapping(Path.REST_BASE_PATH + "/staff/login")
-    public ResponseEntity<?> login(@RequestBody MemberDto.ReqMemberLoginDto dto) throws Exception{
-
-        return staffService.login(dto);
+    public ResponseEntity<?> register(@RequestBody MemberDto.StaffDto staffDto) {
+        return ResponseEntity.ok().body(staffService.register(staffDto));
     }
 
     @GetMapping(Path.REST_BASE_PATH + "/staff/a")
