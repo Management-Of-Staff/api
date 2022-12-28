@@ -14,13 +14,15 @@ public class MemberDto {
     @NoArgsConstructor
     @ApiModel(value = "OwnerDto")
     public static class OwnerDto{
+        private Long ownerId;
         private String name;
         private String phone;
         private String password;
         private Role role;
 
         @Builder // 빌더 또는 of 명명법
-        public OwnerDto(String name, String phone, String password, Role role) {
+        public OwnerDto(Long ownerId, String name, String phone, String password, Role role) {
+            this.ownerId = ownerId;
             this.name = name;
             this.phone = phone;
             this.password = password;
@@ -28,7 +30,7 @@ public class MemberDto {
         }
 
         public static OwnerDto from(Owner owner) {
-            return new OwnerDto(owner.getName(), owner.getPhone(),owner.getPassword(), owner.getRole());
+            return new OwnerDto(owner.getBaseId(), owner.getName(), owner.getPhone(),owner.getPassword(), owner.getRole());
 
         }
     }

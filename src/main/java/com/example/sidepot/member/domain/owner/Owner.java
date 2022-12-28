@@ -3,7 +3,7 @@ package com.example.sidepot.member.domain.owner;
 
 import com.example.sidepot.member.domain.BaseEntity;
 import com.example.sidepot.member.domain.Role;
-import com.example.sidepot.member.domain.Store;
+import com.example.sidepot.store.domain.Store;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -22,8 +22,8 @@ public class Owner extends BaseEntity {
 
 
 
-    @OneToMany(mappedBy = "owner")
-    private List<Store> storeList = new ArrayList<>();
+//    @OneToMany(mappedBy = "owner")
+//    private List<Store> storeList = new ArrayList<>();
 
     @Builder //테스트
     public Owner(String name, String phone, String password, Role role) {
