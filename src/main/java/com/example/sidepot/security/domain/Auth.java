@@ -15,7 +15,7 @@ import java.util.Collection;
 @DiscriminatorColumn(name = "d_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-public abstract class Auth implements UserDetails {
+public abstract class Auth {
 
     @Id @Column(name = "auth_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public abstract class Auth implements UserDetails {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "phone", nullable = false )
+    @Column(name = "phone", nullable = false)
     private String phone;
 
     @Column(name = "password", nullable = false)
@@ -37,37 +37,5 @@ public abstract class Auth implements UserDetails {
         this.phone = phone;
         this.password = password;
         this.role = role;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<Role> authorities = new ArrayList<>();
-        authorities.add(this.getRole());
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 }

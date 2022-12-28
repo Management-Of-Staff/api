@@ -18,15 +18,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    public static final String AUTH_HEADER = "Authentication";
+    public static final String AUTH_HEADER = "Authorization";
 
-    public static final Integer BEARER_LENGTH = 7;
+    public static final int BEARER_LENGTH = 7;
 
     public static final String BEARER = "Bearer ";
 
@@ -36,21 +35,21 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token = parseBearerToken(request);
-
         if(token != null && !token.equalsIgnoreCase("null")){
             try {
-                Authentication tokenAuthentication = new JwtAuthenticationToken(token);
-                Authentication authentication = authenticationManager.authenticate(tokenAuthentication);
-
+                Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(token));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
             } catch (Exception e){
-
                 SecurityContextHolder.clearContext();
             }
         }
 
         filterChain.doFilter(request,response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return request.getServletPath().equals("/rest/v1/auth/reissue");
     }
 
     private String parseBearerToken(HttpServletRequest request) throws ServletException, IOException {

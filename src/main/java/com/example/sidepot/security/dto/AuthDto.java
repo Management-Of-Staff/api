@@ -7,6 +7,7 @@ public class AuthDto {
 
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor
     @ApiModel(value = "MemberLoginDto")
     public static class MemberLoginDto{
         private String phone;

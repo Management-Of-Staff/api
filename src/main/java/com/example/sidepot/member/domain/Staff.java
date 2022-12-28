@@ -30,11 +30,4 @@ public class Staff extends Auth {
 
     public static Staff of(String name, String phone, String password, Role role){ return new Staff(name, phone, password, role);}
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<Role> authorities = new ArrayList<>();
-        authorities.add(this.getRole());
-        return authorities;
-    }
-
 }

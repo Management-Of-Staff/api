@@ -31,8 +31,4 @@ public class StaffController {
         return ResponseEntity.ok().body("test");
     }
 
-    @GetMapping(Path.REST_BASE_PATH + "/staff/b")
-    public ResponseEntity<Authentication> b(Authentication authentication){
-        return ResponseEntity.ok().body(authentication);
-    }
 }

@@ -19,7 +19,7 @@ public class MemberDto {
         private String password;
         private Role role;
 
-        @Builder // 빌더 또는 of 명명법
+        @Builder
         public OwnerDto(String name, String phone, String password, Role role) {
             this.name = name;
             this.phone = phone;

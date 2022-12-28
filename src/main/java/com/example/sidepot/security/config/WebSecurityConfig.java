@@ -18,6 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String ROLE_OWNER = "OWNER";
 
+    private final String ROLE_ADMIN = "ADMIN";
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private static final String[] PERMIT_URL_ARRAY = {
@@ -38,7 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PERMIT_URL_AUTH_ARRAY = {
             /* 리프레시 토큰 */
-            Path.REST_BASE_PATH + "/auth/**",
+            Path.REST_BASE_PATH + "/auth/login",
+            Path.REST_BASE_PATH + "/auth/reissue",
 
             /* 회원가입 */
             Path.REST_BASE_PATH + "/owner/register",
@@ -53,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .csrf()
                     .disable()
@@ -64,9 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .disable()
                 .authorizeRequests()
                     .antMatchers(PERMIT_URL_ARRAY).permitAll()
-                    .mvcMatchers(PERMIT_URL_AUTH_ARRAY).permitAll()
-                    .mvcMatchers(Path.REST_BASE_PATH + "/owner/**").hasAuthority(ROLE_OWNER)
-                    .mvcMatchers(Path.REST_BASE_PATH + "/staff/**").hasAuthority(ROLE_STAFF)
+                    .antMatchers(PERMIT_URL_AUTH_ARRAY).permitAll()
+                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").hasAnyRole(ROLE_OWNER,ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/staff/**").hasAnyRole(ROLE_STAFF,ROLE_ADMIN)
+                .antMatchers(Path.REST_BASE_PATH + "/test/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                     .headers().frameOptions().disable()
@@ -75,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .apply(new JwtSecurityConfig(authenticationManagerBuilder.getOrBuild()))
-                    ;
+                ;
         }
 
 }

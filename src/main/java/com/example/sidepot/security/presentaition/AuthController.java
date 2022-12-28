@@ -27,7 +27,7 @@ public class AuthController {
 
     @ApiOperation("통합 로그인")
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(MemberLoginDto memberLoginDto) throws Throwable {
+    public ResponseEntity<TokenDto> login(@RequestBody MemberLoginDto memberLoginDto) throws Throwable {
         return ResponseEntity.ok().body(authService.login(memberLoginDto));
     }
 

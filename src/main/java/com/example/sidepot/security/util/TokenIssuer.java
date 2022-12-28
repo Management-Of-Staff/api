@@ -1,7 +1,6 @@
 package com.example.sidepot.security.util;
 
 import com.example.sidepot.security.SidePotProperties;
-import com.example.sidepot.security.domain.TokenType;
 import com.example.sidepot.security.error.TokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -38,10 +37,29 @@ public class TokenIssuer {
                 sidePotProperties.getRefreshKey().getBytes(StandardCharsets.UTF_8));
     }
 
+    public Claims parseAccessClaims(String token){
+        return parseClaims(token, TokenType.ACCESS);
+    }
+
     public Claims parseRefreshClaims(String token){
+        return  parseClaims(token, TokenType.REFRESH);
+    }
+
+    public SecretKey sign(TokenType type){
+        switch (type){
+            case REFRESH:
+                return rKey;
+            case ACCESS:
+            default:
+                return key;
+        }
+    }
+
+
+    private Claims parseClaims(String token, TokenType type){
         Claims claims;
         try {
-            claims = Jwts.parserBuilder().setSigningKey(rKey).build().parseClaimsJws(token).getBody();
+            claims = Jwts.parserBuilder().setSigningKey(sign(type)).build().parseClaimsJws(token).getBody();
         } catch (SignatureException signatureException) {
             throw new TokenException("시크릿키가 아닙니다.", signatureException);
         } catch (ExpiredJwtException expiredJwtException) {
@@ -66,7 +84,7 @@ public class TokenIssuer {
         Claims claims = Jwts.claims();
         claims.put(KEY_ROLE, Collections.singleton(authority));
         return Jwts.builder()
-                .signWith(key)
+                .signWith(key) /* signWith(sing(type)) */
                 .setClaims(claims)
                 .setSubject(user)
                 .setIssuer(PLATFORM)

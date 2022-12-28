@@ -44,7 +44,7 @@ public class AuthService {
 
     private TokenDto createTokenDto(Auth auth) {
         String userName = auth.getName();
-        String authority = String.valueOf(auth.getRole());
+        String authority = String.valueOf(auth.getRole().getAuthority());
         return TokenDto.builder()
                 .accessToken(issuer.createAccessToken(userName, authority))
                 .refreshToken(issuer.createRefreshToken(userName, authority))

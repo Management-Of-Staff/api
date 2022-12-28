@@ -24,7 +24,6 @@ public class OwnerController {
         return ResponseEntity.ok().body(ownerService.register(ownerDto));
     }
 
-
     @GetMapping(Path.REST_BASE_PATH + "/owner/a")
     public ResponseEntity<?> a(){
         return ResponseEntity.ok().body("test");

@@ -2,7 +2,7 @@ package com.example.sidepot.global.error;
 
 import org.springframework.http.HttpStatus;
 
-public enum ErrorCode{
+public enum ErrorCode implements BaseErrorCode{
 
     // HttpStatus.BAD_REQUEST
     BAD_REQUEST_KOSCOM_API_SERVER(HttpStatus.BAD_REQUEST.value(), "코스콤 서버 요청에 실패했어요"),
@@ -19,15 +19,23 @@ public enum ErrorCode{
     // HttpStatus.UNAUTHORIZED
     MAIL_ADDRESS_PARSING_FAIL(HttpStatus.UNAUTHORIZED.value(), "잘못된 메일 주소입니다"),
     UNAUTHORIZED_ERROR(HttpStatus.UNAUTHORIZED.value(), "권한이 없습니다."),
-
     ;
 
-    private int value;
-    private String msg;
-    ErrorCode(int value, String msg) {
-        this.value = value;
-        this.msg = msg;
+    private int httpValue;
+    private String ErrorMessage;
+    ErrorCode(int httpValue, String ErrorMessge) {
+        this.httpValue = httpValue;
+        this.ErrorMessage = ErrorMessge;
     }
 
 
+    @Override
+    public int httpValue() {
+        return this.httpValue;
+    }
+
+    @Override
+    public String getErrorMessage() {
+        return this.ErrorMessage;
+    }
 }
