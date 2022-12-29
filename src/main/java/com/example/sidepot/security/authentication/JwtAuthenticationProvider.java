@@ -1,13 +1,10 @@
 package com.example.sidepot.security.authentication;
 
-import com.example.sidepot.security.error.TokenException;
+import com.example.sidepot.security.app.AuthService;
+import com.example.sidepot.security.domain.Auth;
+
 import com.example.sidepot.security.util.TokenIssuer;
-import com.example.sidepot.security.util.TokenType;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -28,8 +25,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private final TokenIssuer issuer;
 
-    public JwtAuthenticationProvider(TokenIssuer issuer) {
+    private final AuthService authService;
+
+    public JwtAuthenticationProvider(TokenIssuer issuer, AuthService authService) {
         this.issuer = issuer;
+        this.authService = authService;
     }
 
     private Collection<? extends GrantedAuthority> grantedAuthorities(Claims claims) {
@@ -44,7 +44,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Claims claims = issuer.parseAccessClaims(((JwtAuthenticationToken) authentication).getToken());
-        return new JwtAuthenticationToken(grantedAuthorities(claims),claims.getSubject(),"");
+        //return new UsernamePasswordAuthenticationToken(new Auth(claims),"",grantedAuthorities(claims));
+        return new JwtAuthenticationToken(grantedAuthorities(claims), new Auth(claims) ,"");
     }
 
     @Override
