@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ import java.util.Collection;
 @DiscriminatorColumn(name = "d_type")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-public class Auth {
+public class Auth{
 
     @Id @Column(name = "auth_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

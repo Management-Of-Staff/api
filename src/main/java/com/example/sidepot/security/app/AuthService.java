@@ -1,7 +1,6 @@
 package com.example.sidepot.security.app;
 
-import com.example.sidepot.global.error.ErrorCode;
-import com.example.sidepot.global.error.Exception;
+
 import com.example.sidepot.security.error.TokenException;
 import com.example.sidepot.security.util.TokenIssuer;
 import com.example.sidepot.security.domain.Auth;
@@ -9,10 +8,11 @@ import com.example.sidepot.security.domain.AuthRepository;
 import com.example.sidepot.security.dto.AuthDto.TokenDto;
 import com.example.sidepot.security.dto.AuthDto.MemberLoginDto;
 import io.jsonwebtoken.Claims;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import java.util.Optional;
+
 
 @Service
 public class AuthService {
@@ -53,19 +53,15 @@ public class AuthService {
 
     public TokenDto login(MemberLoginDto memberLoginDto)  {
 
-        Auth user;
-        Optional<Auth> o = authRepository.findByPhone(memberLoginDto.getPhone());
-
-        if(o.isPresent()){ user = o.get(); }
-        else{ throw new Exception(ErrorCode.MEMBER_NOT_FOUND); }
-
-        return createTokenDto(user);
+        Auth auth = authRepository.findByPhone(memberLoginDto.getPhone())
+                .orElseThrow(()->new UsernameNotFoundException("사용자를 찾을 수 없음"));
+        return createTokenDto(auth);
     }
 
     public TokenDto reissue(String token) throws Throwable {
 
         Auth user;
-        Optional<Auth>  o;
+
 
         String refreshToken = resolveToken(token);
         if (!StringUtils.hasText(refreshToken)) { throw new TokenException(" "); }
@@ -73,10 +69,8 @@ public class AuthService {
         Claims claims = issuer.parseRefreshClaims(refreshToken);
         if (claims == null) { throw new TokenException(" "); }
 
-        o = authRepository.findByPhone(claims.getSubject());
-
-        if(o.isPresent()){ user = o.get(); }
-        else{throw new Exception(ErrorCode.MEMBER_NOT_FOUND);}
+        user = authRepository.findByPhone(claims.getSubject())
+                .orElseThrow(()->new UsernameNotFoundException("사용자를 찾을 수 없음"));
 
         return createTokenDto(user);
     }

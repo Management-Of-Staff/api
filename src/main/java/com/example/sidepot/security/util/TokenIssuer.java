@@ -2,20 +2,21 @@ package com.example.sidepot.security.util;
 
 import com.example.sidepot.security.SidePotProperties;
 import com.example.sidepot.security.domain.Auth;
-import com.example.sidepot.security.error.TokenException;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class TokenIssuer {
 
@@ -58,17 +59,17 @@ public class TokenIssuer {
 
 
     private Claims parseClaims(String token, TokenType type){
-        Claims claims;
+        Claims claims = null;
         try {
             claims = Jwts.parserBuilder().setSigningKey(sign(type)).build().parseClaimsJws(token).getBody();
         } catch (SignatureException signatureException) {
-            throw new TokenException("시크릿키가 아닙니다.", signatureException);
+            log.info("적합한 키가 아닙니다.");
         } catch (ExpiredJwtException expiredJwtException) {
-            throw new TokenException("만료된 토큰입니다.", expiredJwtException);
+            log.info("만료된 토큰입니다.");
         } catch (MalformedJwtException malformedJwtException) {
-            throw new TokenException("위조된 토큰입니다.", malformedJwtException);
+            log.info("위조된 토큰입니다.");
         } catch (IllegalArgumentException illegalArgumentException) {
-            throw new TokenException("올바르지 않은 인자를 포함했습니다.", illegalArgumentException);
+            log.info("적합한 키가 아닙니다.");
         }
         return claims;
     }
@@ -82,8 +83,6 @@ public class TokenIssuer {
     }
 
     public String createToken(Auth auth, String authority ,TokenType type, SecretKey key){
-        ///Claims claims = Jwts.claims();
-        //claims.put(KEY_ROLE, Collections.singleton(authority));
 
         return Jwts.builder()
                 .claim("userId", auth.getAuthId())

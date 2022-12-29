@@ -1,7 +1,9 @@
 package com.example.sidepot.security.authentication;
 
 import com.example.sidepot.security.app.AuthService;
+
 import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.security.domain.AuthRepository;
 
 import com.example.sidepot.security.util.TokenIssuer;
 import io.jsonwebtoken.Claims;
@@ -25,10 +27,16 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private final TokenIssuer issuer;
 
+    private final AuthService service;
+
+    private final AuthRepository authRepository;
+
     private final AuthService authService;
 
-    public JwtAuthenticationProvider(TokenIssuer issuer, AuthService authService) {
+    public JwtAuthenticationProvider(TokenIssuer issuer, AuthService service, AuthRepository authRepository, AuthService authService) {
         this.issuer = issuer;
+        this.service = service;
+        this.authRepository = authRepository;
         this.authService = authService;
     }
 
@@ -44,8 +52,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Claims claims = issuer.parseAccessClaims(((JwtAuthenticationToken) authentication).getToken());
-        //return new UsernamePasswordAuthenticationToken(new Auth(claims),"",grantedAuthorities(claims));
-        return new JwtAuthenticationToken(grantedAuthorities(claims), new Auth(claims) ,"");
+
+        return new JwtAuthenticationToken(new Auth(claims) ,"",grantedAuthorities(claims));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.sidepot.global.error;
+package com.example.sidepot.member.error;
 
 
 public class Exception extends RuntimeException{
