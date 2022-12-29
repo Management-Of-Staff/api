@@ -1,7 +1,7 @@
-package com.example.sidepot.global.error.Auth;
+package com.example.sidepot.member.error.Auth;
 
 
-import com.example.sidepot.global.error.BaseErrorCode;
+import com.example.sidepot.member.error.BaseErrorCode;
 import org.springframework.http.HttpStatus;
 
 public enum JwtErrorCode implements BaseErrorCode {

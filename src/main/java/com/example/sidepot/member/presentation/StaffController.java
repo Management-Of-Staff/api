@@ -25,10 +25,4 @@ public class StaffController {
     public ResponseEntity<?> register(@RequestBody MemberDto.StaffDto staffDto) {
         return ResponseEntity.ok().body(staffService.register(staffDto));
     }
-
-    @GetMapping(Path.REST_BASE_PATH + "/staff/a")
-    public ResponseEntity<?> a(){
-        return ResponseEntity.ok().body("test");
-    }
-
 }
