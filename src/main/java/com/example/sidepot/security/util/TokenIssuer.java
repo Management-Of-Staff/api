@@ -1,6 +1,7 @@
 package com.example.sidepot.security.util;
 
 import com.example.sidepot.security.SidePotProperties;
+import com.example.sidepot.security.domain.Auth;
 import com.example.sidepot.security.error.TokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -72,21 +73,24 @@ public class TokenIssuer {
         return claims;
     }
 
-    public String createAccessToken(String user, String authority){
-        return createToken(user, authority, TokenType.ACCESS, key);
+    public String createAccessToken(Auth auth, String authority){
+        return createToken(auth, authority, TokenType.ACCESS, key);
     }
 
-    public String createRefreshToken(String user, String authority){
-        return createToken(user, authority, TokenType.REFRESH, rKey);
+    public String createRefreshToken(Auth auth, String authority){
+        return createToken(auth, authority, TokenType.REFRESH, rKey);
     }
 
-    public String createToken(String user, String authority ,TokenType type, SecretKey key){
-        Claims claims = Jwts.claims();
-        claims.put(KEY_ROLE, Collections.singleton(authority));
+    public String createToken(Auth auth, String authority ,TokenType type, SecretKey key){
+        ///Claims claims = Jwts.claims();
+        //claims.put(KEY_ROLE, Collections.singleton(authority));
+
         return Jwts.builder()
+                .claim("userId", auth.getAuthId())
+                .claim("name", auth.getName())
+                .claim(KEY_ROLE, Collections.singleton(authority))
                 .signWith(key) /* signWith(sing(type)) */
-                .setClaims(claims)
-                .setSubject(user)
+                .setSubject(auth.getPhone())
                 .setIssuer(PLATFORM)
                 .setIssuedAt(new Date())
                 .setExpiration(expiryTime(type))

@@ -46,8 +46,8 @@ public class AuthService {
         String userName = auth.getName();
         String authority = String.valueOf(auth.getRole().getAuthority());
         return TokenDto.builder()
-                .accessToken(issuer.createAccessToken(userName, authority))
-                .refreshToken(issuer.createRefreshToken(userName, authority))
+                .accessToken(issuer.createAccessToken(auth, authority))
+                .refreshToken(issuer.createRefreshToken(auth, authority))
                 .build();
     }
 
@@ -56,21 +56,18 @@ public class AuthService {
         Auth user;
         Optional<Auth> o = authRepository.findByPhone(memberLoginDto.getPhone());
 
-        if(o.isPresent()){
-            user = o.get();
-        } else{
-            throw new Exception(ErrorCode.MEMBER_NOT_FOUND);
-        }
+        if(o.isPresent()){ user = o.get(); }
+        else{ throw new Exception(ErrorCode.MEMBER_NOT_FOUND); }
 
         return createTokenDto(user);
     }
 
-    public TokenDto reissue(String bearerToken) throws Throwable {
+    public TokenDto reissue(String token) throws Throwable {
 
         Auth user;
         Optional<Auth>  o;
 
-        String refreshToken = resolveToken(bearerToken);
+        String refreshToken = resolveToken(token);
         if (!StringUtils.hasText(refreshToken)) { throw new TokenException(" "); }
 
         Claims claims = issuer.parseRefreshClaims(refreshToken);
@@ -78,11 +75,9 @@ public class AuthService {
 
         o = authRepository.findByPhone(claims.getSubject());
 
-        if(o.isPresent()){
-            user = o.get();
-        } else{
-            throw new Exception(ErrorCode.MEMBER_NOT_FOUND);
-        }
+        if(o.isPresent()){ user = o.get(); }
+        else{throw new Exception(ErrorCode.MEMBER_NOT_FOUND);}
+
         return createTokenDto(user);
     }
 }

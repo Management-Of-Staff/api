@@ -2,10 +2,14 @@ package com.example.sidepot.security;
 
 import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.security.authentication.JwtAuthenticationToken;
+import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.security.util.TokenIssuer;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     public static final String BEARER = "Bearer ";
 
+    private TokenIssuer issuer;
     private final AuthenticationManager authenticationManager;
 
     @Override
@@ -37,12 +42,15 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = parseBearerToken(request);
         if(token != null && !token.equalsIgnoreCase("null")){
             try {
-                Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(token));
+                Claims claims = issuer.parseAccessClaims(token);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(new Auth(claims), "");
+                //Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(token));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e){
                 SecurityContextHolder.clearContext();
             }
         }
+
 
         filterChain.doFilter(request,response);
     }
