@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface StaffRepository extends JpaRepository<Staff, Long> {
     Optional<Staff> findByPhone(String phone);
 
+    void deleteByAuthId(Long id);
+
     Optional<Staff> findByName(String phone);
 
     boolean existsByPhone(String phone);

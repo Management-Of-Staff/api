@@ -1,6 +1,7 @@
 package com.example.sidepot.member.domain;
 
 
+import com.example.sidepot.member.dto.MemberDto;
 import com.example.sidepot.security.domain.Auth;
 //import com.example.sidepot.member.domain.Store;
 import lombok.*;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter // 테스트
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -30,5 +31,9 @@ public class Owner extends Auth {
         return new Owner(name, phone, password, role);
     }
 
-
+    @Override
+    public Owner update(MemberDto.MemberUpdateDto memberUpdateDto) {
+        super.update(memberUpdateDto);
+        return this;
+    }
 }

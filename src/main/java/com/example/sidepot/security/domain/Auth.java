@@ -1,16 +1,12 @@
 package com.example.sidepot.security.domain;
 
 import com.example.sidepot.member.domain.Role;
+import com.example.sidepot.member.dto.MemberDto.*;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
+
 
 @Getter
 @NoArgsConstructor
@@ -45,5 +41,11 @@ public class Auth{
         this.phone = phone;
         this.password = password;
         this.role = role;
+    }
+
+    public Auth update(MemberUpdateDto memberUpdateDto){
+        this.name = memberUpdateDto.getName();
+        this.password = memberUpdateDto.getPassword();
+        return this;
     }
 }

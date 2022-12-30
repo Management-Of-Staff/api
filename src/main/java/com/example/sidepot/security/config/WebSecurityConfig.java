@@ -44,8 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             Path.REST_BASE_PATH + "/auth/reissue",
 
             /* 회원가입 */
-            Path.REST_BASE_PATH + "/owner/register",
-            Path.REST_BASE_PATH + "/staff/register",
+            Path.REST_BASE_PATH + "/owner/create",
+            Path.REST_BASE_PATH + "/staff/create",
     };
 
 
@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(PERMIT_URL_ARRAY).permitAll()
                     .antMatchers(PERMIT_URL_AUTH_ARRAY).permitAll()
-                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").hasAnyRole(ROLE_OWNER)
+                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
                     .antMatchers(Path.REST_BASE_PATH + "/staff/**").hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
                     .antMatchers(Path.REST_BASE_PATH + "/work/**").hasRole(ROLE_OWNER)
                 .anyRequest().permitAll()
