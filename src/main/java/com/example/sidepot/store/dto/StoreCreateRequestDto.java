@@ -20,7 +20,7 @@ public class StoreCreateRequestDto {
 
     private String storeClassifiacation;
 
-    private String tardyTime;
+    private String lateTime;
 
     private String earlyLeaveTime;
 
@@ -30,14 +30,14 @@ public class StoreCreateRequestDto {
                                  final String primaryAdrress,
                                  final String detailAddress,
                                  final String storeClassifiacation,
-                                 final String tardyTime,
+                                 final String lateTime,
                                  final String earlyLeaveTime){
         this.storeName = storeName;
         this.branchName = branchName;
         this.primaryAdrress = primaryAdrress;
         this.detailAddress = detailAddress;
         this.storeClassifiacation = storeClassifiacation;
-        this.tardyTime = tardyTime;
+        this.lateTime = lateTime;
         this.earlyLeaveTime = earlyLeaveTime;
     }
 

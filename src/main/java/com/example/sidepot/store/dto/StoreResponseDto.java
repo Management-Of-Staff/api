@@ -10,16 +10,16 @@ import java.util.stream.Collectors;
 public class StoreResponseDto {
     private Long storeId;
     private String storeName;
-    private String primaryAddress;
+    private String branchName;
 
-    public StoreResponseDto(Long id, String storeName, String primaryAddress) {
+    public StoreResponseDto(Long id, String storeName, String branchName) {
         this.storeId = id;
         this.storeName = storeName;
-        this.primaryAddress = primaryAddress;
+        this.branchName = branchName;
     }
 
     public static StoreResponseDto from(Store store){
-        return new StoreResponseDto(store.getId(), store.getStoreName(), store.getPrimaryAddress());
+        return new StoreResponseDto(store.getId(), store.getStoreName(), store.getBranchName());
     }
 
     public static List<StoreResponseDto> fromList(List<Store> storeList){
