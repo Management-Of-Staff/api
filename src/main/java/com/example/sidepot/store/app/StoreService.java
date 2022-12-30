@@ -44,8 +44,8 @@ public class StoreService {
                 .build();
     }
 
-    public List<StoreResponseDto> readAllStore(Auth auth){
-        List<Store> storeList = storeRepository.findAllByOwnerId(auth.getAuthId());
+    public List<StoreResponseDto> readAllStore(Auth auth, Long ownerId){
+        List<Store> storeList = storeRepository.findAllByOwnerId(ownerId);
         return StoreResponseDto.fromList(storeList);
     }
 
