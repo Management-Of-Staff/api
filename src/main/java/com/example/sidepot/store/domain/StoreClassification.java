@@ -2,8 +2,6 @@ package com.example.sidepot.store.domain;
 
 import lombok.Getter;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 @Getter
 public enum StoreClassification {
     FOOD(1, "음식점"),

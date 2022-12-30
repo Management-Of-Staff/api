@@ -18,6 +18,7 @@ spring:
         show-sql: true
         hibernate:
             ddl-auth: create-drop
+            ddl-auto: create-drop
     cache:
         type: redis
     redis:
