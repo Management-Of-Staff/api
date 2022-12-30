@@ -1,31 +1,28 @@
 package com.example.sidepot.member.app;
 
-import com.example.sidepot.global.error.ErrorCode;
-import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.domain.BaseEntityRepository;
-import com.example.sidepot.member.domain.owner.Owner;
-import com.example.sidepot.member.domain.owner.OwnerRepository;
+import com.example.sidepot.member.domain.Owner;
+import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.member.dto.MemberDto.*;
+import com.example.sidepot.member.error.ErrorCode;
+import com.example.sidepot.member.error.Exception;
 import com.example.sidepot.member.util.MemberValidator;
+import com.example.sidepot.security.domain.Auth;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
-@Service
-@Transactional(readOnly = true)
+
 @RequiredArgsConstructor
-public class OwnerService implements UserDetailsService {
+@Service
+public class OwnerService {
 
     private final MemberValidator memberValidator;
     private final OwnerRepository ownerRepository;
 
     @Transactional
-    public OwnerDto register(OwnerDto dto) {
+    public OwnerDto create(OwnerDto dto) {
         Owner owner = memberValidator.ownerDtoToEntity(dto);
         memberValidator.checkOwnerDuplicate(dto.getPhone());
         ownerRepository.save(owner);
@@ -33,18 +30,25 @@ public class OwnerService implements UserDetailsService {
         return OwnerDto.from(owner);
     }
 
-    public ResponseEntity<?> login(ReqMemberLoginDto dto) {
-        Owner owner = ownerRepository.findByPhone(dto.getPhone())
-                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+    @Transactional(readOnly = true)
+    public OwnerDto read(Auth auth){
+        Owner owner = ownerRepository.findById(auth.getAuthId())
+                .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
-
-        return ResponseEntity.ok().body(ResMemberLoginDto.of(owner.getPhone(), owner.getName(),null,null));
+        return OwnerDto.from(owner);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Owner owner = ownerRepository.findByPhone(username).orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
-        return owner;
+    @Transactional
+    public Long update(MemberUpdateDto memberUpdateDto, Auth auth){
+        Owner owner = ownerRepository.findByPhone(auth.getPhone())
+                .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        memberUpdateDto.setPassword(memberValidator.encodePassword(memberUpdateDto.getPassword()));
+        return ownerRepository.save(owner.update(memberUpdateDto)).getAuthId();
+    }
+
+    @Transactional
+    public void delete(Auth auth){
+         ownerRepository.deleteByAuthId(auth.getAuthId());
     }
 }
 

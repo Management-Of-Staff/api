@@ -41,5 +41,6 @@ springdoc:
     paths-to-match:
         - /**
 
-sidepot:
-    sign-key: develop-secret-value-as89ef7yqcpn349icr5q398rnAWEUIFYADLJH!
+side-pot:
+    access-key: zsdioufgasdoifyuq3jklrhzdkjlvhuiotyvo7q8yrojoisedhsakjlvnzcx5fds23dafa8j
+    refresh-key: zxcvlkjdsfiopufas8301d3cnsddcn3h9cnu0qvasdfsdagdfgdfshbbvccsdzl2

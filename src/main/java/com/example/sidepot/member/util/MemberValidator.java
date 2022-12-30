@@ -1,18 +1,21 @@
 package com.example.sidepot.member.util;
 
-import com.example.sidepot.member.domain.owner.Owner;
-import com.example.sidepot.member.domain.owner.OwnerRepository;
-import com.example.sidepot.member.domain.staff.Staff;
-import com.example.sidepot.member.domain.staff.StaffRepository;
+import com.example.sidepot.member.domain.Owner;
+import com.example.sidepot.member.domain.OwnerRepository;
+import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.member.domain.StaffRepository;
 import com.example.sidepot.member.dto.MemberDto;
-import com.example.sidepot.global.error.ErrorCode;
-import com.example.sidepot.global.error.Exception;
+import com.example.sidepot.member.error.ErrorCode;
+import com.example.sidepot.member.error.Exception;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-@Component
+
+import java.util.Optional;
+
 @RequiredArgsConstructor
+@Component
 public class MemberValidator {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -46,4 +49,10 @@ public class MemberValidator {
         return bCryptPasswordEncoder.encode(password);
     }
 
+    public void checkPassword(String rawPassword, String encodePassword){
+        if(!bCryptPasswordEncoder
+                .matches(rawPassword, encodePassword)) {
+            throw new Exception(ErrorCode.MEMBER_PASSWORD);
+        }
+    }
 }
