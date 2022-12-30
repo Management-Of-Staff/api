@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @Api(tags = "매장 관련 APIs")
-@RequestMapping(Path.REST_BASE_PATH + "/stores")
+@RequestMapping(Path.REST_BASE_PATH)
 public class StoreController {
 
     private final StoreService storeService;
@@ -28,19 +28,20 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/read")
+    @GetMapping("/stores")
     @ApiOperation(value = "[매장관리] 1. 매장 리스트 조회", notes = "오너가 가진 모든 매장을 조회하는 API")
-    public ResponseEntity<List<StoreResponseDto>> readStore(@ApiIgnore @AuthenticationPrincipal final Auth auth){
-        return ResponseEntity.ok(storeService.readAllStore(auth));
+    public ResponseEntity<List<StoreResponseDto>> readStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
+                                                            @RequestParam Long ownerId){
+        return ResponseEntity.ok(storeService.readAllStore(auth, ownerId));
     }
-    @PostMapping("/create")
+    @PostMapping("/stores")
     @ApiOperation(value = "[매장관리] 2. 매장 생성", notes = "오너가 가진 매장을 추가하는 API")
     public ResponseEntity createStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
             @RequestBody StoreCreateRequestDto storeCreateRequestDto){
         return ResponseEntity.ok(storeService.createStore(storeCreateRequestDto));
     }
 
-    @DeleteMapping("/{storeId}/remove")
+    @DeleteMapping("/stores/{storeId}")
     @ApiOperation(value = "[매장관리] 3. 매장 삭제", notes = "오너가 가진 매장을 삭제하는 API")
     public ResponseEntity removeStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
                                       @PathVariable final Long storeId){
