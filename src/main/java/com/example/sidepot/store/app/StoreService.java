@@ -36,7 +36,7 @@ public class StoreService {
                 storeCreateRequestDto.getLateTime()));
 
         return ResponseDto.builder()
-                .path(String.format("api/v1/stores"))
+                .path(String.format("rest/v1/stores"))
                 .method("POST")
                 .message(String.format("매장 생성 성공"))
                 .statusCode(200)
@@ -52,7 +52,7 @@ public class StoreService {
     public ResponseDto removeStore(Long storeId){
         storeRepository.deleteById(storeId);
         return ResponseDto.builder()
-                .path(String.format("api/v1/stores"))
+                .path(String.format("rest/v1/stores"))
                 .method("DELETE")
                 .message(String.format("매장 삭제 성공"))
                 .statusCode(200)
