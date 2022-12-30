@@ -28,18 +28,16 @@ public class Store {
     private String storePhone;
 
     @NotNull
-    private String primaryAdrress;
-
-    private String businessNum;
+    private String primaryAddress;
 
     private String branchName;
 
     private String detailAddress;
 
     @NotNull
-    @Column(name = "store_classification")
-    @Enumerated(EnumType.STRING)
-    private StoreClassification storeClassification;
+//    @Column(name = "store_classification")
+//    @Enumerated(EnumType.STRING)
+    private String storeClassification;
 
     @NotNull
     private String tardyTime;
@@ -47,15 +45,15 @@ public class Store {
     @NotNull
     private String earlyLeaveTime;
 
-    public Store(Long ownerId, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAdrress, String storeClassifiacation, String tardyTime) {
+    public Store(Long ownerId, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String tardyTime) {
         this.ownerId = ownerId;
         this.storeName = storeName;
         this.branchName = branchName;
         this.detailAddress = detailAddress;
         this.earlyLeaveTime = earlyLeaveTime;
         this.tardyTime = tardyTime;
-        this.primaryAdrress = primaryAdrress;
-        this.storeClassification = StoreClassification.valueOf(storeClassifiacation);
+        this.primaryAddress = primaryAddress;
+        this.storeClassification = storeClassifiacation;
     }
 
 }

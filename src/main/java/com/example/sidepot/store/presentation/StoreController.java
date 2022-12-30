@@ -1,7 +1,9 @@
 package com.example.sidepot.store.presentation;
 
 import com.example.sidepot.global.Path;
+import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.dto.MemberDto;
+import com.example.sidepot.security.domain.Auth;
 import com.example.sidepot.store.app.StoreService;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.example.sidepot.store.dto.StoreResponseDto;
@@ -28,19 +30,19 @@ public class StoreController {
 
     @GetMapping("/read")
     @ApiOperation(value = "[매장관리] 1. 매장 리스트 조회", notes = "오너가 가진 모든 매장을 조회하는 API")
-    public ResponseEntity<List<StoreResponseDto>> readStore(@ApiIgnore @AuthenticationPrincipal final MemberDto.OwnerDto ownerDto){
-        return ResponseEntity.ok(storeService.readAllStore(ownerDto));
+    public ResponseEntity<List<StoreResponseDto>> readStore(@ApiIgnore @AuthenticationPrincipal final Auth auth){
+        return ResponseEntity.ok(storeService.readAllStore(auth));
     }
     @PostMapping("/create")
     @ApiOperation(value = "[매장관리] 2. 매장 생성", notes = "오너가 가진 매장을 추가하는 API")
-    public ResponseEntity createStore(@ApiIgnore @AuthenticationPrincipal final MemberDto.OwnerDto ownerDto,
+    public ResponseEntity createStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
             @RequestBody StoreCreateRequestDto storeCreateRequestDto){
         return ResponseEntity.ok(storeService.createStore(storeCreateRequestDto));
     }
 
-    @PostMapping("/{storeId}/remove")
+    @DeleteMapping("/{storeId}/remove")
     @ApiOperation(value = "[매장관리] 3. 매장 삭제", notes = "오너가 가진 매장을 삭제하는 API")
-    public ResponseEntity removeStore(@ApiIgnore @AuthenticationPrincipal final MemberDto.OwnerDto ownerDto,
+    public ResponseEntity removeStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
                                       @PathVariable final Long storeId){
         return ResponseEntity.ok(storeService.removeStore(storeId));
     }

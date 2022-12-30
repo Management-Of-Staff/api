@@ -2,6 +2,8 @@ package com.example.sidepot.store.app;
 
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.member.dto.MemberDto;
+import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.security.dto.AuthDto;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
@@ -42,8 +44,8 @@ public class StoreService {
                 .build();
     }
 
-    public List<StoreResponseDto> readAllStore(MemberDto.OwnerDto ownerDto){
-        List<Store> storeList = storeRepository.findAllByOwnerId(ownerDto.getOwnerId());
+    public List<StoreResponseDto> readAllStore(Auth auth){
+        List<Store> storeList = storeRepository.findAllByOwnerId(auth.getAuthId());
         return StoreResponseDto.fromList(storeList);
     }
 
