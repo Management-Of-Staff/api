@@ -40,18 +40,18 @@ public class Store {
     private String storeClassification;
 
     @NotNull
-    private String tardyTime;
+    private String lateTime;
 
     @NotNull
     private String earlyLeaveTime;
 
-    public Store(Long ownerId, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String tardyTime) {
+    public Store(Long ownerId, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String lateTime) {
         this.ownerId = ownerId;
         this.storeName = storeName;
         this.branchName = branchName;
         this.detailAddress = detailAddress;
         this.earlyLeaveTime = earlyLeaveTime;
-        this.tardyTime = tardyTime;
+        this.lateTime = lateTime;
         this.primaryAddress = primaryAddress;
         this.storeClassification = storeClassifiacation;
     }

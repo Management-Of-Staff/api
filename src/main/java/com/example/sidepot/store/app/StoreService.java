@@ -33,7 +33,7 @@ public class StoreService {
                 storeCreateRequestDto.getEarlyLeaveTime(),
                 storeCreateRequestDto.getPrimaryAdrress(),
                 storeCreateRequestDto.getStoreClassifiacation(),
-                storeCreateRequestDto.getTardyTime()));
+                storeCreateRequestDto.getLateTime()));
 
         return ResponseDto.builder()
                 .path(String.format("api/v1/store/create"))
