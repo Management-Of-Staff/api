@@ -4,7 +4,7 @@ package com.example.sidepot.member.presentation;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.member.app.StaffService;
 import com.example.sidepot.member.dto.MemberDto.*;
-import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.member.domain.Auth;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RequiredArgsConstructor
-@RequestMapping(Path.REST_BASE_PATH + "/staff")
+@RequestMapping(Path.REST_BASE_PATH + "/staffs")
 @RestController
 public class StaffController {
 
     private final StaffService staffService;
 
     @ApiOperation("직원 회원 가입")
-    @PostMapping(Path.REST_BASE_PATH + "/staff/register")
+    @PostMapping(Path.REST_BASE_PATH + "/create")
     public ResponseEntity<?> register(@RequestBody StaffDto staffDto) {
         return ResponseEntity.ok().body(staffService.create(staffDto));
     }

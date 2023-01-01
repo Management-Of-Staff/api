@@ -1,9 +1,9 @@
 package com.example.sidepot.security.authentication;
 
-import com.example.sidepot.security.app.AuthService;
+import com.example.sidepot.member.app.AuthService;
 
-import com.example.sidepot.security.domain.Auth;
-import com.example.sidepot.security.domain.AuthRepository;
+import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.member.domain.AuthRepository;
 
 import com.example.sidepot.security.util.TokenIssuer;
 import io.jsonwebtoken.Claims;
@@ -32,6 +32,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final AuthRepository authRepository;
 
     private final AuthService authService;
+
+
 
     public JwtAuthenticationProvider(TokenIssuer issuer, AuthService service, AuthRepository authRepository, AuthService authService) {
         this.issuer = issuer;

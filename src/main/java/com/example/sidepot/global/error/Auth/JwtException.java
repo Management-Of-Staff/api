@@ -1,7 +1,7 @@
-package com.example.sidepot.member.error.Auth;
+package com.example.sidepot.global.error.Auth;
 
-import com.example.sidepot.member.error.BaseErrorCode;
-import com.example.sidepot.member.error.BaseException;
+import com.example.sidepot.global.error.BaseErrorCode;
+import com.example.sidepot.global.error.BaseException;
 
 public class JwtException extends BaseException {
 

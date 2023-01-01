@@ -5,14 +5,12 @@ import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.domain.StaffRepository;
 import com.example.sidepot.member.dto.MemberDto;
-import com.example.sidepot.member.error.ErrorCode;
-import com.example.sidepot.member.error.Exception;
+import com.example.sidepot.global.error.ErrorCode;
+import com.example.sidepot.global.error.Exception;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
