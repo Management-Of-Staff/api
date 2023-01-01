@@ -1,12 +1,12 @@
-package com.example.sidepot.security.app;
+package com.example.sidepot.member.app;
 
 
-import com.example.sidepot.member.error.ErrorCode;
-import com.example.sidepot.member.error.Exception;
+import com.example.sidepot.global.error.ErrorCode;
+import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.member.util.MemberValidator;
 import com.example.sidepot.security.util.TokenIssuer;
-import com.example.sidepot.security.domain.Auth;
-import com.example.sidepot.security.domain.AuthRepository;
+import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.member.domain.AuthRepository;
 import com.example.sidepot.security.dto.AuthDto.TokenDto;
 import com.example.sidepot.security.dto.AuthDto.MemberLoginDto;
 import io.jsonwebtoken.Claims;

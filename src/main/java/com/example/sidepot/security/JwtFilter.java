@@ -1,11 +1,14 @@
 package com.example.sidepot.security;
 
-import com.example.sidepot.member.error.Exception;
+import antlr.Token;
+import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.security.authentication.JwtAuthenticationToken;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+
         String token = parseBearerToken(request);
         if(token != null && !token.equalsIgnoreCase("null")){
             try {
@@ -42,7 +46,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.clearContext();
             }
         }
-
 
         filterChain.doFilter(request,response);
     }

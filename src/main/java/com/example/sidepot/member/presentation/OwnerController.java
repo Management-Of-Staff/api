@@ -1,10 +1,10 @@
 package com.example.sidepot.member.presentation;
 
 import com.example.sidepot.global.Path;
+import com.example.sidepot.global.NotLoginUserFactory;
 import com.example.sidepot.member.app.OwnerService;
-import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.dto.MemberDto.*;
-import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.member.domain.Auth;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,20 +15,14 @@ import springfox.documentation.annotations.ApiIgnore;
 
 
 @Slf4j
-@RequestMapping(value = Path.REST_BASE_PATH + "/owner")
+@RequestMapping(value = Path.REST_BASE_PATH + "/owners")
 @AllArgsConstructor
 @RestController
 public class OwnerController {
 
+    private final NotLoginUserFactory userFactory;
     private final OwnerService ownerService;
     @ApiOperation(value = "회원가입", notes = "사장님 회원 가입")
-//    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "디비 id", required = false),
-//                        @ApiImplicitParam(name = "name", value = "이름", required = true),
-//                        @ApiImplicitParam(name = "password", value = "비밀번호", required = true),
-//                        @ApiImplicitParam(name = "phone", value = "핸드폰번호", required = true),
-//                        @ApiImplicitParam(name = "role", value = "권한(STAFF,ADMIN,OWNER)", required = true
-//                                            , dataTypeClass = Role.class)
-//                        })
     @ApiResponses({@ApiResponse(code = 200, message = "회원가입 완료"),
                    @ApiResponse(code = 400, message = "제대로 기입"),
                    @ApiResponse(code = 403, message = "권한 없음")})
@@ -43,7 +37,7 @@ public class OwnerController {
                    @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/my-page")
     public ResponseEntity<?> read(@ApiIgnore @AuthenticationPrincipal Auth auth) {
-        return ResponseEntity.ok().body(ownerService.read(auth));
+        return ResponseEntity.ok().body(auth);
     }
     @ApiOperation(value = "정보수정", notes = "사장 정보 수정")
     @ApiResponses({@ApiResponse(code = 200, message = "정보 수정 완료"),
@@ -51,6 +45,7 @@ public class OwnerController {
     @PostMapping(value = "/update")
     public ResponseEntity<?> update(@RequestBody MemberUpdateDto memberUpdateDto,
                                     @ApiIgnore @AuthenticationPrincipal Auth auth){
+
 
         return ResponseEntity.ok().body(ownerService.update(memberUpdateDto,auth));
     }

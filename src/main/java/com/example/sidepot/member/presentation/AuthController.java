@@ -1,11 +1,11 @@
-package com.example.sidepot.security.presentaition;
+package com.example.sidepot.member.presentation;
 
 
 
 import com.example.sidepot.global.Path;
 
 
-import com.example.sidepot.security.app.AuthService;
+import com.example.sidepot.member.app.AuthService;
 import com.example.sidepot.security.dto.AuthDto.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;

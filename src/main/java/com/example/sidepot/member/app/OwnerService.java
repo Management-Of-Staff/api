@@ -3,15 +3,13 @@ package com.example.sidepot.member.app;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.member.dto.MemberDto.*;
-import com.example.sidepot.member.error.ErrorCode;
-import com.example.sidepot.member.error.Exception;
+import com.example.sidepot.global.error.ErrorCode;
+import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.member.util.MemberValidator;
-import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.member.domain.Auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
