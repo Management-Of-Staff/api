@@ -1,18 +1,21 @@
 package com.example.sidepot.security.config;
 
 import com.example.sidepot.global.Path;
+import com.example.sidepot.member.domain.AuthRepository;
 import com.example.sidepot.security.authentication.JwtAuthenticationProvider;
-
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+
 
 @EnableWebSecurity
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     private final String ROLE_STAFF = "STAFF";
 
@@ -21,6 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String ROLE_ADMIN = "ADMIN";
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final AuthRepository authRepository;
 
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
@@ -48,17 +53,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             Path.REST_BASE_PATH + "/staff/create",
     };
 
-
-
     public WebSecurityConfig(AuthenticationManagerBuilder authenticationManagerBuilder,
-                             JwtAuthenticationProvider jwtAuthenticationProvider) throws Exception {
+                             JwtAuthenticationProvider jwtAuthenticationProvider, AuthRepository authRepository) throws Exception {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.authRepository = authRepository;
         this.authenticationManagerBuilder.authenticationProvider(jwtAuthenticationProvider);
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .csrf()
                     .disable()
@@ -71,8 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(PERMIT_URL_ARRAY).permitAll()
                     .antMatchers(PERMIT_URL_AUTH_ARRAY).permitAll()
-                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/staff/**").hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").permitAll()//.hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/staff/**").permitAll()//.hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
                     .antMatchers(Path.REST_BASE_PATH + "/work/**").hasRole(ROLE_OWNER)
                 .anyRequest().permitAll()
                 .and()
@@ -83,7 +86,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .apply(new JwtSecurityConfig(authenticationManagerBuilder.getOrBuild()))
                 ;
-        }
 
+        return http.build();
+    }
 }
 

@@ -1,7 +1,7 @@
 package com.example.sidepot.security.util;
 
 import com.example.sidepot.security.SidePotProperties;
-import com.example.sidepot.security.domain.Auth;
+import com.example.sidepot.member.domain.Auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

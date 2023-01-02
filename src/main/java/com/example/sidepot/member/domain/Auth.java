@@ -1,6 +1,5 @@
-package com.example.sidepot.security.domain;
+package com.example.sidepot.member.domain;
 
-import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.dto.MemberDto.*;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
@@ -27,6 +26,7 @@ public class Auth{
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "email")
     @Enumerated(EnumType.STRING)
     private Role role;
 
