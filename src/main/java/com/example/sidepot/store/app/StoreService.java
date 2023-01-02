@@ -1,9 +1,7 @@
 package com.example.sidepot.store.app;
 
 import com.example.sidepot.global.dto.ResponseDto;
-import com.example.sidepot.member.dto.MemberDto;
-import com.example.sidepot.security.domain.Auth;
-import com.example.sidepot.security.dto.AuthDto;
+import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
@@ -24,14 +22,14 @@ public class StoreService {
         this.storeRepository = storeRepository;
     }
 
-    public ResponseDto createStore(StoreCreateRequestDto storeCreateRequestDto){
+    public ResponseDto createStore(Auth auth, StoreCreateRequestDto storeCreateRequestDto){
 
-        storeRepository.save(new Store(storeCreateRequestDto.getOwnerId(),
+        storeRepository.save(new Store(auth.getAuthId(),
                 storeCreateRequestDto.getStoreName(),
                 storeCreateRequestDto.getDetailAddress(),
                 storeCreateRequestDto.getBranchName(),
                 storeCreateRequestDto.getEarlyLeaveTime(),
-                storeCreateRequestDto.getPrimaryAdrress(),
+                storeCreateRequestDto.getPrimaryAddress(),
                 storeCreateRequestDto.getStoreClassifiacation(),
                 storeCreateRequestDto.getLateTime()));
 
@@ -44,8 +42,8 @@ public class StoreService {
                 .build();
     }
 
-    public List<StoreResponseDto> readAllStore(Auth auth, Long ownerId){
-        List<Store> storeList = storeRepository.findAllByOwnerId(ownerId);
+    public List<StoreResponseDto> readAllStore(Auth auth){
+        List<Store> storeList = storeRepository.findAllByOwnerId(auth.getAuthId());
         return StoreResponseDto.fromList(storeList);
     }
 

@@ -46,3 +46,7 @@ springdoc:
 side-pot:
     access-key: zsdioufgasdoifyuq3jklrhzdkjlvhuiotyvo7q8yrojoisedhsakjlvnzcx5fds23dafa8j
     refresh-key: zxcvlkjdsfiopufas8301d3cnsddcn3h9cnu0qvasdfsdagdfgdfshbbvccsdzl2
+
+server:
+    address: 0.0.0.0
+    port: 8080

@@ -8,13 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StoreCreateRequestDto {
 
-    private Long ownerId;
-
     private String storeName;
 
     private String branchName;
 
-    private String primaryAdrress;
+    private String primaryAddress;
 
     private String detailAddress;
 
@@ -34,7 +32,7 @@ public class StoreCreateRequestDto {
                                  final String earlyLeaveTime){
         this.storeName = storeName;
         this.branchName = branchName;
-        this.primaryAdrress = primaryAdrress;
+        this.primaryAddress = primaryAdrress;
         this.detailAddress = detailAddress;
         this.storeClassifiacation = storeClassifiacation;
         this.lateTime = lateTime;
