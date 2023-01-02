@@ -1,9 +1,9 @@
 package com.example.sidepot.store.presentation;
 
 import com.example.sidepot.global.Path;
+import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.dto.MemberDto;
-import com.example.sidepot.security.domain.Auth;
 import com.example.sidepot.store.app.StoreService;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.example.sidepot.store.dto.StoreResponseDto;
@@ -30,15 +30,15 @@ public class StoreController {
 
     @GetMapping("/stores")
     @ApiOperation(value = "[매장관리] 1. 매장 리스트 조회", notes = "오너가 가진 모든 매장을 조회하는 API")
-    public ResponseEntity<List<StoreResponseDto>> readStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
-                                                            @RequestParam Long ownerId){
-        return ResponseEntity.ok(storeService.readAllStore(auth, ownerId));
+    public ResponseEntity<List<StoreResponseDto>> readStore(@ApiIgnore @AuthenticationPrincipal final Auth auth
+    ){
+        return ResponseEntity.ok(storeService.readAllStore(auth));
     }
     @PostMapping("/stores")
     @ApiOperation(value = "[매장관리] 2. 매장 생성", notes = "오너가 가진 매장을 추가하는 API")
     public ResponseEntity createStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
             @RequestBody StoreCreateRequestDto storeCreateRequestDto){
-        return ResponseEntity.ok(storeService.createStore(storeCreateRequestDto));
+        return ResponseEntity.ok(storeService.createStore(auth, storeCreateRequestDto));
     }
 
     @DeleteMapping("/stores/{storeId}")
