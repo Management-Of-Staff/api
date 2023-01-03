@@ -5,13 +5,9 @@ import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
-import com.example.sidepot.store.dto.StoreRequestDto;
 import com.example.sidepot.store.dto.StoreResponseDto;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 @Service
 public class StoreService {

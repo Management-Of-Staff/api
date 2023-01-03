@@ -2,8 +2,6 @@ package com.example.sidepot.store.presentation;
 
 import com.example.sidepot.global.Path;
 import com.example.sidepot.member.domain.Auth;
-import com.example.sidepot.member.domain.Role;
-import com.example.sidepot.member.dto.MemberDto;
 import com.example.sidepot.store.app.StoreService;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.example.sidepot.store.dto.StoreResponseDto;
