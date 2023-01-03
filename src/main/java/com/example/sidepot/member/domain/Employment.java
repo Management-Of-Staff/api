@@ -1,6 +1,5 @@
 package com.example.sidepot.member.domain;
 
-import com.example.sidepot.member.domain.staff.Staff;
 import com.example.sidepot.store.domain.Store;
 
 import javax.persistence.*;

@@ -43,7 +43,7 @@ public class StoreService {
         return StoreResponseDto.fromList(storeList);
     }
 
-    public ResponseDto removeStore(Long storeId){
+    public ResponseDto deleteStore(Long storeId){
         storeRepository.deleteById(storeId);
         return ResponseDto.builder()
                 .path(String.format("rest/v1/stores"))

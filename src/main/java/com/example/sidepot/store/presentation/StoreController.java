@@ -41,9 +41,9 @@ public class StoreController {
 
     @DeleteMapping("/stores/{storeId}")
     @ApiOperation(value = "[매장관리] 3. 매장 삭제", notes = "오너가 가진 매장을 삭제하는 API")
-    public ResponseEntity removeStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
+    public ResponseEntity deleteStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
                                       @PathVariable final Long storeId){
-        return ResponseEntity.ok(storeService.removeStore(storeId));
+        return ResponseEntity.ok(storeService.deleteStore(storeId));
     }
 
 
