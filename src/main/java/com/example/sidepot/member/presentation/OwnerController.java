@@ -19,7 +19,6 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 public class OwnerController {
 
-    private final NotLoginUserFactory userFactory;
     private final OwnerService ownerService;
     @ApiOperation(value = "회원가입", notes = "사장님 회원 가입")
     @ApiResponses({@ApiResponse(code = 200, message = "회원가입 완료"),
