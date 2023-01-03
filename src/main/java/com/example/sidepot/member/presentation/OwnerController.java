@@ -1,7 +1,6 @@
 package com.example.sidepot.member.presentation;
 
 import com.example.sidepot.global.Path;
-import com.example.sidepot.global.NotLoginUserFactory;
 import com.example.sidepot.member.app.OwnerService;
 import com.example.sidepot.member.dto.MemberDto.*;
 import com.example.sidepot.member.domain.Auth;
