@@ -1,1 +1,1 @@
-web: java -jar /workspace/target/sidepot-0.0.1-SNAPSHOT.jar
+web: java -jar /workspace/target/*.jar
