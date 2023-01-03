@@ -26,7 +26,6 @@ public class Auth{
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "email")
     @Enumerated(EnumType.STRING)
     private Role role;
 
