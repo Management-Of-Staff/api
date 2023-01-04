@@ -28,7 +28,7 @@ public class Owner extends Auth {
     }
 
     @Override
-    public Owner updateMemberInfo(MemberDto.MemberUpdateDto memberUpdateDto) {
+    public Owner updateMember(MemberDto.MemberUpdateDto memberUpdateDto) {
         super.updateMemberInfo(memberUpdateDto);
         return this;
     }
