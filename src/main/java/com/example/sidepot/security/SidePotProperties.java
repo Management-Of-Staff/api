@@ -1,7 +1,10 @@
 package com.example.sidepot.security;
 
+import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.member.domain.AuthRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +13,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Getter
+@RequiredArgsConstructor
 @Configuration
 @ConfigurationProperties(prefix = "side-pot")
 public class SidePotProperties {
+    
 
     private String accessKey = "zsdioufgasdoifyuq3jklrhzdkjlvhuiotyvo7q8yrojoisedhsakjlvnzcx5fds23dafa8j";
 

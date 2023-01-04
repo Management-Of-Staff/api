@@ -1,4 +1,4 @@
-package com.example.sidepot.member.error;
+package com.example.sidepot.global.error;
 
 import org.springframework.http.HttpStatus;
 

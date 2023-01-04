@@ -1,6 +1,5 @@
-package com.example.sidepot.security.domain;
+package com.example.sidepot.member.domain;
 
-import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.dto.MemberDto.*;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
