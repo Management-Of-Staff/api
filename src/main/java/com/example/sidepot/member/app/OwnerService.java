@@ -31,7 +31,7 @@ public class OwnerService {
     }
 
     @Transactional(readOnly = true)
-    public OwnerDto readOwnerInfo(Auth auth){
+    public OwnerDto readOwner(Auth auth){
         Owner owner = ownerRepository.findById(auth.getAuthId())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
@@ -39,7 +39,7 @@ public class OwnerService {
     }
 
     @Transactional
-    public Long updateOwnerInfo(MemberUpdateDto memberUpdateDto, Auth auth){
+    public Long updateOwner(MemberUpdateDto memberUpdateDto, Auth auth){
         Owner owner = ownerRepository.findByPhone(auth.getPhone())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
         memberUpdateDto.setPassword(memberValidator.encodePassword(memberUpdateDto.getPassword()));
