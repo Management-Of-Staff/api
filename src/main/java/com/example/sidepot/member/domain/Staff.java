@@ -24,7 +24,7 @@ public class Staff extends Auth {
     public static Staff of(String name, String phone, String password, Role role){ return new Staff(name, phone, password, role);}
 
     @Override
-    public Staff updateMemberInfo(MemberDto.MemberUpdateDto memberUpdateDto) {
+    public Staff updateMember(MemberDto.MemberUpdateDto memberUpdateDto) {
         super.updateMemberInfo(memberUpdateDto);
         return this;
     }
