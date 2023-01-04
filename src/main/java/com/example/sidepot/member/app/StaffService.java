@@ -33,7 +33,7 @@ public class StaffService {
 
 
     @Transactional(readOnly = true)
-    public StaffDto readStaffInfo(Auth auth){
+    public StaffDto readStaff(Auth auth){
         Staff staff = staffRepository.findById(auth.getAuthId())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
@@ -41,12 +41,12 @@ public class StaffService {
     }
 
     @Transactional
-    public Long updateStaffInfo(MemberDto.MemberUpdateDto memberUpdateDto, Auth auth){
+    public Long updateStaff(MemberDto.MemberUpdateDto memberUpdateDto, Auth auth){
         Staff staff = staffRepository.findByPhone(auth.getPhone())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
         memberUpdateDto.setPassword(memberValidator.encodePassword(memberUpdateDto.getPassword()));
-        return staffRepository.save(staff.updateMemberInfo(memberUpdateDto)).getAuthId();
+        return staffRepository.save(staff.updateMember(memberUpdateDto)).getAuthId();
     }
 
     @Transactional
