@@ -1,13 +1,13 @@
 package com.example.sidepot.member.domain;
 
 import com.example.sidepot.member.dto.MemberDto;
-//import com.example.sidepot.member.domain.Employment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor
@@ -24,8 +24,8 @@ public class Staff extends Auth {
     public static Staff of(String name, String phone, String password, Role role){ return new Staff(name, phone, password, role);}
 
     @Override
-    public Staff update(MemberDto.MemberUpdateDto memberUpdateDto) {
-        super.update(memberUpdateDto);
+    public Staff updateMemberInfo(MemberDto.MemberUpdateDto memberUpdateDto) {
+        super.updateMemberInfo(memberUpdateDto);
         return this;
     }
 }

@@ -8,7 +8,7 @@ spring:
         show-sql: true
         hibernate:
             ddl-auth: create-drop
-            ddl-auto: create-drop
+            ddl-auto: update
         database: mysql
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     cache:

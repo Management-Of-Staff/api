@@ -2,10 +2,13 @@ package com.example.sidepot.member.domain;
 
 
 import com.example.sidepot.member.dto.MemberDto;
-//import com.example.sidepot.member.domain.Store;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 @Getter
@@ -15,12 +18,9 @@ import javax.persistence.*;
 @Table(name = "owner")
 public class Owner extends Auth {
 
-
-//    @OneToMany(mappedBy = "owner")
-//    private List<Store> storeList = new ArrayList<>();
-    @Builder //테스트
+    @Builder
     public Owner(String name, String phone, String password, Role role) {
-        super(name,phone,password,role);
+        super(name, phone, password, role);
     }
 
     public static Owner of(String name, String phone, String password, Role role){
@@ -28,8 +28,8 @@ public class Owner extends Auth {
     }
 
     @Override
-    public Owner update(MemberDto.MemberUpdateDto memberUpdateDto) {
-        super.update(memberUpdateDto);
+    public Owner updateMemberInfo(MemberDto.MemberUpdateDto memberUpdateDto) {
+        super.updateMemberInfo(memberUpdateDto);
         return this;
     }
 }

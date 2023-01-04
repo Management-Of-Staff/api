@@ -3,12 +3,12 @@ package com.example.sidepot.member.app;
 
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.util.MemberValidator;
-import com.example.sidepot.security.util.TokenIssuer;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.AuthRepository;
-import com.example.sidepot.security.dto.AuthDto.TokenDto;
+import com.example.sidepot.member.util.MemberValidator;
 import com.example.sidepot.security.dto.AuthDto.MemberLoginDto;
+import com.example.sidepot.security.dto.AuthDto.TokenDto;
+import com.example.sidepot.security.util.TokenIssuer;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,36 +21,30 @@ import org.springframework.util.StringUtils;
 @Service
 public class AuthService {
 
-
     private final String GRANT_TYPE_BEARER = "Bearer";
 
-    private final int BEARER_LENGTH = 7;
-
     private final AuthRepository authRepository;
-
     private final MemberValidator memberValidator;
     private final TokenIssuer issuer;
 
     private String resolveToken(String bearerToken) {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(GRANT_TYPE_BEARER)) {
-            return bearerToken.substring(BEARER_LENGTH);
+            return bearerToken.substring(GRANT_TYPE_BEARER.length());
         }
         return null;
     }
 
     private TokenDto createTokenDto(Auth auth) {
-        String userName = auth.getName();
-        String authority = String.valueOf(auth.getRole().getAuthority());
         return TokenDto.builder()
-                .accessToken(issuer.createAccessToken(auth, authority))
-                .refreshToken(issuer.createRefreshToken(auth, authority))
+                .accessToken(issuer.createAccessToken(auth))
+                .refreshToken(issuer.createRefreshToken(auth))
                 .build();
     }
 
     public TokenDto login(MemberLoginDto memberLoginDto)  {
 
         Auth auth = authRepository.findByPhone(memberLoginDto.getPhone())
-                .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
         memberValidator.checkPassword(memberLoginDto.getPassword(), auth.getPassword());
 

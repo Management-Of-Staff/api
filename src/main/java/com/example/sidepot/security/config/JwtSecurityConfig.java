@@ -1,5 +1,6 @@
 package com.example.sidepot.security.config;
 
+
 import com.example.sidepot.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

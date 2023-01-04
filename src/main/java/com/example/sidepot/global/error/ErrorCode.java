@@ -2,7 +2,7 @@ package com.example.sidepot.global.error;
 
 import org.springframework.http.HttpStatus;
 
-public enum ErrorCode implements BaseErrorCode{
+public enum ErrorCode {
 
     // HttpStatus.BAD_REQUEST
     BAD_REQUEST_KOSCOM_API_SERVER(HttpStatus.BAD_REQUEST.value(), "코스콤 서버 요청에 실패했어요"),
@@ -26,16 +26,5 @@ public enum ErrorCode implements BaseErrorCode{
     ErrorCode(int httpValue, String ErrorMessge) {
         this.httpValue = httpValue;
         this.ErrorMessage = ErrorMessge;
-    }
-
-
-    @Override
-    public int httpValue() {
-        return this.httpValue;
-    }
-
-    @Override
-    public String getErrorMessage() {
-        return this.ErrorMessage;
     }
 }

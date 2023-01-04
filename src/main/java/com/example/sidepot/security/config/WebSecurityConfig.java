@@ -18,14 +18,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private final String ROLE_STAFF = "STAFF";
-
     private final String ROLE_OWNER = "OWNER";
-
     private final String ROLE_ADMIN = "ADMIN";
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    private final AuthRepository authRepository;
 
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
@@ -54,9 +51,8 @@ public class WebSecurityConfig {
     };
 
     public WebSecurityConfig(AuthenticationManagerBuilder authenticationManagerBuilder,
-                             JwtAuthenticationProvider jwtAuthenticationProvider, AuthRepository authRepository) throws Exception {
+                             JwtAuthenticationProvider jwtAuthenticationProvider) throws Exception {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.authRepository = authRepository;
         this.authenticationManagerBuilder.authenticationProvider(jwtAuthenticationProvider);
     }
 
@@ -74,8 +70,8 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                     .antMatchers(PERMIT_URL_ARRAY).permitAll()
                     .antMatchers(PERMIT_URL_AUTH_ARRAY).permitAll()
-                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").permitAll()//.hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/staff/**").permitAll()//.hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/staff/**").hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
                     .antMatchers(Path.REST_BASE_PATH + "/work/**").hasRole(ROLE_OWNER)
                 .anyRequest().permitAll()
                 .and()
