@@ -29,7 +29,7 @@ public class Owner extends Auth {
 
     @Override
     public Owner updateMember(MemberDto.MemberUpdateDto memberUpdateDto) {
-        super.updateMemberInfo(memberUpdateDto);
+        super.updateMember(memberUpdateDto);
         return this;
     }
 }
