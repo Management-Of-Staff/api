@@ -56,7 +56,7 @@ public class Auth{
         this.role = role;
     }
 
-    public Auth updateMemberInfo(MemberUpdateDto memberUpdateDto){
+    public Auth updateMember(MemberUpdateDto memberUpdateDto){
         this.name = memberUpdateDto.getName();
         this.password = memberUpdateDto.getPassword();
         return this;
