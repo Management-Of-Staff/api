@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 
 @Slf4j
-@Api(tags = "매장 관련 APIs")
+@Api(tags = "회원 관련 APIs")
 @RequestMapping(value = Path.REST_BASE_PATH + "/owners")
 @RequiredArgsConstructor
 @RestController
