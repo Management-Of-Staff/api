@@ -25,7 +25,8 @@ public class Staff extends Auth {
 
     @Override
     public Staff updateMember(MemberDto.MemberUpdateDto memberUpdateDto) {
-        super.updateMemberInfo(memberUpdateDto);
+        super.updateMember(memberUpdateDto);
         return this;
     }
+    
 }
