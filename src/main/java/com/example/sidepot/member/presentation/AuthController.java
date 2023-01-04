@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-@Api(tags = "매장 관련 APIs")
+@Api(tags = "회원 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(Path.REST_BASE_PATH + "/auth")
 @RestController
