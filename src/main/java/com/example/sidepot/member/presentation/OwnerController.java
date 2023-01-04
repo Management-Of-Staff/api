@@ -39,8 +39,8 @@ public class OwnerController {
     @ApiResponses({@ApiResponse(code = 200, message = "사장 DB id"),
                    @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/")
-    public ResponseEntity<?> readOwnerInfo(@ApiIgnore @AuthenticationPrincipal Auth auth) {
-        return ResponseEntity.ok().body(ownerService.readOwnerInfo(auth));
+    public ResponseEntity<?> readOwner(@ApiIgnore @AuthenticationPrincipal Auth auth) {
+        return ResponseEntity.ok().body(ownerService.readOwner(auth));
     }
     @ApiOperation(value = "정보수정", notes = "사장 정보 수정")
     @ApiResponses({@ApiResponse(code = 200, message = "정보 수정 완료"),
@@ -50,7 +50,7 @@ public class OwnerController {
                                     @ApiIgnore @AuthenticationPrincipal Auth auth){
 
 
-        return ResponseEntity.ok().body(ownerService.updateOwnerInfo(memberUpdateDto,auth));
+        return ResponseEntity.ok().body(ownerService.updateOwner(memberUpdateDto,auth));
     }
 
     @ApiOperation(value = "회원탈퇴", notes = "사장 회원탈퇴")
