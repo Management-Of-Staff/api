@@ -1,18 +1,17 @@
 package com.example.sidepot.member.presentation;
 
 
-
 import com.example.sidepot.global.Path;
-
-
 import com.example.sidepot.member.app.AuthService;
-import com.example.sidepot.security.dto.AuthDto.*;
+import com.example.sidepot.security.dto.AuthDto.MemberLoginDto;
+import com.example.sidepot.security.dto.AuthDto.TokenDto;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Api(tags = "회원 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(Path.REST_BASE_PATH + "/auth")
 @RestController
@@ -23,9 +22,6 @@ public class AuthController {
     private final AuthService authService;
 
     @ApiOperation(value = "로그인", notes = "오너, 직원 로그인")
-//    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "핸드폰 번호", required = true),
-//                        @ApiImplicitParam(name = "password", value = "비밀번호", required = true)
-//                        })
     @ApiResponses({@ApiResponse(code = 200, message = "로그인 완료")})
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberLoginDto memberLoginDto) throws Throwable {

@@ -1,10 +1,6 @@
 package com.example.sidepot.security.authentication;
 
-import com.example.sidepot.member.app.AuthService;
-
 import com.example.sidepot.member.domain.Auth;
-import com.example.sidepot.member.domain.AuthRepository;
-
 import com.example.sidepot.security.util.TokenIssuer;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +8,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -24,37 +22,24 @@ import java.util.List;
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private final String KEY_ROLES = "roles";
-
     private final TokenIssuer issuer;
 
-    private final AuthService service;
-
-    private final AuthRepository authRepository;
-
-    private final AuthService authService;
 
 
-
-    public JwtAuthenticationProvider(TokenIssuer issuer, AuthService service, AuthRepository authRepository, AuthService authService) {
+    public JwtAuthenticationProvider(TokenIssuer issuer) {
         this.issuer = issuer;
-        this.service = service;
-        this.authRepository = authRepository;
-        this.authService = authService;
     }
 
     private Collection<? extends GrantedAuthority> grantedAuthorities(Claims claims) {
-        List<String> roles = (List) claims.get(KEY_ROLES);
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        String role = (String) claims.get(KEY_ROLES);
 
-        for (String role : roles) { grantedAuthorities.add(() -> role); }
 
-        return grantedAuthorities;
+        return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Claims claims = issuer.parseAccessClaims(((JwtAuthenticationToken) authentication).getToken());
-
         return new JwtAuthenticationToken(new Auth(claims) ,"",grantedAuthorities(claims));
     }
 

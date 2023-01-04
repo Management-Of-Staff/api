@@ -1,16 +1,10 @@
 package com.example.sidepot.security;
 
-import antlr.Token;
-import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.security.authentication.JwtAuthenticationToken;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,32 +15,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
     public static final String AUTH_HEADER = "Authorization";
-
-    public static final int BEARER_LENGTH = 7;
-
     public static final String BEARER = "Bearer ";
 
     private final AuthenticationManager authenticationManager;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException, RuntimeException {
 
 
-        String token = parseBearerToken(request);
-        if(token != null && !token.equalsIgnoreCase("null")){
-            try {
-                Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(token));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (Exception e){
-                SecurityContextHolder.clearContext();
-            }
+        String token = resolveToken(request);
+        try {
+            Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(token));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e){
+            SecurityContextHolder.clearContext();
         }
-
         filterChain.doFilter(request,response);
     }
 
@@ -55,10 +46,10 @@ public class JwtFilter extends OncePerRequestFilter {
         return request.getServletPath().equals("/rest/v1/auth/reissue");
     }
 
-    private String parseBearerToken(HttpServletRequest request) throws ServletException, IOException {
+    private String resolveToken(HttpServletRequest request) throws ServletException, IOException {
         String bearerToken =  request.getHeader(AUTH_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER)){
-            return bearerToken.substring(BEARER_LENGTH);
+            return bearerToken.substring(BEARER.length());
         }
         return null;
     }

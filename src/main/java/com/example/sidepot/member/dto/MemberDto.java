@@ -1,7 +1,7 @@
 package com.example.sidepot.member.dto;
 
-import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.domain.Owner;
+import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.domain.Staff;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
