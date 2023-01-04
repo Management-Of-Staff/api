@@ -43,7 +43,7 @@ public class OwnerService {
         Owner owner = ownerRepository.findByPhone(auth.getPhone())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
         memberUpdateDto.setPassword(memberValidator.encodePassword(memberUpdateDto.getPassword()));
-        return ownerRepository.save(owner.updateMemberInfo(memberUpdateDto)).getAuthId();
+        return ownerRepository.save(owner.updateMember(memberUpdateDto)).getAuthId();
     }
 
     @Transactional
