@@ -16,7 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-@Api(tags = "매장 관련 APIs")
+@Api(tags = "회원 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(Path.REST_BASE_PATH + "/staffs")
 @RestController
@@ -38,17 +38,17 @@ public class StaffController {
     @ApiResponses({@ApiResponse(code = 200, message = "사장 DB id"),
             @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/")
-    public ResponseEntity<?> readStaffInfo(@ApiIgnore @AuthenticationPrincipal Auth auth) {
-        return ResponseEntity.ok().body(staffService.readStaffInfo(auth));
+    public ResponseEntity<?> readStaff(@ApiIgnore @AuthenticationPrincipal Auth auth) {
+        return ResponseEntity.ok().body(staffService.readStaff(auth));
     }
     @ApiOperation(value = "정보수정", notes = "직원 정보 수정")
     @ApiResponses({@ApiResponse(code = 200, message = "정보 수정 완료"),
             @ApiResponse(code = 403, message = "권한 없음")})
     @PostMapping(value = "/")
-    public ResponseEntity<?> updateStaffInfo(@RequestBody MemberUpdateDto memberUpdateDto,
+    public ResponseEntity<?> updateStaff(@RequestBody MemberUpdateDto memberUpdateDto,
                                          @AuthenticationPrincipal Auth auth){
 
-        return ResponseEntity.ok().body(staffService.updateStaffInfo(memberUpdateDto, auth));
+        return ResponseEntity.ok().body(staffService.updateStaff(memberUpdateDto, auth));
     }
 
     @ApiOperation(value = "회원탈퇴", notes = "사장 회원탈퇴")
