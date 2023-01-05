@@ -45,7 +45,6 @@ public class Store {
 
     @NotNull
     @Column(name = "store_calssification")
-//    @Column(name = "store_classification")
 //    @Enumerated(EnumType.STRING)
     private String storeClassification;
 
