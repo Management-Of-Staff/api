@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,6 +21,8 @@ public class StoreCalendar {
 
     private String color;
 
-    private LocalDateTime scheduleDate;
+    private LocalDate scheduleDate;
+
+    private LocalDateTime scheduleDateTime;
 
 }
