@@ -5,10 +5,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+
 @Getter
 @Table(name = "manager")
 @NoArgsConstructor
+@Entity
 public class ScheduleManager {
 
     @Id

@@ -5,10 +5,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+
 @Getter
 @Table(name = "todo_list_detail")
 @NoArgsConstructor
+@Entity
 public class TodoListDetail {
 
     @Id

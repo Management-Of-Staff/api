@@ -7,10 +7,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
 @Getter
 @Table(name = "todo_list")
 @NoArgsConstructor
+@Entity
 public class TodoList {
 
     @Id

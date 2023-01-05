@@ -7,10 +7,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+
 @Getter
 @Table(name = "store_calendar")
 @NoArgsConstructor
+@Entity
 public class StoreCalendar {
 
     @Id
