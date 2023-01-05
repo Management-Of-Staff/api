@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RequiredArgsConstructor
@@ -25,6 +26,10 @@ public class OwnerService {
     public OwnerDto registerOwner(OwnerDto dto) {
         Owner owner = memberValidator.ownerDtoToEntity(dto);
         memberValidator.checkOwnerDuplicate(dto.getPhone());
+
+        if(memberValidator.isDeletedMember(dto.getPhone())){
+           throw new Exception(ErrorCode.AREADY_DELETED_MEMBER);
+        }
         ownerRepository.save(owner);
 
         return OwnerDto.from(owner);

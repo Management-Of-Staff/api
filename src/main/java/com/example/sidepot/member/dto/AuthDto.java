@@ -1,4 +1,4 @@
-package com.example.sidepot.security.dto;
+package com.example.sidepot.member.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
@@ -7,7 +7,6 @@ import lombok.*;
 public class AuthDto {
 
     @Getter
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @NoArgsConstructor
     @ApiModel(value = "MemberLoginDto")
     public static class MemberLoginDto{
@@ -33,5 +32,4 @@ public class AuthDto {
             return new TokenDto(accessToken,refreshToken);
         }
     }
-
 }

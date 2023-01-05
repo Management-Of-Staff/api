@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @NoArgsConstructor
@@ -22,6 +23,8 @@ public class Auth{
     @Column(name = "uuid")
     private String UUID;
 
+    @Column(name = "email")
+    private String Email;
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -35,12 +38,14 @@ public class Auth{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "birth_date")
+    private Date birthDate;
+
     @Column(name = "create_date")
     private LocalDate createDate;
 
     @Column(name = "delete_date")
     private LocalDate deleteDate;
-
 
 
     public Auth(Claims claims){

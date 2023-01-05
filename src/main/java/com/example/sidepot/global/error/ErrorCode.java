@@ -1,7 +1,9 @@
 package com.example.sidepot.global.error;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum ErrorCode {
 
     // HttpStatus.BAD_REQUEST
@@ -15,6 +17,7 @@ public enum ErrorCode {
     REFRESH_TOKEN_EXPIRE(HttpStatus.BAD_REQUEST.value(), "(로그인타입이 올바르지 않음) 다시 로그인 해주세요 -> 로그인페이지"),
     NOT_FOUND_REFRESH_TOKEN(HttpStatus.BAD_REQUEST.value(), "리프레쉬 토큰이 없음"),
     INVALID_LOGIN_TYPE(HttpStatus.BAD_REQUEST.value(), "올바르지 못한 로그인 입니다 -> 유형(폼), 유형(리프레쉬)"),
+    AREADY_DELETED_MEMBER(HttpStatus.BAD_REQUEST.value(), "탈퇴한 회원입니다."),
 
     // HttpStatus.UNAUTHORIZED
     MAIL_ADDRESS_PARSING_FAIL(HttpStatus.UNAUTHORIZED.value(), "잘못된 메일 주소입니다"),

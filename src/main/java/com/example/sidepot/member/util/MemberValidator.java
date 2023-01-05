@@ -2,15 +2,14 @@ package com.example.sidepot.member.util;
 
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.domain.Owner;
-import com.example.sidepot.member.domain.OwnerRepository;
-import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.member.domain.StaffRepository;
-import com.example.sidepot.member.dto.MemberDto;
+import com.example.sidepot.member.domain.*;
+import com.example.sidepot.member.dto.MemberDto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -19,6 +18,15 @@ public class MemberValidator {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final OwnerRepository ownerRepository;
     private final StaffRepository staffRepository;
+
+    private final AuthRepository authRepository;
+
+    @Transactional(readOnly = true)
+    public boolean isDeletedMember(String phone){
+        boolean a = authRepository.existsByPhoneAndDeleteDateNull(phone);
+        return a;
+    }
+
 
     @Transactional(readOnly = true)
     public void checkOwnerDuplicate(String phone){
@@ -34,12 +42,12 @@ public class MemberValidator {
         }
     }
     @Transactional(readOnly = true)
-    public Owner ownerDtoToEntity(MemberDto.OwnerDto ownerDto){
+    public Owner ownerDtoToEntity(OwnerDto ownerDto){
         return Owner.of(ownerDto.getName(), ownerDto.getPhone(), encodePassword(ownerDto.getPassword()), ownerDto.getRole());
     }
 
     @Transactional(readOnly = true)
-    public Staff staffDtoToEntity(MemberDto.StaffDto staffDto){
+    public Staff staffDtoToEntity(StaffDto staffDto){
         return Staff.of(staffDto.getName(), staffDto.getPhone(), encodePassword(staffDto.getPassword()), staffDto.getRole());
     }
 

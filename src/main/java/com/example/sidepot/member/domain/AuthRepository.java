@@ -11,6 +11,6 @@ public interface AuthRepository extends JpaRepository<Auth, Long> {
 
     Optional<Auth> findByPhone(String phone);
     List<Auth> findAll();
-
-    Optional<Auth> findByAuthId(Long id);
+    boolean existsByPhoneAndDeleteDateNull(String phone);
 }
+
