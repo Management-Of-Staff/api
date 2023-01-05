@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findAllByOwnerId(Long OwnerId);
-    void deleteById(Long storeId);
+    void deleteByStoreId(Long storeId);
 
 }

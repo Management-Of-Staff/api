@@ -12,14 +12,14 @@ public class StoreResponseDto {
     private String storeName;
     private String branchName;
 
-    public StoreResponseDto(Long id, String storeName, String branchName) {
-        this.storeId = id;
+    public StoreResponseDto(Long storeId, String storeName, String branchName) {
+        this.storeId = storeId;
         this.storeName = storeName;
         this.branchName = branchName;
     }
 
     public static StoreResponseDto from(Store store){
-        return new StoreResponseDto(store.getId(), store.getStoreName(), store.getBranchName());
+        return new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getBranchName());
     }
 
     public static List<StoreResponseDto> fromList(List<Store> storeList){
