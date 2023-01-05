@@ -15,17 +15,23 @@ public class TodoList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "todo_list_id")
+    private Long todoListId;
 
     @OneToMany
+    @Column(name = "todo_list_detail")
     private List<TodoListDetail> todoListDetail = new ArrayList<>();
 
+    @Column(name = "task_start_time")
     private LocalDateTime taskStartTime;
 
     @OneToMany
-    private List<Manager> manager = new ArrayList<>();
+    @Column(name = "manager")
+    private List<ScheduleManager> manager = new ArrayList<>();
 
+    @Column(name = "complete_time")
     private LocalDateTime completeTime;
 
+    @Column(name = "complete_check")
     private String completeCheck;
 }

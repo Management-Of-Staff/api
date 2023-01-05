@@ -9,11 +9,13 @@ import javax.persistence.*;
 @Getter
 @Table(name = "manager")
 @NoArgsConstructor
-public class Manager {
+public class ScheduleManager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "schedule_mangaer_id")
+    private Long scheduleManagerId;
 
+    @Column(name = "name")
     private String name;
 }

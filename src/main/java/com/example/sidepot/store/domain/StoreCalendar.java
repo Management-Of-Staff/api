@@ -15,14 +15,19 @@ public class StoreCalendar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "store_calendar_id")
+    private Long storeCalendarId;
 
+    @Column(name = "title")
     private String title;
 
+    @Column(name = "color")
     private String color;
 
+    @Column(name = "schedule_date")
     private LocalDate scheduleDate;
 
+    @Column(name = "schedule_date_time")
     private LocalDateTime scheduleDateTime;
 
 }

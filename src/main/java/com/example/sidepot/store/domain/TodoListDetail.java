@@ -13,7 +13,9 @@ public class TodoListDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "todo_list_detail_id")
+    private Long todoListDetailId;
 
+    @Column(name = "todo_list_detail")
     private String todoListDetail;
 }
