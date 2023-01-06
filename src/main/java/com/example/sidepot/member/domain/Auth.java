@@ -1,10 +1,8 @@
 package com.example.sidepot.member.domain;
 
-import com.example.sidepot.member.dto.MemberDto.MemberUpdateDto;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,15 +14,15 @@ import java.util.Date;
 @Entity
 public class Auth{
 
-    @Id @Column(name = "auth_id")
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authId;
+    private Long id;
 
     @Column(name = "uuid")
-    private String UUID;
+    private Long UUID;
 
     @Column(name = "email")
-    private String Email;
+    private String email;
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -47,23 +45,29 @@ public class Auth{
     @Column(name = "delete_date")
     private LocalDate deleteDate;
 
-
     public Auth(Claims claims){
-        this.authId = Long.valueOf(claims.get("userId").toString());
+        this.id = Long.valueOf(claims.get("userId").toString());
         this.name = claims.get("name").toString();
         this.phone = claims.getSubject();
     }
 
-    public Auth(String name, String phone, String password, Role role) {
+    public Auth(String name, String phone, String password, Role role){
         this.name = name;
         this.phone = phone;
         this.password = password;
         this.role = role;
     }
 
-    public Auth updateMember(MemberUpdateDto memberUpdateDto){
-        this.name = memberUpdateDto.getName();
-        this.password = memberUpdateDto.getPassword();
-        return this;
+    public Auth(Long id, Long UUID, String email, String name, String phone, String password, Role role, Date birthDate, LocalDate createDate, LocalDate deleteDate) {
+        this.id = id;
+        this.UUID = UUID;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.password = password;
+        this.role = role;
+        this.birthDate = birthDate;
+        this.createDate = createDate;
+        this.deleteDate = deleteDate;
     }
 }

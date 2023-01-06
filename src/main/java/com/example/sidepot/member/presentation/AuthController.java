@@ -2,11 +2,10 @@ package com.example.sidepot.member.presentation;
 
 
 import com.example.sidepot.global.Path;
+import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.member.app.AuthService;
 import com.example.sidepot.member.domain.Auth;
-import com.example.sidepot.member.dto.MemberUpdatePasswordDto;
-import com.example.sidepot.member.dto.MemberUpdatePhoneDto;
-import com.example.sidepot.member.dto.MemberUpdateProfileDto;
+import com.example.sidepot.member.dto.MemberUpdateDto.*;
 import com.example.sidepot.member.dto.AuthDto.MemberLoginDto;
 import com.example.sidepot.member.dto.AuthDto.TokenDto;
 import io.swagger.annotations.*;
@@ -16,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
+import java.time.LocalDate;
 
 @Api(tags = "회원 관련 APIs")
 @RequiredArgsConstructor
@@ -47,25 +47,39 @@ public class AuthController {
     @ApiOperation(value ="회원 정보 수정", notes = "마이페이지에서 회원 정보 수정")
     @PostMapping("/update-profile")
     public ResponseEntity<?> updateProfile(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                           @ApiIgnore @RequestPart(value="image",required = false) MultipartFile image,
-                                           @ApiIgnore @RequestPart(value="updateProfile", required = true) MemberUpdateProfileDto dto){
+                                           @RequestPart(value="image",required = false) MultipartFile image,
+                                           @RequestPart(value="updateProfile", required = true) MemberUpdateProfileRequestDto dto){
 
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(authService.updateMemberProfile(auth, dto));
     }
 
     @ApiOperation(value ="비밀 번호 수정", notes = "마이페이지에서 비밀번호 변경")
     @PostMapping("/update-password")
     public ResponseEntity<?> updateMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                                  @RequestBody MemberUpdatePasswordDto dto){
-        return ResponseEntity.ok().body(null);
+                                                  @RequestBody MemberUpdatePasswordRequestDto dto){
+        return ResponseEntity.ok().body(authService.updateMemberPassword(auth, dto));
     }
 
     @ApiOperation(value ="핸드폰 번호 수정", notes = "마이페이지에서 핸드폰번호 변경")
     @PostMapping("/update-phone")
     public ResponseEntity<?> updateMemberPhone(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                               @RequestBody MemberUpdatePhoneDto dto){
-        return ResponseEntity.ok().body(null);
+                                               @RequestBody MemberUpdatePhoneRequestDto dto){
+        return ResponseEntity.ok().body(authService.updateMemberPhone(auth, dto));
     }
 
+    @ApiOperation(value = "비밀번호 번호 확인", notes = "비밀번호 변경화면에서 현재 비밀번호 체크")
+    @PostMapping("/check-password")
+    public ResponseEntity<ResponseDto> checkMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
+                                                           @RequestBody MemberCheckPasswordRequestDto dto){
+
+        return ResponseEntity.ok().body(authService.checkMemberPassword(auth.getId(), dto));
+    }
+
+    @ApiOperation(value = "회원 탈퇴", notes = "마이페이지에서 회원탈퇴 시 회원 탈퇴 요청")
+    @PostMapping("/withdrawal-member")
+    public ResponseEntity<ResponseDto> withdrawalMember(@ApiIgnore @AuthenticationPrincipal Auth auth,
+                                                           @RequestParam LocalDate withdrawalDate){
+        return ResponseEntity.ok().body(authService.withdrawalMember(auth, withdrawalDate));
+    }
 }
 

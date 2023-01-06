@@ -24,8 +24,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final String KEY_ROLES = "roles";
     private final TokenIssuer issuer;
 
-
-
     public JwtAuthenticationProvider(TokenIssuer issuer) {
         this.issuer = issuer;
     }

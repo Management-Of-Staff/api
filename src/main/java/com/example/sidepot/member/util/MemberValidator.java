@@ -3,13 +3,11 @@ package com.example.sidepot.member.util;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.member.domain.*;
-import com.example.sidepot.member.dto.MemberDto.*;
+import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -23,8 +21,7 @@ public class MemberValidator {
 
     @Transactional(readOnly = true)
     public boolean isDeletedMember(String phone){
-        boolean a = authRepository.existsByPhoneAndDeleteDateNull(phone);
-        return a;
+        return authRepository.existsByPhoneAndDeleteDateIsNotNull(phone);
     }
 
 
@@ -42,12 +39,12 @@ public class MemberValidator {
         }
     }
     @Transactional(readOnly = true)
-    public Owner ownerDtoToEntity(OwnerDto ownerDto){
+    public Owner ownerDtoToEntity(MemberRegisterRequestDto ownerDto){
         return Owner.of(ownerDto.getName(), ownerDto.getPhone(), encodePassword(ownerDto.getPassword()), ownerDto.getRole());
     }
 
     @Transactional(readOnly = true)
-    public Staff staffDtoToEntity(StaffDto staffDto){
+    public Staff staffDtoToEntity(MemberRegisterRequestDto staffDto){
         return Staff.of(staffDto.getName(), staffDto.getPhone(), encodePassword(staffDto.getPassword()), staffDto.getRole());
     }
 
@@ -58,7 +55,7 @@ public class MemberValidator {
     public void checkPassword(String rawPassword, String encodePassword){
         if(!bCryptPasswordEncoder
                 .matches(rawPassword, encodePassword)) {
-            throw new Exception(ErrorCode.MEMBER_PASSWORD);
+            throw new Exception(ErrorCode.MEMBER_WRONG_PASSWORD);
         }
     }
 }

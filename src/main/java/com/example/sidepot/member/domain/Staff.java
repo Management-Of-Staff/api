@@ -1,6 +1,6 @@
 package com.example.sidepot.member.domain;
 
-import com.example.sidepot.member.dto.MemberDto;
+import com.example.sidepot.member.dto.MemberRegisterDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +22,4 @@ public class Staff extends Auth {
     }
 
     public static Staff of(String name, String phone, String password, Role role){ return new Staff(name, phone, password, role);}
-
-    @Override
-    public Staff updateMember(MemberDto.MemberUpdateDto memberUpdateDto) {
-        super.updateMember(memberUpdateDto);
-        return this;
-    }
-    
 }
