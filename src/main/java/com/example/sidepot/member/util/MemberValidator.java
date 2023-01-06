@@ -2,11 +2,8 @@ package com.example.sidepot.member.util;
 
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.domain.Owner;
-import com.example.sidepot.member.domain.OwnerRepository;
-import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.member.domain.StaffRepository;
-import com.example.sidepot.member.dto.MemberDto;
+import com.example.sidepot.member.domain.*;
+import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,26 +17,34 @@ public class MemberValidator {
     private final OwnerRepository ownerRepository;
     private final StaffRepository staffRepository;
 
+    private final AuthRepository authRepository;
+
+    @Transactional(readOnly = true)
+    public boolean isDeletedMember(String phone){
+        return authRepository.existsByPhoneAndDeleteDateIsNotNull(phone);
+    }
+
+
     @Transactional(readOnly = true)
     public void checkOwnerDuplicate(String phone){
         if(ownerRepository.existsByPhone(phone)){
-            throw new Exception(ErrorCode.EMAIL_DUPLICATE);
+            throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
     }
 
     @Transactional(readOnly = true)
     public void checkStaffDuplicate(String phone){
         if(staffRepository.existsByPhone(phone)){
-            throw new Exception(ErrorCode.EMAIL_DUPLICATE);
+            throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
     }
     @Transactional(readOnly = true)
-    public Owner ownerDtoToEntity(MemberDto.OwnerDto ownerDto){
+    public Owner ownerDtoToEntity(MemberRegisterRequestDto ownerDto){
         return Owner.of(ownerDto.getName(), ownerDto.getPhone(), encodePassword(ownerDto.getPassword()), ownerDto.getRole());
     }
 
     @Transactional(readOnly = true)
-    public Staff staffDtoToEntity(MemberDto.StaffDto staffDto){
+    public Staff staffDtoToEntity(MemberRegisterRequestDto staffDto){
         return Staff.of(staffDto.getName(), staffDto.getPhone(), encodePassword(staffDto.getPassword()), staffDto.getRole());
     }
 
@@ -50,7 +55,7 @@ public class MemberValidator {
     public void checkPassword(String rawPassword, String encodePassword){
         if(!bCryptPasswordEncoder
                 .matches(rawPassword, encodePassword)) {
-            throw new Exception(ErrorCode.MEMBER_PASSWORD);
+            throw new Exception(ErrorCode.MEMBER_WRONG_PASSWORD);
         }
     }
 }
