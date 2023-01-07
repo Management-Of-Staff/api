@@ -35,7 +35,7 @@ public class AuthController {
     @ApiResponses({@ApiResponse(code = 200, message = "로그인 완료")})
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberLoginDto memberLoginDto) throws Throwable {
-        return ResponseEntity.ok().body(authService.login(memberLoginDto));
+        return ResponseEntity.ok(authService.login(memberLoginDto));
     }
 
 
@@ -45,7 +45,7 @@ public class AuthController {
     @ApiResponses({@ApiResponse(code = 200, message = "토큰 재발급 성공")})
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@ApiIgnore @RequestHeader(AUTHORIZATION_HEADER) String bearerToken) throws Throwable {
-        return ResponseEntity.ok().body(authService.reissue(bearerToken));
+        return ResponseEntity.ok(authService.reissue(bearerToken));
     }
 
     @ApiOperation(value ="회원 정보 수정", notes = "마이페이지에서 회원 정보 수정")
@@ -54,21 +54,21 @@ public class AuthController {
                                            @RequestPart(value="image",required = false) MultipartFile image,
                                            @RequestPart(value="updateProfile", required = true) MemberUpdateProfileRequestDto dto){
 
-        return ResponseEntity.ok().body(authService.updateMemberProfile(auth, dto));
+        return ResponseEntity.ok(authService.updateMemberProfile(auth, dto));
     }
 
     @ApiOperation(value ="비밀 번호 수정", notes = "마이페이지에서 비밀번호 변경")
     @PostMapping("/update-password")
     public ResponseEntity<?> updateMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                   @RequestBody MemberUpdatePasswordRequestDto dto){
-        return ResponseEntity.ok().body(authService.updateMemberPassword(auth, dto));
+        return ResponseEntity.ok(authService.updateMemberPassword(auth, dto));
     }
 
     @ApiOperation(value ="핸드폰 번호 수정", notes = "마이페이지에서 핸드폰번호 변경")
     @PostMapping("/update-phone")
     public ResponseEntity<?> updateMemberPhone(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                @RequestBody MemberUpdatePhoneRequestDto dto){
-        return ResponseEntity.ok().body(authService.updateMemberPhone(auth, dto));
+        return ResponseEntity.ok(authService.updateMemberPhone(auth, dto));
     }
 
     @ApiOperation(value = "비밀번호 번호 확인", notes = "비밀번호 변경화면에서 현재 비밀번호 체크")
@@ -76,14 +76,14 @@ public class AuthController {
     public ResponseEntity<ResponseDto> checkMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                            @RequestBody MemberCheckPasswordRequestDto dto){
 
-        return ResponseEntity.ok().body(authService.checkMemberPassword(auth.getAuthId(), dto));
+        return ResponseEntity.ok(authService.checkMemberPassword(auth.getAuthId(), dto));
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "마이페이지에서 회원탈퇴 시 회원 탈퇴 요청")
     @PostMapping("/withdrawal-member")
     public ResponseEntity<ResponseDto> withdrawalMember(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                            @RequestParam LocalDate withdrawalDate){
-        return ResponseEntity.ok().body(authService.withdrawalMember(auth, withdrawalDate));
+        return ResponseEntity.ok(authService.withdrawalMember(auth, withdrawalDate));
     }
 }
 

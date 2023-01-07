@@ -43,7 +43,4 @@ public class StoreController {
         return ResponseEntity.ok(storeService.deleteStore(storeId));
     }
 
-
-
-
 }

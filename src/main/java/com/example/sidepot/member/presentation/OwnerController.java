@@ -31,7 +31,7 @@ public class OwnerController {
                    @ApiResponse(code = 403, message = "권한 없음")})
     @PostMapping(value = "/register")
     public ResponseEntity<MemberRegisterResponseDto> registerOwner(@RequestBody MemberRegisterRequestDto dto) {
-        return ResponseEntity.ok().body(ownerService.registerOwner(dto));
+        return ResponseEntity.ok(ownerService.registerOwner(dto));
     }
 
 
@@ -40,7 +40,7 @@ public class OwnerController {
                    @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/")
     public ResponseEntity<?> readOwner(@ApiIgnore @AuthenticationPrincipal Auth auth) {
-        return ResponseEntity.ok().body(ownerService.readOwner(auth));
+        return ResponseEntity.ok(ownerService.readOwner(auth));
     }
 
     @ApiOperation(value = "회원 탈퇴 완료 요청", notes = "DB 에서 삭제하기 위한 탈퇴기능")

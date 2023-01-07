@@ -30,7 +30,7 @@ public class StaffController {
             @ApiResponse(code = 403, message = "권한 없음")})
     @PostMapping(value = "/register")
     public ResponseEntity<MemberRegisterResponseDto> registerStaff(@RequestBody MemberRegisterRequestDto dto) {
-        return ResponseEntity.ok().body(staffService.registerStaff(dto));
+        return ResponseEntity.ok(staffService.registerStaff(dto));
     }
 
 
@@ -39,7 +39,7 @@ public class StaffController {
             @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/")
     public ResponseEntity<?> readStaff(@ApiIgnore @AuthenticationPrincipal Auth auth) {
-        return ResponseEntity.ok().body(staffService.readStaff(auth));
+        return ResponseEntity.ok(staffService.readStaff(auth));
     }
 
     @ApiOperation(value = "회원 탈퇴 완료 요청", notes = "DB 에서 삭제하기 위한 탈퇴 기능")
