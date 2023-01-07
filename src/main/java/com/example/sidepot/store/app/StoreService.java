@@ -20,7 +20,7 @@ public class StoreService {
 
     public ResponseDto createStore(Auth auth, StoreCreateRequestDto storeCreateRequestDto){
 
-        storeRepository.save(new Store(auth.getId(),
+        storeRepository.save(new Store(auth.getAuthId(),
                 storeCreateRequestDto.getStoreName(),
                 storeCreateRequestDto.getDetailAddress(),
                 storeCreateRequestDto.getBranchName(),
@@ -39,7 +39,7 @@ public class StoreService {
     }
 
     public List<StoreResponseDto> readAllStore(Auth auth){
-        List<Store> storeList = storeRepository.findAllByOwnerId(auth.getId());
+        List<Store> storeList = storeRepository.findAllByOwnerId(auth.getAuthId());
         return StoreResponseDto.fromList(storeList);
     }
 

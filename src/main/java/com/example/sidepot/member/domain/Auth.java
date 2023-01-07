@@ -17,7 +17,7 @@ public class Auth{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long authId;
 
     @Column(name = "uuid")
     private Long UUID;
@@ -47,7 +47,7 @@ public class Auth{
     private LocalDate deleteDate;
 
     public Auth(Claims claims){
-        this.id = Long.valueOf(claims.get("userId").toString());
+        this.authId = Long.valueOf(claims.get("userId").toString());
         this.name = claims.get("name").toString();
         this.phone = claims.getSubject();
     }
@@ -59,8 +59,8 @@ public class Auth{
         this.role = role;
     }
 
-    public Auth(Long id, Long UUID, String email, String name, String phone, String password, Role role, Date birthDate, LocalDate createDate, LocalDate deleteDate) {
-        this.id = id;
+    public Auth(Long authId, Long UUID, String email, String name, String phone, String password, Role role, Date birthDate, LocalDate createDate, LocalDate deleteDate) {
+        this.authId = authId;
         this.UUID = UUID;
         this.email = email;
         this.name = name;

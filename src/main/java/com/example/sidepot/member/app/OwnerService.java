@@ -41,7 +41,7 @@ public class OwnerService {
 
     @Transactional(readOnly = true)
     public OwnerReadResponseDto readOwner(Auth auth){
-        Owner owner = ownerRepository.findById(auth.getId())
+        Owner owner = ownerRepository.findById(auth.getAuthId())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
         return OwnerReadResponseDto.builder()
@@ -56,7 +56,7 @@ public class OwnerService {
 
     @Transactional
     public void deleteOwner(Auth auth){
-         ownerRepository.deleteById(auth.getId());
+         ownerRepository.deleteById(auth.getAuthId());
     }
 }
 

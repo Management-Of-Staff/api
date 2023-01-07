@@ -1,13 +1,11 @@
 package com.example.sidepot.store.domain;
 
-import com.example.sidepot.store.dto.StoreCreateRequestDto;
+
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
 
 
 @Getter
@@ -66,5 +64,4 @@ public class Store {
         this.primaryAddress = primaryAddress;
         this.storeClassification = storeClassifiacation;
     }
-
 }

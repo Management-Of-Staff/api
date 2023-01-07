@@ -76,7 +76,7 @@ public class AuthController {
     public ResponseEntity<ResponseDto> checkMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                            @RequestBody MemberCheckPasswordRequestDto dto){
 
-        return ResponseEntity.ok().body(authService.checkMemberPassword(auth.getId(), dto));
+        return ResponseEntity.ok().body(authService.checkMemberPassword(auth.getAuthId(), dto));
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "마이페이지에서 회원탈퇴 시 회원 탈퇴 요청")

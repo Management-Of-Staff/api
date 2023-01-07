@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -28,15 +29,15 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException, RuntimeException {
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         log.info("JwtFilter 가동 중...");
         String token = resolveToken(request);
         try {
             Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(token));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception e){
-            SecurityContextHolder.clearContext();
+        } catch (Exception e) {
+            //SecurityContextHolder.clearContext();
         }
         filterChain.doFilter(request,response);
     }

@@ -63,7 +63,7 @@ public class TokenIssuer {
     public String createToken(Auth auth, TokenType type){
 
         return Jwts.builder()
-                .claim("userId", auth.getId())
+                .claim("userId", auth.getAuthId())
                 .claim("name", auth.getName())
                 .claim("phone", auth.getPhone())
                 .claim(KEY_ROLE, auth.getRole())

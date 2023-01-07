@@ -66,7 +66,7 @@ public class AuthService {
     @Transactional
     public ResponseDto updateMemberPassword(Auth auth, MemberUpdatePasswordRequestDto dto){
         String newPassword = memberValidator.encodePassword(dto.getNewPassword());
-        authRepository.updateMemberPassword(auth.getId(), newPassword)
+        authRepository.updateMemberPassword(auth.getAuthId(), newPassword)
                 .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PASSWORD));
 
         return ResponseDto.builder()
@@ -81,7 +81,7 @@ public class AuthService {
             throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
 
-        authRepository.updateMemberPhone(auth.getId(), dto.getPhone())
+        authRepository.updateMemberPhone(auth.getAuthId(), dto.getPhone())
                 .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PHONE));
         return ResponseDto.builder()
                 .statusCode(200)
@@ -91,7 +91,7 @@ public class AuthService {
 
     @Transactional
     public ResponseDto updateMemberProfile(Auth auth, MemberUpdateProfileRequestDto dto){
-        authRepository.updateMemberProfile(auth.getId(), dto.getBirthDate(), dto.getEmail());
+        authRepository.updateMemberProfile(auth.getAuthId(), dto.getBirthDate(), dto.getEmail());
         return ResponseDto.builder()
                 .statusCode(200)
                 .message("업데이트 완료")
@@ -109,7 +109,7 @@ public class AuthService {
 
     @Transactional
     public ResponseDto withdrawalMember(Auth auth, LocalDate withdrawalDate){
-        authRepository.updateMemberDeleteDate(auth.getId(), withdrawalDate);
+        authRepository.updateMemberDeleteDate(auth.getAuthId(), withdrawalDate);
         return ResponseDto.builder()
                 .statusCode(200)
                 .method("탈퇴처리 완료")

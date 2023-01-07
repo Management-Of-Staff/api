@@ -12,7 +12,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     boolean existsByPhone(String phone);
     Optional<Owner> findByPhone(String phone);
-    void deleteById(Long id);
+    void deleteByAuthId(Long id);
 
     List<Owner> findAll();
 

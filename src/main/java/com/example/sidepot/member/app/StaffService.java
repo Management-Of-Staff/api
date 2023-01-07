@@ -38,7 +38,7 @@ public class StaffService {
 
     @Transactional(readOnly = true)
     public StaffReadResponseDto readStaff(Auth auth){
-        Staff staff = staffRepository.findById(auth.getId())
+        Staff staff = staffRepository.findById(auth.getAuthId())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
         return StaffReadResponseDto.builder()
@@ -53,6 +53,6 @@ public class StaffService {
 
     @Transactional
     public void deleteStaff(Auth auth){
-        staffRepository.deleteById(auth.getId());
+        staffRepository.deleteById(auth.getAuthId());
     }
 }
