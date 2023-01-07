@@ -25,7 +25,7 @@ public class StoreController {
 
     @GetMapping("/stores")
     @ApiOperation(value = "[매장관리] 1. 매장 리스트 조회", notes = "오너가 가진 모든 매장을 조회하는 API")
-    public ResponseEntity<List<StoreResponseDto>> readStore(@ApiIgnore @AuthenticationPrincipal final Auth auth
+    public ResponseEntity readStore(@ApiIgnore @AuthenticationPrincipal final Auth auth
     ){
         return ResponseEntity.ok(storeService.readAllStore(auth));
     }

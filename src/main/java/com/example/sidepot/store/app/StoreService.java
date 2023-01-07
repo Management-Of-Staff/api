@@ -20,6 +20,7 @@ public class StoreService {
 
     public ResponseDto createStore(Auth auth, StoreCreateRequestDto storeCreateRequestDto){
 
+
         storeRepository.save(new Store(auth.getAuthId(),
                 storeCreateRequestDto.getStoreName(),
                 storeCreateRequestDto.getDetailAddress(),
@@ -38,9 +39,15 @@ public class StoreService {
                 .build();
     }
 
-    public List<StoreResponseDto> readAllStore(Auth auth){
+    public ResponseDto readAllStore(Auth auth){
         List<Store> storeList = storeRepository.findAllByOwnerId(auth.getAuthId());
-        return StoreResponseDto.fromList(storeList);
+        return ResponseDto.builder()
+                .path(String.format("rest/v1/stores"))
+                .method("GET")
+                .message(String.format("매장 조회 성공"))
+                .statusCode(200)
+                .data(StoreResponseDto.fromList(storeList))
+                .build();
     }
 
     public ResponseDto deleteStore(Long storeId){
