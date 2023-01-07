@@ -1,8 +1,10 @@
 package com.example.sidepot.security.config;
 
 import com.example.sidepot.global.Path;
-import com.example.sidepot.member.domain.AuthRepository;
+import com.example.sidepot.security.CustomAccessDeniedHandler;
+import com.example.sidepot.security.CustomAuthenticationEntryPoint;
 import com.example.sidepot.security.authentication.JwtAuthenticationProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-
+@Slf4j
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig {
@@ -22,7 +24,6 @@ public class WebSecurityConfig {
     private final String ROLE_ADMIN = "ADMIN";
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
 
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
@@ -46,8 +47,8 @@ public class WebSecurityConfig {
             Path.REST_BASE_PATH + "/auth/reissue",
 
             /* 회원가입 */
-            Path.REST_BASE_PATH + "/owner/create",
-            Path.REST_BASE_PATH + "/staff/create",
+            Path.REST_BASE_PATH + "/owners/register",
+            Path.REST_BASE_PATH + "/staffs/register",
     };
 
     public WebSecurityConfig(AuthenticationManagerBuilder authenticationManagerBuilder,
@@ -58,6 +59,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        log.info("WebSecurityConfig 필터 중..");
         http
                 .csrf()
                     .disable()
@@ -70,15 +72,20 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                     .antMatchers(PERMIT_URL_ARRAY).permitAll()
                     .antMatchers(PERMIT_URL_AUTH_ARRAY).permitAll()
-                    .antMatchers(Path.REST_BASE_PATH + "/owner/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/staff/**").hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/work/**").hasRole(ROLE_OWNER)
+                    .antMatchers(Path.REST_BASE_PATH + "/auth/**").authenticated()
+                    .antMatchers(Path.REST_BASE_PATH + "/owners/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/staffs/**").hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/work/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
                 .anyRequest().permitAll()
                 .and()
                     .headers().frameOptions().disable()
                 .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                    .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                     .apply(new JwtSecurityConfig(authenticationManagerBuilder.getOrBuild()))
                 ;

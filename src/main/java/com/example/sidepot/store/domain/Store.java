@@ -1,13 +1,12 @@
 package com.example.sidepot.store.domain;
 
-import com.example.sidepot.store.dto.StoreCreateRequestDto;
+
+import com.example.sidepot.member.domain.Employment;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -56,6 +55,10 @@ public class Store {
     @Column(name = "early_leave_time")
     private String earlyLeaveTime;
 
+    @Column(name = "employment_id")
+    @OneToMany(mappedBy = "store")
+    private List<Employment> employmentId;
+
     public Store(Long ownerId, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String lateTime) {
         this.ownerId = ownerId;
         this.storeName = storeName;
@@ -66,5 +69,4 @@ public class Store {
         this.primaryAddress = primaryAddress;
         this.storeClassification = storeClassifiacation;
     }
-
 }

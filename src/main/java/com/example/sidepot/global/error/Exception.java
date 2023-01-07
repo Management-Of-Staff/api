@@ -1,6 +1,9 @@
 package com.example.sidepot.global.error;
 
 
+import lombok.Getter;
+
+@Getter
 public class Exception extends RuntimeException{
 
     private ErrorCode errorCode;

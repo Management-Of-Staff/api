@@ -3,8 +3,8 @@ package com.example.sidepot.member.presentation;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.member.app.OwnerService;
 import com.example.sidepot.member.domain.Auth;
-import com.example.sidepot.member.dto.MemberDto.MemberUpdateDto;
-import com.example.sidepot.member.dto.MemberDto.OwnerDto;
+import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterRequestDto;
+import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -30,8 +30,8 @@ public class OwnerController {
                    @ApiResponse(code = 400, message = "제대로 기입"),
                    @ApiResponse(code = 403, message = "권한 없음")})
     @PostMapping(value = "/register")
-    public ResponseEntity<?> registerOwner(@RequestBody OwnerDto ownerDto) {
-        return ResponseEntity.ok().body(ownerService.registerOwner(ownerDto));
+    public ResponseEntity<MemberRegisterResponseDto> registerOwner(@RequestBody MemberRegisterRequestDto dto) {
+        return ResponseEntity.ok(ownerService.registerOwner(dto));
     }
 
 
@@ -40,20 +40,10 @@ public class OwnerController {
                    @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/")
     public ResponseEntity<?> readOwner(@ApiIgnore @AuthenticationPrincipal Auth auth) {
-        return ResponseEntity.ok().body(ownerService.readOwner(auth));
-    }
-    @ApiOperation(value = "정보수정", notes = "사장 정보 수정")
-    @ApiResponses({@ApiResponse(code = 200, message = "정보 수정 완료"),
-                   @ApiResponse(code = 403, message = "권한 없음")})
-    @PostMapping(value = "/")
-    public ResponseEntity<?> updateOwner(@RequestBody MemberUpdateDto memberUpdateDto,
-                                    @ApiIgnore @AuthenticationPrincipal Auth auth){
-
-
-        return ResponseEntity.ok().body(ownerService.updateOwner(memberUpdateDto,auth));
+        return ResponseEntity.ok(ownerService.readOwner(auth));
     }
 
-    @ApiOperation(value = "회원탈퇴", notes = "사장 회원탈퇴")
+    @ApiOperation(value = "회원 탈퇴 완료 요청", notes = "DB 에서 삭제하기 위한 탈퇴기능")
     @ApiResponses({@ApiResponse(code = 200, message = "회원 탈퇴 완료"),
                    @ApiResponse(code = 403, message = "권한 없음")})
     @PutMapping (value = "/")
