@@ -12,9 +12,4 @@ public class SidepotApplication {
     public static void main(String[] args) {
         SpringApplication.run(SidepotApplication.class, args);
     }
-
-
-
-
-
 }

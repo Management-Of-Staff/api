@@ -2,10 +2,10 @@ package com.example.sidepot.member.presentation;
 
 
 import com.example.sidepot.global.Path;
+import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.member.app.StaffService;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterRequestDto;
-import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -29,7 +29,7 @@ public class StaffController {
             @ApiResponse(code = 400, message = "제대로 기입"),
             @ApiResponse(code = 403, message = "권한 없음")})
     @PostMapping(value = "/register")
-    public ResponseEntity<MemberRegisterResponseDto> registerStaff(@RequestBody MemberRegisterRequestDto dto) {
+    public ResponseEntity<ResponseDto> registerStaff(@RequestBody MemberRegisterRequestDto dto) {
         return ResponseEntity.ok(staffService.registerStaff(dto));
     }
 
@@ -38,16 +38,16 @@ public class StaffController {
     @ApiResponses({@ApiResponse(code = 200, message = "사장 DB id"),
             @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/")
-    public ResponseEntity<?> readStaff(@ApiIgnore @AuthenticationPrincipal Auth auth) {
+    public ResponseEntity<ResponseDto> readStaff(@ApiIgnore @AuthenticationPrincipal Auth auth) {
         return ResponseEntity.ok(staffService.readStaff(auth));
     }
 
-    @ApiOperation(value = "회원 탈퇴 완료 요청", notes = "DB 에서 삭제하기 위한 탈퇴 기능")
-    @ApiResponses({@ApiResponse(code = 200, message = "회원 탈퇴 완료"),
-            @ApiResponse(code = 403, message = "권한 없음")})
-    @PutMapping(value = "/")
-    public ResponseEntity deleteStaff(@ApiIgnore @AuthenticationPrincipal Auth auth){
-        staffService.deleteStaff(auth);
-        return ResponseEntity.ok().build();
-    }
+//    @ApiOperation(value = "회원 탈퇴 완료 요청", notes = "DB 에서 삭제하기 위한 탈퇴 기능")
+//    @ApiResponses({@ApiResponse(code = 200, message = "회원 탈퇴 완료"),
+//            @ApiResponse(code = 403, message = "권한 없음")})
+//    @PutMapping(value = "/")
+//    public ResponseEntity deleteStaff(@ApiIgnore @AuthenticationPrincipal Auth auth){
+//        staffService.deleteStaff(auth);
+//        return ResponseEntity.ok().build();
+//    }
 }

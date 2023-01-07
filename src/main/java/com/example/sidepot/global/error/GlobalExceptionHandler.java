@@ -12,6 +12,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { Exception.class })
     protected ResponseEntity<ErrorResponseDto> handleCustomException(Exception e) {
-        return ErrorResponseDto.toResponseDto(e.getErrorCode());
+        return ErrorResponseDto.of(e.getErrorCode());
     }
 }

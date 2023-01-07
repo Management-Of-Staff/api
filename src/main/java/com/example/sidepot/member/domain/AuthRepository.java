@@ -20,15 +20,15 @@ public interface AuthRepository extends JpaRepository<Auth, Long> {
     boolean existsByPhoneAndDeleteDateIsNotNull(String phone);
 
     @Modifying(clearAutomatically = true)
-    @Query("update Auth m set m.birthDate = ?2, m.email = ?3 where m.id = ?1 ")
+    @Query("update Auth m set m.birthDate = ?2, m.email = ?3 where m.authId = ?1 ")
     Optional<Integer> updateMemberProfile(Long id, Date birthDate, String email);
 
     @Modifying(clearAutomatically = true)
-    @Query("update Auth m set m.phone = ?2 where m.id = ?1")
+    @Query("update Auth m set m.phone = ?2 where m.authId = ?1")
     Optional<Integer> updateMemberPhone(Long id, String phone);
 
     @Modifying(clearAutomatically = true)
-    @Query("update Auth m set m.password = ?2 where m.id = ?1")
+    @Query("update Auth m set m.password = ?2 where m.authId = ?1")
     Optional<Integer> updateMemberPassword(Long id, String password);
 
     @Modifying(clearAutomatically = true)

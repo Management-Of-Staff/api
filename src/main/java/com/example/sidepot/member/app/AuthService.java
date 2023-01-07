@@ -64,46 +64,58 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto updateMemberPassword(Auth auth, MemberUpdatePasswordRequestDto dto){
-        String newPassword = memberValidator.encodePassword(dto.getNewPassword());
+    public ResponseDto updateMemberPassword(Auth auth, MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto){
+        String newPassword = memberValidator.encodePassword(memberUpdatePasswordRequestDto.getNewPassword());
         authRepository.updateMemberPassword(auth.getAuthId(), newPassword)
                 .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PASSWORD));
 
         return ResponseDto.builder()
+                .path(String.format("rest/v1/auth/update-password"))
+                .method("POST")
+                .message(String.format("비밀번호 변경 성공"))
                 .statusCode(200)
-                .message("비밀번호 수정")
+                .data("")
                 .build();
     }
 
     @Transactional
-    public ResponseDto updateMemberPhone(Auth auth, MemberUpdatePhoneRequestDto dto){
-        if(authRepository.existsByPhone(auth.getPhone())){
+    public ResponseDto updateMemberPhone(Auth auth, MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto){
+        if(authRepository.existsByPhone(memberUpdatePhoneRequestDto.getPhone())){
             throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
-
-        authRepository.updateMemberPhone(auth.getAuthId(), dto.getPhone())
+        authRepository.updateMemberPhone(auth.getAuthId(), memberUpdatePhoneRequestDto.getPhone())
                 .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PHONE));
         return ResponseDto.builder()
+                .path(String.format("rest/v1/auth/update-phone"))
+                .method("POST")
+                .message(String.format("핸드폰 번호 수정 성공"))
                 .statusCode(200)
-                .message("핸드폰 번호 수정")
+                .data("")
                 .build();
     }
 
     @Transactional
-    public ResponseDto updateMemberProfile(Auth auth, MemberUpdateProfileRequestDto dto){
-        authRepository.updateMemberProfile(auth.getAuthId(), dto.getBirthDate(), dto.getEmail());
+    public ResponseDto updateMemberProfile(Auth auth, MemberUpdateProfileRequestDto memberUpdateProfileRequestDto){
+        authRepository.updateMemberProfile(auth.getAuthId(),
+                memberUpdateProfileRequestDto.getBirthDate(), memberUpdateProfileRequestDto.getEmail());
         return ResponseDto.builder()
+                .path(String.format("rest/v1/auth/update-profile"))
+                .method("POST")
+                .message(String.format("프로필 정보 수정 완료"))
                 .statusCode(200)
-                .message("업데이트 완료")
+                .data("")
                 .build();
     }
     @Transactional(readOnly = true)
-    public ResponseDto checkMemberPassword(Long authId, MemberCheckPasswordRequestDto dto){
+    public ResponseDto checkMemberPassword(Long authId, MemberCheckPasswordRequestDto memberCheckPasswordRequestDto){
         Auth auth = authRepository.findById(authId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
-        memberValidator.checkPassword(dto.getPassword(), auth.getPassword());
+        memberValidator.checkPassword(memberCheckPasswordRequestDto.getPassword(), auth.getPassword());
         return ResponseDto.builder()
+                .path(String.format("rest/v1/auth/check-password"))
+                .method("POST")
+                .message(String.format("비밀번호 확인 완료"))
                 .statusCode(200)
-                .method("비밀번호 확인")
+                .data("")
                 .build();
     }
 
@@ -111,8 +123,11 @@ public class AuthService {
     public ResponseDto withdrawalMember(Auth auth, LocalDate withdrawalDate){
         authRepository.updateMemberDeleteDate(auth.getAuthId(), withdrawalDate);
         return ResponseDto.builder()
+                .path(String.format("rest/v1/auth/withdrawal-member"))
+                .method("POST")
+                .message(String.format("회원탈퇴 처리 완료"))
                 .statusCode(200)
-                .method("탈퇴처리 완료")
+                .data("")
                 .build();
     }
 

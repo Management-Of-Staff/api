@@ -50,7 +50,7 @@ public class AuthController {
 
     @ApiOperation(value ="회원 정보 수정", notes = "마이페이지에서 회원 정보 수정")
     @PostMapping("/update-profile")
-    public ResponseEntity<?> updateProfile(@ApiIgnore @AuthenticationPrincipal Auth auth,
+    public ResponseEntity<ResponseDto> updateProfile(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                            @RequestPart(value="image",required = false) MultipartFile image,
                                            @RequestPart(value="updateProfile", required = true) MemberUpdateProfileRequestDto dto){
 
@@ -59,14 +59,14 @@ public class AuthController {
 
     @ApiOperation(value ="비밀 번호 수정", notes = "마이페이지에서 비밀번호 변경")
     @PostMapping("/update-password")
-    public ResponseEntity<?> updateMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
+    public ResponseEntity<ResponseDto> updateMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                   @RequestBody MemberUpdatePasswordRequestDto dto){
         return ResponseEntity.ok(authService.updateMemberPassword(auth, dto));
     }
 
     @ApiOperation(value ="핸드폰 번호 수정", notes = "마이페이지에서 핸드폰번호 변경")
     @PostMapping("/update-phone")
-    public ResponseEntity<?> updateMemberPhone(@ApiIgnore @AuthenticationPrincipal Auth auth,
+    public ResponseEntity<ResponseDto> updateMemberPhone(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                @RequestBody MemberUpdatePhoneRequestDto dto){
         return ResponseEntity.ok(authService.updateMemberPhone(auth, dto));
     }

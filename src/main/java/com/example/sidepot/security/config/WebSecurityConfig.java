@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -33,6 +35,7 @@ public class WebSecurityConfig {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
+            "/swagger-ui.html/**",
             "/webjars/**",
             /* swagger v3 */
             "/v3/api-docs/**",
@@ -48,13 +51,19 @@ public class WebSecurityConfig {
 
             /* 회원가입 */
             Path.REST_BASE_PATH + "/owners/register",
-            Path.REST_BASE_PATH + "/staffs/register",
+            Path.REST_BASE_PATH + "/staffs/register"
     };
 
     public WebSecurityConfig(AuthenticationManagerBuilder authenticationManagerBuilder,
                              JwtAuthenticationProvider jwtAuthenticationProvider) throws Exception {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.authenticationManagerBuilder.authenticationProvider(jwtAuthenticationProvider);
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return (web) -> web.ignoring().antMatchers(PERMIT_URL_ARRAY)
+                .antMatchers(PERMIT_URL_AUTH_ARRAY);
     }
 
     @Bean
@@ -70,12 +79,11 @@ public class WebSecurityConfig {
                 .httpBasic()
                     .disable()
                 .authorizeRequests()
-                    .antMatchers(PERMIT_URL_ARRAY).permitAll()
-                    .antMatchers(PERMIT_URL_AUTH_ARRAY).permitAll()
                     .antMatchers(Path.REST_BASE_PATH + "/auth/**").authenticated()
-                    .antMatchers(Path.REST_BASE_PATH + "/owners/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/staffs/**").hasAnyRole(ROLE_STAFF, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/work/**").hasAnyRole(ROLE_OWNER, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/owners/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/staffs/**").hasAnyAuthority(ROLE_STAFF, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/work/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
+                    .antMatchers(Path.REST_BASE_PATH + "/stores/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
                 .anyRequest().permitAll()
                 .and()
                     .headers().frameOptions().disable()

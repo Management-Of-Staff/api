@@ -17,23 +17,15 @@ public class MemberRegisterDto {
     @ApiModel(value = "MemberRegisterResponseDto")
     public static class MemberRegisterResponseDto {
 
-        private Long id;
-        private Long UUID;
         private String name;
         private String phone;
         private Role role;
-        private String email;
-        private Date birthDate;
 
         @Builder
-        public MemberRegisterResponseDto(Long id, Long UUID, String name, String phone, Role role, String email, Date birthDate) {
-            this.id = id;
-            this.UUID = UUID;
+        public MemberRegisterResponseDto(String name, String phone, Role role) {
             this.name = name;
             this.phone = phone;
             this.role = role;
-            this.email = email;
-            this.birthDate = birthDate;
         }
 
         public static MemberRegisterResponseDto from(Owner owner) {
