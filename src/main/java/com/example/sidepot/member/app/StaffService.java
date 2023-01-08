@@ -25,9 +25,9 @@ public class StaffService {
     private final MemberValidator memberValidator;
 
     @Transactional
-    public ResponseDto registerStaff(MemberRegisterRequestDto dto){
-        memberValidator.checkStaffDuplicate(dto.getPhone());
-        Staff staff = memberValidator.staffDtoToEntity(dto);
+    public ResponseDto registerStaff(MemberRegisterRequestDto memberRegisterRequestDto){
+        memberValidator.checkStaffDuplicate(memberRegisterRequestDto.getPhone());
+        Staff staff = memberValidator.staffDtoToEntity(memberRegisterRequestDto);
         staffRepository.save(staff);
 
         return ResponseDto.builder()

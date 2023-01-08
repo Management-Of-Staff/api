@@ -26,7 +26,6 @@ import java.time.LocalDate;
 public class AuthService {
 
     private final String GRANT_TYPE_BEARER = "Bearer";
-
     private final AuthRepository authRepository;
     private final MemberValidator memberValidator;
     private final TokenIssuer issuer;
@@ -35,7 +34,6 @@ public class AuthService {
 
         Auth auth = authRepository.findByPhone(memberLoginDto.getPhone())
                 .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
-
         memberValidator.checkPassword(memberLoginDto.getPassword(), auth.getPassword());
 
         return TokenDto.builder()
@@ -45,15 +43,13 @@ public class AuthService {
     }
 
     public TokenDto reissue(String token) {
-
-        Auth auth;
-
         String refreshToken = resolveToken(token);
         if (!StringUtils.hasText(refreshToken)) { log.info("올바르지 않은 헤더"); }
 
         Claims claims = issuer.parseRefreshClaims(refreshToken);
         if (claims == null) { log.info("토큰 오류"); }
 
+        Auth auth;
         auth = authRepository.findByPhone(claims.getSubject())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 

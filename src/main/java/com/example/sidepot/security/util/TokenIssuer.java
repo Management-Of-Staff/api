@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Slf4j
@@ -22,7 +24,7 @@ public class TokenIssuer {
     public static final String PLATFORM = "O_JIK";
     public static final String KEY_ROLE = "roles";
 
-    private SecretKey key;
+    private final SecretKey key;
 
     private final SidePotProperties sidePotProperties;
 
@@ -49,18 +51,27 @@ public class TokenIssuer {
         } catch (ExpiredJwtException expiredJwtException) {
             log.info("토큰이 만료되었습니다.");
         }
+        log.info("[토큰만료 시간] : " + claims.getExpiration());
         return claims;
     }
 
-    public String createAccessToken(Auth auth){
-        return createToken(auth, TokenType.ACCESS);
-    }
+    public String createAccessToken(Auth auth){return createToken(auth, TokenType.ACCESS);}
 
     public String createRefreshToken(Auth auth){
         return createToken(auth, TokenType.REFRESH);
     }
 
-    public String createToken(Auth auth, TokenType type){
+    public Date setExpiryTime(TokenType tokenType){
+        switch (tokenType){
+            case REFRESH:
+                return Date.from(Instant.now().plus(360, ChronoUnit.MINUTES));
+            case ACCESS:
+            default:
+                return Date.from(Instant.now().plus(180, ChronoUnit.MINUTES));
+        }
+    }
+
+    public String createToken(Auth auth, TokenType tokenType){
 
         return Jwts.builder()
                 .claim("userId", auth.getAuthId())
@@ -71,7 +82,7 @@ public class TokenIssuer {
                 .setSubject(auth.getPhone())
                 .setIssuer(PLATFORM)
                 .setIssuedAt(new Date())
-                .setExpiration(type.getExpiryTime())
+                .setExpiration(setExpiryTime(tokenType))
                 .compact();
     }
 }

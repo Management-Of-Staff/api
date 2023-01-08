@@ -52,31 +52,33 @@ public class AuthController {
     @PostMapping("/update-profile")
     public ResponseEntity<ResponseDto> updateProfile(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                            @RequestPart(value="image",required = false) MultipartFile image,
-                                           @RequestPart(value="updateProfile", required = true) MemberUpdateProfileRequestDto dto){
+                                           @RequestPart(value="updateProfile", required = true)
+                                                         MemberUpdateProfileRequestDto memberUpdateProfileRequestDto){
 
-        return ResponseEntity.ok(authService.updateMemberProfile(auth, dto));
+        return ResponseEntity.ok(authService.updateMemberProfile(auth, memberUpdateProfileRequestDto));
     }
 
     @ApiOperation(value ="비밀 번호 수정", notes = "마이페이지에서 비밀번호 변경")
     @PostMapping("/update-password")
     public ResponseEntity<ResponseDto> updateMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                                  @RequestBody MemberUpdatePasswordRequestDto dto){
-        return ResponseEntity.ok(authService.updateMemberPassword(auth, dto));
+                                                            @RequestBody MemberUpdatePasswordRequestDto
+                                                                    memberUpdatePasswordRequestDto){
+        return ResponseEntity.ok(authService.updateMemberPassword(auth, memberUpdatePasswordRequestDto));
     }
 
     @ApiOperation(value ="핸드폰 번호 수정", notes = "마이페이지에서 핸드폰번호 변경")
     @PostMapping("/update-phone")
     public ResponseEntity<ResponseDto> updateMemberPhone(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                               @RequestBody MemberUpdatePhoneRequestDto dto){
-        return ResponseEntity.ok(authService.updateMemberPhone(auth, dto));
+                                               @RequestBody MemberUpdatePhoneRequestDto
+                                                       memberUpdatePhoneRequestDto){
+        return ResponseEntity.ok(authService.updateMemberPhone(auth, memberUpdatePhoneRequestDto));
     }
 
     @ApiOperation(value = "비밀번호 번호 확인", notes = "비밀번호 변경화면에서 현재 비밀번호 체크")
     @PostMapping("/check-password")
     public ResponseEntity<ResponseDto> checkMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                                           @RequestBody MemberCheckPasswordRequestDto dto){
-
-        return ResponseEntity.ok(authService.checkMemberPassword(auth.getAuthId(), dto));
+                                                           @RequestBody MemberCheckPasswordRequestDto memberCheckPasswordRequestDto){
+        return ResponseEntity.ok(authService.checkMemberPassword(auth.getAuthId(), memberCheckPasswordRequestDto));
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "마이페이지에서 회원탈퇴 시 회원 탈퇴 요청")

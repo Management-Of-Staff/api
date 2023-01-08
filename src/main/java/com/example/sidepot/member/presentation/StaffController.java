@@ -29,8 +29,8 @@ public class StaffController {
             @ApiResponse(code = 400, message = "제대로 기입"),
             @ApiResponse(code = 403, message = "권한 없음")})
     @PostMapping(value = "/register")
-    public ResponseEntity<ResponseDto> registerStaff(@RequestBody MemberRegisterRequestDto dto) {
-        return ResponseEntity.ok(staffService.registerStaff(dto));
+    public ResponseEntity<ResponseDto> registerStaff(@RequestBody MemberRegisterRequestDto memberRegisterRequestDto) {
+        return ResponseEntity.ok(staffService.registerStaff(memberRegisterRequestDto));
     }
 
 

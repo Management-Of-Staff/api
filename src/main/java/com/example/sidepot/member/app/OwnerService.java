@@ -30,7 +30,6 @@ public class OwnerService {
         if(memberValidator.isDeletedMember(memberRegisterRequestDto.getPhone())){
            throw new Exception(ErrorCode.ALREADY_DELETED_MEMBER);
         }
-
         ownerRepository.save(owner);
 
         return ResponseDto.builder()
@@ -50,7 +49,6 @@ public class OwnerService {
     public ResponseDto readOwner(Auth auth){
         Owner owner = ownerRepository.findById(auth.getAuthId())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
-
 
         return ResponseDto.builder()
                 .path(String.format("rest/v1/owner/"))
