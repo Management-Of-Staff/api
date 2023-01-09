@@ -4,8 +4,8 @@ import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
-import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.example.sidepot.store.dto.StoreResponseDto;
+import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

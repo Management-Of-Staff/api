@@ -3,10 +3,10 @@ package com.example.sidepot.member.domain;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Getter
 @NoArgsConstructor
@@ -14,13 +14,12 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 public class Auth{
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authId;
 
     @Column(name = "uuid")
-    private Long UUID;
+    private String UUID;
 
     @Column(name = "email")
     private String email;
@@ -38,13 +37,13 @@ public class Auth{
     private Role role;
 
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "create_date")
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @Column(name = "delete_date")
-    private LocalDate deleteDate;
+    private LocalDateTime deleteDate;
 
     public Auth(Claims claims){
         this.authId = Long.valueOf(claims.get("userId").toString());
@@ -52,14 +51,17 @@ public class Auth{
         this.phone = claims.getSubject();
     }
 
-    public Auth(String name, String phone, String password, Role role){
+    public Auth(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate){
         this.name = name;
         this.phone = phone;
         this.password = password;
+        this.UUID = uuid;
         this.role = role;
+        this.createDate = createDate;
     }
 
-    public Auth(Long authId, Long UUID, String email, String name, String phone, String password, Role role, Date birthDate, LocalDate createDate, LocalDate deleteDate) {
+    public Auth(Long authId, String UUID, String email, String name, String phone, String password,
+                Role role, LocalDate birthDate, LocalDateTime createDate, LocalDateTime deleteDate) {
         this.authId = authId;
         this.UUID = UUID;
         this.email = email;

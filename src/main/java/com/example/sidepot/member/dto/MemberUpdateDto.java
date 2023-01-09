@@ -1,18 +1,13 @@
 package com.example.sidepot.member.dto;
 
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import lombok.*;
 
 public class MemberUpdateDto {
     @Data
     @NoArgsConstructor
     @ApiModel(value = "MemberUpdatePasswordRequestDto")
     public static class MemberUpdatePasswordRequestDto {
-
-        private String oldPassword;
         private String newPassword;
     }
 
@@ -20,7 +15,6 @@ public class MemberUpdateDto {
     @NoArgsConstructor
     @ApiModel(value = "MemberCheckPasswordRequestDto")
     public static class MemberCheckPasswordRequestDto{
-
         private String password;
     }
 
@@ -28,17 +22,17 @@ public class MemberUpdateDto {
     @NoArgsConstructor
     @ApiModel(value = "MemberUpdatePhoneRequestDto")
     public static class MemberUpdatePhoneRequestDto {
-
-        String UUID;
-        String phone;
+        private String UUID;
+        private String phone;
     }
 
-    @Data
+    @Getter
+    @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     @ApiModel(value = "MemberUpdateProfileRequestDto")
     public static class MemberUpdateProfileRequestDto {
-
-        private Date birthDate;
-        private String Email;
+        private String birthDate;
+        private String email;
     }
 }

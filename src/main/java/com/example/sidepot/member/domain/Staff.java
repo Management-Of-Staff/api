@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -16,9 +17,11 @@ import javax.persistence.Table;
 public class Staff extends Auth {
 
     @Builder
-    public Staff(String name, String phone, String password, Role role) {
-        super(name, phone, password, role);
+    public Staff(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate) {
+        super(name, phone, password, uuid, role, createDate);
     }
 
-    public static Staff of(String name, String phone, String password, Role role){ return new Staff(name, phone, password, role);}
+    public static Staff of(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate){
+        return new Staff(name, phone, password, uuid, role, createDate);}
+
 }

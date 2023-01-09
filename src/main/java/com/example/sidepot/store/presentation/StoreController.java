@@ -4,7 +4,6 @@ import com.example.sidepot.global.Path;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.store.app.StoreService;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
-import com.example.sidepot.store.dto.StoreResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

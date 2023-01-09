@@ -3,7 +3,7 @@ package com.example.sidepot.member.util;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.member.domain.*;
-import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterRequestDto;
+import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -40,12 +40,14 @@ public class MemberValidator {
     }
     @Transactional(readOnly = true)
     public Owner ownerDtoToEntity(MemberRegisterRequestDto ownerDto){
-        return Owner.of(ownerDto.getName(), ownerDto.getPhone(), encodePassword(ownerDto.getPassword()), ownerDto.getRole());
+        return Owner.of(ownerDto.getName(), ownerDto.getPhone(), encodePassword(ownerDto.getPassword()),
+                        ownerDto.getUuid(),ownerDto.getRole(),ownerDto.getCreateDate());
     }
 
     @Transactional(readOnly = true)
     public Staff staffDtoToEntity(MemberRegisterRequestDto staffDto){
-        return Staff.of(staffDto.getName(), staffDto.getPhone(), encodePassword(staffDto.getPassword()), staffDto.getRole());
+        return Staff.of(staffDto.getName(), staffDto.getPhone(), encodePassword(staffDto.getPassword()),
+                        staffDto.getUuid(), staffDto.getRole(), staffDto.getCreateDate());
     }
 
     public String encodePassword(String password){

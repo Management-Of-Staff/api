@@ -10,7 +10,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -19,22 +19,21 @@ import java.util.Date;
 @DiscriminatorValue("owner")
 @Table(name = "owner")
 public class Owner extends Auth {
-
     @Setter
     private String testCode;
+
     @Builder
-    public Owner(Long id, Long UUID, String email, String name, String phone, String password, Role role,
-                 Date birthDate, LocalDate createDate, LocalDate deleteDate, String testCode) {
+    public Owner(Long id, String UUID, String email, String name, String phone, String password, Role role,
+                 LocalDate birthDate, LocalDateTime createDate, LocalDateTime deleteDate, String testCode) {
         super(id, UUID, email, name, phone, password, role, birthDate, createDate, deleteDate);
         this.testCode = testCode;
     }
 
-    @Builder
-    public Owner(String name, String phone, String password, Role role) {
-        super(name, phone, password, role);
+    public Owner(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate) {
+        super(name, phone, password, uuid, role, createDate);
     }
 
-    public static Owner of(String name, String phone, String password, Role role){
-        return new Owner(name, phone, password, role);
+    public static Owner of(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate){
+        return new Owner(name, phone, password, uuid, role, createDate);
     }
 }

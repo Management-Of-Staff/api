@@ -3,10 +3,10 @@ package com.example.sidepot.member.app;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
+import com.example.sidepot.member.dto.MemberReadDto;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.domain.StaffRepository;
-import com.example.sidepot.member.dto.MemberReadDto.*;
 import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import com.example.sidepot.member.util.MemberValidator;
 import lombok.RequiredArgsConstructor;
@@ -49,21 +49,21 @@ public class StaffService {
                 .method("POST")
                 .message(String.format("직원 정보 조회 완료"))
                 .statusCode(200)
-                .data(StaffReadResponseDto.builder()
-                        .phone(staff.getPhone())
-                        .name(staff.getName())
-                        .UUID(staff.getUUID())
-                        .role(staff.getRole())
-                        .email(staff.getEmail())
-                        .birthDate(staff.getBirthDate())
-                        .build())
+                .data(MemberReadDto.StaffReadResponseDto.from(staff))
                 .build();
 
        
     }
 
-//    @Transactional
-//    public void deleteStaff(Auth auth){
-//        staffRepository.deleteById(auth.getAuthId());
-//    }
+    @Transactional
+    public ResponseDto deleteStaff(Auth auth){
+        staffRepository.deleteById(auth.getAuthId());
+        return ResponseDto.builder()
+                .path(String.format("rest/v1/staffs/"))
+                .method("DELETE")
+                .message(String.format("직원 회원탈퇴 완료"))
+                .statusCode(200)
+                .data("")
+                .build();
+    }
 }

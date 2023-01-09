@@ -3,16 +3,17 @@ package com.example.sidepot.member.app;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
+import com.example.sidepot.member.dto.MemberReadDto.*;
+import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.member.domain.OwnerRepository;
-import com.example.sidepot.member.dto.MemberReadDto.*;
-import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import com.example.sidepot.member.util.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 @RequiredArgsConstructor
@@ -37,39 +38,35 @@ public class OwnerService {
                 .method("POST")
                 .message(String.format("사장님 회원가입 완료"))
                 .statusCode(200)
-                .data(MemberRegisterResponseDto.builder()
-                        .phone(owner.getPhone())
-                        .name(owner.getName())
-                        .role(owner.getRole())
-                        .build())
+                .data("")
                 .build();
     }
 
     @Transactional(readOnly = true)
-    public ResponseDto readOwner(Auth auth){
+    public ResponseDto readOwner(Auth auth, HttpServletRequest request){
         Owner owner = ownerRepository.findById(auth.getAuthId())
                 .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
 
         return ResponseDto.builder()
-                .path(String.format("rest/v1/owner/"))
-                .method("GET")
+                .path(request.getServletPath())
+                .method(request.getMethod())
                 .message(String.format("사장님 개인정보 조회 완료"))
                 .statusCode(200)
-                .data(OwnerReadResponseDto.builder()
-                        .phone(owner.getPhone())
-                        .name(owner.getName())
-                        .UUID(owner.getUUID())
-                        .role(owner.getRole())
-                        .email(owner.getEmail())
-                        .birthDate(owner.getBirthDate())
-                        .build())
+                .data(OwnerReadResponseDto.from(owner))
                 .build();
 
     }
 
-//    @Transactional
-//    public void deleteOwner(Auth auth){
-//         ownerRepository.deleteById(auth.getAuthId());
-//    }
+    @Transactional
+    public ResponseDto deleteOwner(Auth auth){
+         ownerRepository.deleteById(auth.getAuthId());
+         return ResponseDto.builder()
+                 .path(String.format("rest/v1/staffs/"))
+                 .method("DELETE")
+                 .message(String.format("회원탈퇴 완료"))
+                 .statusCode(200)
+                 .data("")
+                 .build();
+    }
 }
 

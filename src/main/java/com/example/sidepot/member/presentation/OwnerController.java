@@ -3,9 +3,8 @@ package com.example.sidepot.member.presentation;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.member.app.OwnerService;
+import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import com.example.sidepot.member.domain.Auth;
-import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterRequestDto;
-import com.example.sidepot.member.dto.MemberRegisterDto.MemberRegisterResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @Slf4j
@@ -40,16 +41,16 @@ public class OwnerController {
     @ApiResponses({@ApiResponse(code = 200, message = "사장 DB id"),
                    @ApiResponse(code = 403, message = "권한 없음")})
     @GetMapping(value ="/")
-    public ResponseEntity<ResponseDto> readOwner(@ApiIgnore @AuthenticationPrincipal Auth auth) {
-        return ResponseEntity.ok(ownerService.readOwner(auth));
+    public ResponseEntity<ResponseDto> readOwner(@ApiIgnore @AuthenticationPrincipal Auth auth, HttpServletRequest request) {
+        return ResponseEntity.ok(ownerService.readOwner(auth, request));
     }
 
-//    @ApiOperation(value = "회원 탈퇴 완료 요청", notes = "DB 에서 삭제하기 위한 탈퇴기능")
-//    @ApiResponses({@ApiResponse(code = 200, message = "회원 탈퇴 완료"),
-//                   @ApiResponse(code = 403, message = "권한 없음")})
-//    @PutMapping (value = "/")
-//    public ResponseEntity deleteOwner(@ApiIgnore @AuthenticationPrincipal Auth auth){
-//        ownerService.deleteOwner(auth);
-//        return ResponseEntity.ok().build();
-//    }
+    @ApiOperation(value = "회원 탈퇴(사용x)", notes = "테스트를 위한 탈퇴 기능")
+    @ApiResponses({@ApiResponse(code = 200, message = "회원 탈퇴 완료"),
+                   @ApiResponse(code = 403, message = "권한 없음")})
+    @DeleteMapping (value = "/")
+    public ResponseEntity<ResponseDto> deleteOwner(@ApiIgnore @AuthenticationPrincipal Auth auth){
+
+        return ResponseEntity.ok(ownerService.deleteOwner(auth));
+    }
 }

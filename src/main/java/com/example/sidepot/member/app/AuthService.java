@@ -4,10 +4,10 @@ package com.example.sidepot.member.app;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
+import com.example.sidepot.member.dto.MemberUpdateDto;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.AuthRepository;
 import com.example.sidepot.member.dto.AuthDto.*;
-import com.example.sidepot.member.dto.MemberUpdateDto.*;
 import com.example.sidepot.member.util.MemberValidator;
 import com.example.sidepot.security.util.TokenIssuer;
 import io.jsonwebtoken.Claims;
@@ -16,8 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Slf4j
@@ -31,7 +32,9 @@ public class AuthService {
     private final TokenIssuer issuer;
 
     public TokenDto login(MemberLoginDto memberLoginDto)  {
-
+        if(memberValidator.isDeletedMember(memberLoginDto.getPhone())){
+            throw new Exception(ErrorCode.ALREADY_DELETED_MEMBER);
+        }
         Auth auth = authRepository.findByPhone(memberLoginDto.getPhone())
                 .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         memberValidator.checkPassword(memberLoginDto.getPassword(), auth.getPassword());
@@ -60,7 +63,7 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto updateMemberPassword(Auth auth, MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto){
+    public ResponseDto updateMemberPassword(Auth auth, MemberUpdateDto.MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto){
         String newPassword = memberValidator.encodePassword(memberUpdatePasswordRequestDto.getNewPassword());
         authRepository.updateMemberPassword(auth.getAuthId(), newPassword)
                 .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PASSWORD));
@@ -75,11 +78,13 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto updateMemberPhone(Auth auth, MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto){
+    public ResponseDto updateMemberPhone(Auth auth, MemberUpdateDto.MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto){
         if(authRepository.existsByPhone(memberUpdatePhoneRequestDto.getPhone())){
             throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
-        authRepository.updateMemberPhone(auth.getAuthId(), memberUpdatePhoneRequestDto.getPhone())
+        authRepository.updateMemberPhone(auth.getAuthId(),
+                                         memberUpdatePhoneRequestDto.getPhone(),
+                                         memberUpdatePhoneRequestDto.getUUID())
                 .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PHONE));
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/update-phone"))
@@ -91,9 +96,11 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto updateMemberProfile(Auth auth, MemberUpdateProfileRequestDto memberUpdateProfileRequestDto){
+    public ResponseDto updateMemberProfile(Auth auth, MemberUpdateDto.MemberUpdateProfileRequestDto memberUpdateProfileRequestDto){
+
         authRepository.updateMemberProfile(auth.getAuthId(),
-                memberUpdateProfileRequestDto.getBirthDate(), memberUpdateProfileRequestDto.getEmail());
+                                           LocalDate.parse(memberUpdateProfileRequestDto.getBirthDate(),DateTimeFormatter.ISO_LOCAL_DATE),
+                                           memberUpdateProfileRequestDto.getEmail());
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/update-profile"))
                 .method("POST")
@@ -103,7 +110,7 @@ public class AuthService {
                 .build();
     }
     @Transactional(readOnly = true)
-    public ResponseDto checkMemberPassword(Long authId, MemberCheckPasswordRequestDto memberCheckPasswordRequestDto){
+    public ResponseDto checkMemberPassword(Long authId, MemberUpdateDto.MemberCheckPasswordRequestDto memberCheckPasswordRequestDto){
         Auth auth = authRepository.findById(authId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         memberValidator.checkPassword(memberCheckPasswordRequestDto.getPassword(), auth.getPassword());
         return ResponseDto.builder()
@@ -116,8 +123,8 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto withdrawalMember(Auth auth, LocalDate withdrawalDate){
-        authRepository.updateMemberDeleteDate(auth.getAuthId(), withdrawalDate);
+    public ResponseDto withdrawalMember(Auth auth){
+        authRepository.updateMemberDeleteDate(auth.getAuthId(), LocalDateTime.now());
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/withdrawal-member"))
                 .method("POST")
