@@ -1,5 +1,6 @@
 package com.example.sidepot.store.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -19,20 +20,28 @@ public class TodoList {
     @Column(name = "todo_list_id")
     private Long todoListId;
 
-    @OneToMany
-    @Column(name = "todo_list_detail")
-    private List<TodoListDetail> todoListDetail = new ArrayList<>();
+    @Column(name = "todo_list_title")
+    private String todoListTitle;
+
+    @OneToMany(mappedBy = "todoList")
+    private List<TodoListDetail> todoListDetailList = new ArrayList<>();
 
     @Column(name = "task_start_time")
     private LocalDateTime taskStartTime;
 
-    @OneToMany
-    @Column(name = "manager")
-    private List<ScheduleManager> manager = new ArrayList<>();
+    @OneToMany(mappedBy = "todoList")
+    private List<ScheduleManager> scheduleManagerList = new ArrayList<>();
 
-    @Column(name = "complete_time")
-    private LocalDateTime completeTime;
+    @Column(name = "store_id")
+    private Long storeId;
 
-    @Column(name = "complete_check")
-    private String completeCheck;
+    @Builder
+    public TodoList(Long storeId, List<TodoListDetail> todoListDetailList, LocalDateTime taskStartTime, List<ScheduleManager> scheduleManagerList, String todoListTitle) {
+        this.storeId = storeId;
+        this.todoListDetailList = todoListDetailList;
+        this.scheduleManagerList = scheduleManagerList;
+        this.taskStartTime = taskStartTime;
+        this.todoListTitle = todoListTitle;
+    }
+
 }
