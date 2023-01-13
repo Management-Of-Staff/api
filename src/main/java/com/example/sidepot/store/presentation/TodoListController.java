@@ -4,6 +4,7 @@ import com.example.sidepot.global.Path;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.store.app.TodoListService;
 import com.example.sidepot.store.dto.TodoListCreateDto;
+import com.example.sidepot.store.dto.TodoListResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,4 +28,28 @@ public class TodoListController {
                                          ){
         return ResponseEntity.ok(todoListService.createTodoList(todoListCreateDto));
     }
+
+    @GetMapping("/todoList")
+    @ApiOperation(value = "[해야할일] 2. 해야할일 모두 조회", notes = "해야할일을 모두 조회하는 API")
+    public ResponseEntity readAllTodoLists(@ApiIgnore @AuthenticationPrincipal final Auth auth,
+                                         @RequestParam Long storeId
+    ){
+        return ResponseEntity.ok(todoListService.readAllTodoList(storeId));
+    }
+
+    @GetMapping("/todoList/{todoListId}")
+    @ApiOperation(value = "[해야할일] 3. 해야할일 상세 조회", notes = "해야할일을 상세 조회하는 API")
+    public ResponseEntity findTodoList(@ApiIgnore @AuthenticationPrincipal final Auth auth,
+                                           @PathVariable Long todoListId
+    ){
+        return ResponseEntity.ok(todoListService.findTodoListByTodoListId(todoListId));
+    }
+//    @PostMapping("/todoList/{todoListId}")
+//    @ApiOperation(value = "[해야할일] 1. 해야할일 생성", notes = "해야할일을 생성하는 API")
+//    public ResponseEntity updateTodoList(@ApiIgnore @AuthenticationPrincipal final Auth auth,
+//                                         @RequestBody TodoListResponseDto todoListResponseDto
+//    ){
+//        return ResponseEntity.ok(todoListService.updateTodoList(todoListResponseDto));
+//    }
+
 }

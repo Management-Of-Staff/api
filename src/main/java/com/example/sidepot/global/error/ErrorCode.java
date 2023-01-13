@@ -26,6 +26,7 @@ public enum ErrorCode {
     MAIL_ADDRESS_PARSING_FAIL(HttpStatus.UNAUTHORIZED.value(), "잘못된 메일 주소입니다"),
     UNAUTHORIZED_ERROR(HttpStatus.UNAUTHORIZED.value(), "권한이 없습니다."),
 
+    NOT_FOUND_TODO_LIST(HttpStatus.BAD_REQUEST.value(),"해야할일이 없음");
 
     ;
 

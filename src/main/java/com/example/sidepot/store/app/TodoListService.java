@@ -1,10 +1,16 @@
 package com.example.sidepot.store.app;
 
 import com.example.sidepot.global.dto.ResponseDto;
+import com.example.sidepot.global.error.ErrorCode;
+import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.store.domain.*;
 import com.example.sidepot.store.dto.TodoListCreateDto;
+import com.example.sidepot.store.dto.TodoListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +38,39 @@ public class TodoListService {
                 .build();
     }
 
-    public ResponseDto readTodoList(){
+    public ResponseDto readAllTodoList(Long storeId){
+        List<TodoList> todoLists = todoListRepository.getAllByStoreId(storeId)
+                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_TODO_LIST));
         return ResponseDto.builder()
                 .path(String.format("rest/v1/todoList"))
                 .method("GET")
                 .message(String.format("해야할일 조회 성공"))
                 .statusCode(200)
-                .data("")
+                .data(TodoListResponseDto.fromList(todoLists))
                 .build();
     }
+
+    public ResponseDto findTodoListByTodoListId(Long todoListId){
+        TodoList todoList = todoListRepository.getTodoListByTodoListId(todoListId)
+                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_TODO_LIST));
+        TodoListResponseDto todoListResponseDto = TodoListResponseDto.from(todoList);
+        return ResponseDto.builder()
+                .path(String.format("rest/v1/todoList"))
+                .method("GET")
+                .message(String.format("해야할일 상세 조회 성공"))
+                .statusCode(200)
+                .data(todoListResponseDto)
+                .build();
+    }
+
+//    public ResponseDto updateTodoList(TodoListResponseDto todoListResponseDto){
+//        todoListResponseDto.
+//        return ResponseDto.builder()
+//                .path(String.format("rest/v1/todoList"))
+//                .method("POST")
+//                .message(String.format("해야할일 수정 성공"))
+//                .statusCode(200)
+//                .data(todoList)
+//                .build();
+//    }
 }
