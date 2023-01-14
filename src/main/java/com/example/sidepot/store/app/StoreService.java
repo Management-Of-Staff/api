@@ -7,6 +7,8 @@ import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.store.dto.StoreResponseDto;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -50,6 +52,7 @@ public class StoreService {
                 .build();
     }
 
+    @Transactional
     public ResponseDto deleteStore(Long storeId){
         storeRepository.deleteByStoreId(storeId);
         return ResponseDto.builder()
