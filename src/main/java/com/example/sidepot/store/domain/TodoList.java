@@ -1,13 +1,15 @@
 package com.example.sidepot.store.domain;
 
+import com.example.sidepot.store.dto.TodoListUpdateDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Getter
 @Table(name = "todo_list")
@@ -43,5 +45,22 @@ public class TodoList {
         this.taskStartTime = taskStartTime;
         this.todoListTitle = todoListTitle;
     }
+
+    public void updateTodoListDetail(List<TodoListDetail> todoListDetailList){
+        this.todoListDetailList.clear();
+        this.todoListDetailList.addAll(todoListDetailList);
+        for( TodoListDetail todoListDetail : todoListDetailList) {
+            todoListDetail.update(this);
+        }
+    }
+
+    public void updateTodoList(TodoList todoList, TodoListUpdateDto todoListUpdateDto){
+        this.todoListTitle = todoListUpdateDto.getTodoListTitle();
+        this.todoListDetailList = updateTodoListDetail( TodoListDetail.ofList(todoList, todoListUpdateDto.getTodoListDetailUpdateDtoList()));
+        this.taskStartTime = todoListUpdateDto.getTaskStartTime();
+        this.scheduleManagerList =
+    }
+
+
 
 }

@@ -6,8 +6,10 @@ import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.store.domain.*;
 import com.example.sidepot.store.dto.TodoListCreateDto;
 import com.example.sidepot.store.dto.TodoListResponseDto;
+import com.example.sidepot.store.dto.TodoListUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,14 +65,18 @@ public class TodoListService {
                 .build();
     }
 
-//    public ResponseDto updateTodoList(TodoListResponseDto todoListResponseDto){
-//        todoListResponseDto.
-//        return ResponseDto.builder()
-//                .path(String.format("rest/v1/todoList"))
-//                .method("POST")
-//                .message(String.format("해야할일 수정 성공"))
-//                .statusCode(200)
-//                .data(todoList)
-//                .build();
-//    }
+    @Transactional
+    public ResponseDto updateTodoList(TodoListUpdateDto todoListUpdateDto){
+
+        TodoList todoList = todoListRepository.getTodoListByTodoListId(todoListUpdateDto.getTodoListId())
+                .orElseThrow(()-> new Exception(ErrorCode.NOT_FOUND_TODO_LIST));
+        todoList.updateTodoList(todoList, todoListUpdateDto);
+        return ResponseDto.builder()
+                .path(String.format("rest/v1/todoList"))
+                .method("POST")
+                .message(String.format("해야할일 수정 성공"))
+                .statusCode(200)
+                .data(todoList)
+                .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.sidepot.store.domain;
 
+import com.example.sidepot.store.dto.TodoListUpdateDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.sidepot.store.dto.TodoListCreateDto.*;
+import static com.example.sidepot.store.dto.TodoListUpdateDto.*;
 
 @Getter
 @NoArgsConstructor
@@ -51,6 +53,17 @@ public class TodoListDetail {
 
     public static List<TodoListDetail> ofList(TodoList todoList, List<TodoListDetailCreateDto> todoListDetailCreateDtoList){
         return todoListDetailCreateDtoList.stream().map(todoListDetailCreateDto -> of(todoList, todoListDetailCreateDto)).collect(Collectors.toList());
+    }
+
+
+    public static List<TodoListDetail> ofListUpdate(TodoList todoList, List<TodoList> todoListDetailCreateDtoList){
+        return todoListDetailCreateDtoList.stream().map(todoListDetailCreateDto -> of(todoList, todoListDetailCreateDto)).collect(Collectors.toList());
+    }
+
+
+
+    public void update(TodoListDetail todoListDetail){
+        this.todoListDetail = todoListDetail.getTodoListDetail();
     }
 
 }
