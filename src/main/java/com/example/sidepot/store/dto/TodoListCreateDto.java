@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 public class TodoListCreateDto {
 
-    private Long storeId;
     private String todoListTitle;
     private List<ManagerCreateDto> managerCreateDtoList;
     private LocalDateTime taskStartTime;
@@ -16,12 +15,16 @@ public class TodoListCreateDto {
 
     @Getter
     public static class ManagerCreateDto{
+        private Long managerId;
         private Long staffId;
         private String mangerName;
     }
 
     @Getter
     public static class TodoListDetailCreateDto{
+        private Long todoListDetailId;
         private String todoListDetail;
+        private String completeCheck;
+        private LocalDateTime completeTime;
     }
 }

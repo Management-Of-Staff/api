@@ -1,13 +1,7 @@
-buildscript { // 이놈
-	ext {
-		queryDslVersion = "5.0.0"
-	}
-}
 plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 
@@ -78,35 +72,8 @@ dependencies {
 
     runtimeOnly group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.5'
 
-    // querydsl 이놈
-    	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 }
 
 test{
     useJUnitPlatform()
 }
-
-//이놈
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl { //이놈
-	jpa = true
-	querydslSourcesDir = querydslDir
-}
-
-sourceSets { //이놈
-	main.java.srcDir querydslDir
-}
-
-configurations { // 이놈
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-	querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl { // 이놈
-	options.annotationProcessorPath = configurations.querydsl
-}
-

@@ -1,6 +1,5 @@
 package com.example.sidepot.store.domain;
 
-import com.example.sidepot.store.dto.TodoListUpdateDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.sidepot.store.dto.TodoListCreateDto.*;
-import static com.example.sidepot.store.dto.TodoListUpdateDto.*;
 
 @Getter
 @NoArgsConstructor
@@ -38,9 +36,11 @@ public class TodoListDetail {
     private TodoList todoList;
 
     @Builder
-    public TodoListDetail(TodoList todoList, String todoListDetail){
+    public TodoListDetail(TodoList todoList, String todoListDetail, LocalDateTime completeTime, String completeCheck){
         this.todoListDetail = todoListDetail;
         this.todoList = todoList;
+        this.completeTime = completeTime;
+        this.completeCheck = completeCheck;
 
     }
 
@@ -48,6 +48,8 @@ public class TodoListDetail {
         return TodoListDetail.builder()
                 .todoListDetail(todoListDetailCreateDto.getTodoListDetail())
                 .todoList(todoList)
+                .completeTime(todoListDetailCreateDto.getCompleteTime())
+                .completeCheck(todoListDetailCreateDto.getCompleteCheck())
                 .build();
     }
 
@@ -55,15 +57,11 @@ public class TodoListDetail {
         return todoListDetailCreateDtoList.stream().map(todoListDetailCreateDto -> of(todoList, todoListDetailCreateDto)).collect(Collectors.toList());
     }
 
-
-    public static List<TodoListDetail> ofListUpdate(TodoList todoList, List<TodoList> todoListDetailCreateDtoList){
-        return todoListDetailCreateDtoList.stream().map(todoListDetailCreateDto -> of(todoList, todoListDetailCreateDto)).collect(Collectors.toList());
-    }
-
-
-
-    public void update(TodoListDetail todoListDetail){
+    public void update(TodoList todoList, TodoListDetail todoListDetail){
         this.todoListDetail = todoListDetail.getTodoListDetail();
+        this.completeCheck = todoListDetail.getCompleteCheck();
+        this.completeTime = todoListDetail.getCompleteTime();
+        this.todoList = todoList;
     }
 
 }

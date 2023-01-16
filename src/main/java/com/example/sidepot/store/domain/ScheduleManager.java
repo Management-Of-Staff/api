@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 
 @Getter
-@Table(name = "manager")
+@Table(name = "schedule_manager")
 @NoArgsConstructor
 @Entity
 public class ScheduleManager {
@@ -50,5 +50,10 @@ public class ScheduleManager {
 
     public static List<ScheduleManager> ofList(TodoList todoList, List<ManagerCreateDto> managerCreateDtoList){
         return managerCreateDtoList.stream().map(managerCreateDto -> of(todoList, managerCreateDto)).collect(Collectors.toList());
+    }
+
+    public void update(TodoList todoList, ScheduleManager scheduleManager) {
+        this.todoList = todoList;
+        this.name = scheduleManager.getName();
     }
 }

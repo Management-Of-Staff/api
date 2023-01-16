@@ -35,7 +35,7 @@ public class TodoListResponseDto {
     public static TodoListResponseDto from(TodoList todoList){
         return TodoListResponseDto.builder()
                 .todoListId(todoList.getTodoListId())
-                .storeId(todoList.getStoreId())
+                .storeId(todoList.getStore().getStoreId())
                 .todoListTitle(todoList.getTodoListTitle())
                 .taskStartTime(todoList.getTaskStartTime())
                 .managerResponseDtoList(ManagerResponseDto.fromList(todoList.getScheduleManagerList()))
