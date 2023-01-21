@@ -12,6 +12,7 @@ import org.apache.catalina.Manager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.sidepot.store.dto.TodoListCreateDto.*;
@@ -48,8 +49,8 @@ public class TodoListService {
     public ResponseDto readAllTodoList(Long storeId){
         Store store = storeRepository.getByStoreId(storeId)
                 .orElseThrow(()-> new Exception(ErrorCode.NOT_FOUND_STORE));
-        List<TodoList> todoLists = todoListRepository.getAllByStore(store)
-                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_TODO_LIST));
+        List<TodoList> todoLists = todoListRepository.getAllByStore(store);
+        todoLists = todoLists != null ? todoLists : Collections.emptyList();
         return ResponseDto.builder()
                 .path(String.format("rest/v1/todoList"))
                 .method("GET")

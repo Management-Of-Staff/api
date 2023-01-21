@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface TodoListRepository extends JpaRepository<TodoList, Long> {
-    Optional<List<TodoList>> getAllByStore(Store store);
+    List<TodoList> getAllByStore(Store store);
     Optional<TodoList> getTodoListByTodoListId(Long todoListId);
 }
