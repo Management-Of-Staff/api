@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url : jdbc:mysql://${DB_URL:localhost:33306/ozik}?allowMultiQueries=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
+    url: jdbc:mysql://${DB_URL:svc.gksl2.cloudtype.app:30596/ozik}?allowMultiQueries=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
     username: ${DB_USER:root}
     password: ${DB_PASSWORD:root}
   jpa:
