@@ -3,9 +3,11 @@ package com.example.sidepot.store.domain;
 
 import com.example.sidepot.member.domain.Employment;
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,6 +61,10 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<Employment> employmentId;
 
+    @OneToMany
+    private List<TodoList> todoLists = new ArrayList<>();
+
+    @Builder
     public Store(Long ownerId, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String lateTime) {
         this.ownerId = ownerId;
         this.storeName = storeName;

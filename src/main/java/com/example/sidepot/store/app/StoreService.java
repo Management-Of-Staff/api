@@ -6,22 +6,18 @@ import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.store.dto.StoreResponseDto;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class StoreService {
-
     private final StoreRepository storeRepository;
 
-    public StoreService(StoreRepository storeRepository) {
-        this.storeRepository = storeRepository;
-    }
-
     public ResponseDto createStore(Auth auth, StoreCreateRequestDto storeCreateRequestDto){
-
 
         storeRepository.save(new Store(auth.getAuthId(),
                 storeCreateRequestDto.getStoreName(),

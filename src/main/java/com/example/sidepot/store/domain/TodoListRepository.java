@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface StoreRepository extends JpaRepository<Store, Long> {
-    List<Store> findAllByOwnerId(Long ownerId);
-    Optional<Store> getByStoreId(Long storeId);
-    void deleteByStoreId(Long storeId);
-
+public interface TodoListRepository extends JpaRepository<TodoList, Long> {
+    List<TodoList> getAllByStore(Store store);
+    Optional<TodoList> getTodoListByTodoListId(Long todoListId);
 }
