@@ -1,6 +1,8 @@
 package com.example.sidepot.store.app;
 
 import com.example.sidepot.global.dto.ResponseDto;
+import com.example.sidepot.global.error.ErrorCode;
+import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
@@ -55,6 +57,20 @@ public class StoreService {
                 .path(String.format("rest/v1/stores"))
                 .method("DELETE")
                 .message(String.format("매장 삭제 성공"))
+                .statusCode(200)
+                .data("")
+                .build();
+    }
+
+    @Transactional
+    public ResponseDto updateStore(Long storeId, StoreCreateRequestDto storeCreateRequestDto){
+        Store store = storeRepository.getByStoreId(storeId).orElseThrow(()-> new Exception(ErrorCode.NOT_FOUND_STORE));
+        store.update(storeCreateRequestDto);
+        storeRepository.save(store);
+        return ResponseDto.builder()
+                .path(String.format("rest/v1/stores"))
+                .method("PUT")
+                .message(String.format("매장 수정 성공"))
                 .statusCode(200)
                 .data("")
                 .build();

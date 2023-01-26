@@ -2,6 +2,7 @@ package com.example.sidepot.store.domain;
 
 
 import com.example.sidepot.member.domain.Employment;
+import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -74,5 +75,15 @@ public class Store {
         this.lateTime = lateTime;
         this.primaryAddress = primaryAddress;
         this.storeClassification = storeClassifiacation;
+    }
+
+    public void update(StoreCreateRequestDto storeCreateRequestDto){
+        this.storeName = storeCreateRequestDto.getStoreName();
+        this.branchName = storeCreateRequestDto.getBranchName();
+        this.detailAddress = storeCreateRequestDto.getDetailAddress();
+        this.earlyLeaveTime = storeCreateRequestDto.getEarlyLeaveTime();
+        this.lateTime = storeCreateRequestDto.getLateTime();
+        this.primaryAddress = storeCreateRequestDto.getPrimaryAddress();
+        this.storeClassification = storeCreateRequestDto.getStoreClassifiacation();
     }
 }

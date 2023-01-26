@@ -12,6 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "매장 관련 APIs")
@@ -38,6 +40,14 @@ public class StoreController {
     public ResponseEntity deleteStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
                                       @PathVariable final Long storeId){
         return ResponseEntity.ok(storeService.deleteStore(storeId));
+    }
+
+    @PostMapping("/stores/{storeId}")
+    @ApiOperation(value = "[매장관리] 4. 매장 수정", notes = "오너가 가진 매장을 수정하는 API")
+    public ResponseEntity updateStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
+                                      @PathVariable final Long storeId,
+                                      @RequestBody StoreCreateRequestDto storeCreateRequestDto){
+        return ResponseEntity.ok(storeService.updateStore(storeId, storeCreateRequestDto ));
     }
 
 }
