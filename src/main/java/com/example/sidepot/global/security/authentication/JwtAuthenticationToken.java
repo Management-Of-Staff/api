@@ -1,4 +1,4 @@
-package com.example.sidepot.security.authentication;
+package com.example.sidepot.global.security.authentication;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,4 +1,4 @@
-package com.example.sidepot.security;
+package com.example.sidepot.global.security;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

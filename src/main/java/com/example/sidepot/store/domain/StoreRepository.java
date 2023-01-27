@@ -8,8 +8,9 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    List<Store> findAllByOwnerId(Long ownerId);
+    List<Store> findAllByOwner_AuthId(Long ownerId);
     Optional<Store> getByStoreId(Long storeId);
     void deleteByStoreId(Long storeId);
+    Optional<Store> findByOwner_AuthIdAndStoreId(Long OwnerId, Long StoreId);
 
 }

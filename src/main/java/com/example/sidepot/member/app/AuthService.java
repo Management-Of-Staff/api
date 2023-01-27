@@ -1,24 +1,29 @@
 package com.example.sidepot.member.app;
 
 
+import com.example.sidepot.global.FileService;
+import com.example.sidepot.global.FileType;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.dto.MemberUpdateDto;
+import com.example.sidepot.global.security.util.RedisUtil;
+import com.example.sidepot.global.security.util.TokenType;
+import com.example.sidepot.member.dto.MemberUpdateDto.*;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.AuthRepository;
 import com.example.sidepot.member.dto.AuthDto.*;
 import com.example.sidepot.member.util.MemberValidator;
-import com.example.sidepot.security.util.TokenIssuer;
+import com.example.sidepot.global.security.util.TokenIssuer;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import java.time.LocalDate;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 
 @Slf4j
@@ -26,48 +31,68 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class AuthService {
 
-    private final String GRANT_TYPE_BEARER = "Bearer";
+    private final String GRANT_TYPE_BEARER = "Bearer ";
     private final AuthRepository authRepository;
     private final MemberValidator memberValidator;
     private final TokenIssuer issuer;
+    private final RedisUtil redisUtil;
+    private final FileService fileService;
 
-    public TokenDto login(MemberLoginDto memberLoginDto)  {
-        if(memberValidator.isDeletedMember(memberLoginDto.getPhone())){
+    public TokenDto login(MemberLoginDto memberLoginDto) {
+        if (memberValidator.isDeletedMember(memberLoginDto.getPhone())) {
             throw new Exception(ErrorCode.ALREADY_DELETED_MEMBER);
         }
         Auth auth = authRepository.findByPhone(memberLoginDto.getPhone())
                 .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         memberValidator.checkPassword(memberLoginDto.getPassword(), auth.getPassword());
-
-        return TokenDto.builder()
+        TokenDto tokenDto = TokenDto.builder()
                 .accessToken(issuer.createAccessToken(auth))
                 .refreshToken(issuer.createRefreshToken(auth))
+                .build();
+        redisUtil.setRefreshToken(TokenType.REFRESH.getDescription() + memberLoginDto.getPhone(), tokenDto.getRefreshToken());
+        return tokenDto;
+    }
+
+    public ResponseDto logout(String BearerToken) {
+        String accessToken = resolveToken(BearerToken);
+        Claims claims = issuer.parseAccessClaims(accessToken);
+        redisUtil.setBlackList(accessToken, claims.getExpiration());
+        redisUtil.deleteRefreshToken(TokenType.REFRESH.getDescription() + claims.get("phone").toString());
+        return ResponseDto.builder()
+                .path(String.format("rest/v1/auth/logout"))
+                .method("POST")
+                .message(String.format("로그아웃 성공"))
+                .statusCode(200)
+                .data("")
                 .build();
     }
 
-    public TokenDto reissue(String token) {
-        String refreshToken = resolveToken(token);
-        if (!StringUtils.hasText(refreshToken)) { log.info("올바르지 않은 헤더"); }
-
+    public TokenDto reissue(String BearerToken) {
+        String refreshToken = resolveToken(BearerToken);
+        if (!StringUtils.hasText(refreshToken)) {
+            log.info("올바르지 않은 헤더");
+        }
         Claims claims = issuer.parseRefreshClaims(refreshToken);
-        if (claims == null) { log.info("토큰 오류"); }
-
+        if (claims == null) {
+            log.info("토큰 오류");
+        }
         Auth auth;
         auth = authRepository.findByPhone(claims.getSubject())
-                .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
-
-        return TokenDto.builder()
+                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        TokenDto tokenDto = TokenDto.builder()
                 .accessToken(issuer.createAccessToken(auth))
                 .refreshToken(issuer.createRefreshToken(auth))
                 .build();
+        redisUtil.setRefreshToken(TokenType.REFRESH.getDescription() + claims.get("phone").toString(), tokenDto.getRefreshToken());
+        return tokenDto;
     }
 
     @Transactional
-    public ResponseDto updateMemberPassword(Auth auth, MemberUpdateDto.MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto){
+    public ResponseDto updateMemberPassword(Auth auth, MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto) {
+        Auth member = authRepository.findByPhone(auth.getPhone()).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         String newPassword = memberValidator.encodePassword(memberUpdatePasswordRequestDto.getNewPassword());
-        authRepository.updateMemberPassword(auth.getAuthId(), newPassword)
-                .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PASSWORD));
-
+        member.updateMemberPassword(newPassword);
+        authRepository.save(member);
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/update-password"))
                 .method("POST")
@@ -78,14 +103,13 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto updateMemberPhone(Auth auth, MemberUpdateDto.MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto){
-        if(authRepository.existsByPhone(memberUpdatePhoneRequestDto.getPhone())){
+    public ResponseDto updateMemberPhone(Auth auth, MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto) {
+        Auth member = authRepository.findByPhone(auth.getPhone()).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        if (authRepository.existsByPhone(memberUpdatePhoneRequestDto.getPhone())) {
             throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
-        authRepository.updateMemberPhone(auth.getAuthId(),
-                                         memberUpdatePhoneRequestDto.getPhone(),
-                                         memberUpdatePhoneRequestDto.getUUID())
-                .orElseThrow(() -> new Exception(ErrorCode.FAILED_UPDATE_PHONE));
+        member.updateMemberPhone(memberUpdatePhoneRequestDto);
+        authRepository.save(member);
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/update-phone"))
                 .method("POST")
@@ -96,11 +120,16 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto updateMemberProfile(Auth auth, MemberUpdateDto.MemberUpdateProfileRequestDto memberUpdateProfileRequestDto){
-
-        authRepository.updateMemberProfile(auth.getAuthId(),
-                                           LocalDate.parse(memberUpdateProfileRequestDto.getBirthDate(),DateTimeFormatter.ISO_LOCAL_DATE),
-                                           memberUpdateProfileRequestDto.getEmail());
+    public ResponseDto updateMemberProfile(Auth auth, MultipartFile profileImage,
+                                           MemberUpdateProfileRequestDto memberUpdateProfileRequestDto) throws IOException {
+        Auth member = authRepository.findByPhone(auth.getPhone())
+                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        if (member.getProfileImageName() != null) {
+            fileService.deleteProfile(member.getProfileImageName(), FileType.PROFILE);
+        }
+        String profileFullPath = fileService.parseProfileImage(profileImage, FileType.PROFILE);
+        member.updateMemberProfile(memberUpdateProfileRequestDto, profileFullPath);
+        authRepository.save(member);
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/update-profile"))
                 .method("POST")
@@ -109,8 +138,9 @@ public class AuthService {
                 .data("")
                 .build();
     }
+
     @Transactional(readOnly = true)
-    public ResponseDto checkMemberPassword(Long authId, MemberUpdateDto.MemberCheckPasswordRequestDto memberCheckPasswordRequestDto){
+    public ResponseDto checkMemberPassword(Long authId, MemberCheckPasswordRequestDto memberCheckPasswordRequestDto) {
         Auth auth = authRepository.findById(authId).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         memberValidator.checkPassword(memberCheckPasswordRequestDto.getPassword(), auth.getPassword());
         return ResponseDto.builder()
@@ -123,8 +153,12 @@ public class AuthService {
     }
 
     @Transactional
-    public ResponseDto withdrawalMember(Auth auth){
-        authRepository.updateMemberDeleteDate(auth.getAuthId(), LocalDateTime.now());
+    public ResponseDto withdrawalMember(Auth auth) {
+        Auth member = authRepository.findByPhone(auth.getPhone()).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        if (member.getDeleteDate() != null) {
+            throw new Exception(ErrorCode.ALREADY_DELETED_MEMBER);
+        }
+        member.updateMemberDeleteDate(LocalDateTime.now());
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/withdrawal-member"))
                 .method("POST")
@@ -140,5 +174,4 @@ public class AuthService {
         }
         return null;
     }
-
 }

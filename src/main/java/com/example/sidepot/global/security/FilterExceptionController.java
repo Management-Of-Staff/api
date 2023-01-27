@@ -1,4 +1,4 @@
-package com.example.sidepot.security;
+package com.example.sidepot.global.security;
 
 
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,11 +1,10 @@
-package com.example.sidepot.security;
+package com.example.sidepot.global.security;
 
-import com.example.sidepot.security.authentication.JwtAuthenticationToken;
+import com.example.sidepot.global.security.authentication.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;

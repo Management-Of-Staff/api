@@ -29,7 +29,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @ApiOperation(value = "로그인", notes = "오너, 직원 로그인")
+    @ApiOperation(value = "[회원 관리] 1.로그인", notes = "통합 로그인 API")
     @ApiResponses({@ApiResponse(code = 200, message = "로그인 완료")})
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberLoginDto memberLoginDto) throws Throwable {
@@ -37,7 +37,7 @@ public class AuthController {
     }
 
 
-    @ApiOperation(value = "토큰 재발급", notes = "리프레시 토큰 재발급")
+    @ApiOperation(value = "[회원 관리] 2.토큰 재발급", notes = "리프레시 토큰을 통한 토큰 재발급 API")
     @ApiImplicitParam(name = "refreshToken" , value = "리프레시 토큰", required = true,
                       dataType = "String", paramType = "header")
     @ApiResponses({@ApiResponse(code = 200, message = "토큰 재발급 성공")})
@@ -46,18 +46,19 @@ public class AuthController {
         return ResponseEntity.ok(authService.reissue(bearerToken));
     }
 
-    @ApiOperation(value ="회원 정보 수정", notes = "마이페이지에서 회원 정보 수정")
+    @ApiOperation(value ="[회원 관리] 3.회원 정보 수정", notes = "마이페이지 회원정보 수정 API")
     @PostMapping(value = "/update-profile")
     public ResponseEntity<ResponseDto> updateProfile(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                            @RequestPart(value="image", required = false) MultipartFile image,
-                                           @RequestPart(value="profile") MemberUpdateProfileRequestDto memberUpdateProfileRequestDto) throws Exception{
+                                           @RequestPart(value="profile") MemberUpdateProfileRequestDto
+                                                                         memberUpdateProfileRequestDto) throws Exception{
         System.out.println("프로필 업데이터");
         log.info(memberUpdateProfileRequestDto.getBirthDate());
         System.out.println(image);
-        return ResponseEntity.ok(authService.updateMemberProfile(auth, memberUpdateProfileRequestDto));
+        return ResponseEntity.ok(authService.updateMemberProfile(auth, image, memberUpdateProfileRequestDto));
     }
 
-    @ApiOperation(value ="비밀 번호 수정", notes = "마이페이지에서 비밀번호 변경")
+    @ApiOperation(value ="[회원 관리] 4.비밀 번호 수정", notes = "마이페이지 비밀번호 변경 API")
     @PostMapping("/update-password")
     public ResponseEntity<ResponseDto> updateMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                             @RequestBody MemberUpdatePasswordRequestDto
@@ -65,7 +66,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.updateMemberPassword(auth, memberUpdatePasswordRequestDto));
     }
 
-    @ApiOperation(value ="핸드폰 번호 수정", notes = "마이페이지에서 핸드폰번호 변경")
+    @ApiOperation(value ="[회원 관리] 5.핸드폰 번호 수정", notes = "마이페이지 핸드폰번호 변경 API")
     @PostMapping("/update-phone")
     public ResponseEntity<ResponseDto> updateMemberPhone(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                          @RequestBody MemberUpdatePhoneRequestDto
@@ -73,14 +74,14 @@ public class AuthController {
         return ResponseEntity.ok(authService.updateMemberPhone(auth, memberUpdatePhoneRequestDto));
     }
 
-    @ApiOperation(value = "비밀번호 번호 확인", notes = "비밀번호 변경화면에서 현재 비밀번호 체크")
+    @ApiOperation(value = "[회원 관리] 6.비밀번호 번호 확인", notes = "비밀번호 변경 시 비밀번화 확인 API")
     @PostMapping("/check-password")
     public ResponseEntity<ResponseDto> checkMemberPassword(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                            @RequestBody MemberCheckPasswordRequestDto memberCheckPasswordRequestDto){
         return ResponseEntity.ok(authService.checkMemberPassword(auth.getAuthId(), memberCheckPasswordRequestDto));
     }
 
-    @ApiOperation(value = "회원 탈퇴", notes = "마이페이지에서 회원탈퇴 시 회원 탈퇴 요청")
+    @ApiOperation(value = "[회원 관리] 7.회원 탈퇴", notes = "마이페이지 회원 탈퇴 요청 API")
     @PostMapping("/withdrawal-member")
     public ResponseEntity<ResponseDto> withdrawalMember(@ApiIgnore @AuthenticationPrincipal Auth auth){
         return ResponseEntity.ok(authService.withdrawalMember(auth));

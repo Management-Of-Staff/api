@@ -6,8 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -16,6 +19,8 @@ import java.time.LocalDateTime;
 @Table(name = "staff")
 public class Staff extends Auth {
 
+    @OneToMany(mappedBy = "staff")
+    private List<Employment> employment = new ArrayList<>();
     @Builder
     public Staff(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate) {
         super(name, phone, password, uuid, role, createDate);
