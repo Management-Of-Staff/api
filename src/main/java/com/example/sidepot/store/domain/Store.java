@@ -2,6 +2,7 @@ package com.example.sidepot.store.domain;
 
 
 import com.example.sidepot.member.domain.Employment;
+import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.sun.istack.NotNull;
 import lombok.Builder;
@@ -24,8 +25,9 @@ public class Store {
     private Long storeId;
 
     @NotNull
-    @Column(name = "owner_id")
-    private Long ownerId;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
 
     @NotNull
     @Column(name = "store_name")
@@ -66,8 +68,8 @@ public class Store {
     private List<TodoList> todoLists = new ArrayList<>();
 
     @Builder
-    public Store(Long ownerId, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String lateTime) {
-        this.ownerId = ownerId;
+    public Store(Owner owner, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String lateTime) {
+        this.owner = owner;
         this.storeName = storeName;
         this.branchName = branchName;
         this.detailAddress = detailAddress;

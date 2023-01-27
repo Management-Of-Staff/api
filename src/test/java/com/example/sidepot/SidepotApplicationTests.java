@@ -8,5 +8,4 @@ class SidepotApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

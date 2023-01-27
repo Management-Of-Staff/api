@@ -1,7 +1,7 @@
-package com.example.sidepot.security.config;
+package com.example.sidepot.global.security.config;
 
 
-import com.example.sidepot.security.JwtFilter;
+import com.example.sidepot.global.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

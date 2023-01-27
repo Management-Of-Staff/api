@@ -1,11 +1,13 @@
 package com.example.sidepot.member.domain;
 
+import com.example.sidepot.member.dto.MemberUpdateDto.*;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Getter
@@ -46,6 +48,9 @@ public class Auth{
     @Column(name = "delete_date")
     private LocalDateTime deleteDate;
 
+    @Column(name = "profile_image_name")
+    private String profileImageName;
+
     public Auth(Claims claims){
         this.authId = Long.valueOf(claims.get("userId").toString());
         this.name = claims.get("name").toString();
@@ -72,6 +77,26 @@ public class Auth{
         this.role = role;
         this.birthDate = birthDate;
         this.createDate = createDate;
+        this.deleteDate = deleteDate;
+    }
+
+
+    public void updateMemberProfile(MemberUpdateProfileRequestDto memberUpdateProfileRequestDto, String profileImagePath){
+        this.birthDate = LocalDate.parse(memberUpdateProfileRequestDto.getBirthDate(), DateTimeFormatter.ISO_LOCAL_DATE);
+        this.email = memberUpdateProfileRequestDto.getEmail();
+        this.profileImageName = profileImagePath;
+    }
+
+    public void updateMemberPhone(MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto){
+        this.phone = memberUpdatePhoneRequestDto.getPhone();
+        this.UUID = memberUpdatePhoneRequestDto.getUUID();
+    }
+
+    public void updateMemberPassword(String newPassword){
+        this.password = newPassword;
+    }
+
+    public void updateMemberDeleteDate(LocalDateTime deleteDate){
         this.deleteDate = deleteDate;
     }
 }

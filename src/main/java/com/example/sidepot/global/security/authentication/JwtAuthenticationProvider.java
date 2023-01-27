@@ -1,8 +1,9 @@
-package com.example.sidepot.security.authentication;
+package com.example.sidepot.global.security.authentication;
 
+import com.example.sidepot.global.security.util.TokenIssuer;
 import com.example.sidepot.member.domain.Auth;
-import com.example.sidepot.security.util.TokenIssuer;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -28,13 +29,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private Collection<? extends GrantedAuthority> grantedAuthorities(Claims claims) {
         String role = (String) claims.get(KEY_ROLES);
-
-
         return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException, JwtException {
         Claims claims = issuer.parseAccessClaims(((JwtAuthenticationToken) authentication).getToken());
         return new JwtAuthenticationToken(new Auth(claims) ,"",grantedAuthorities(claims));
     }

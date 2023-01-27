@@ -1,15 +1,14 @@
-package com.example.sidepot.security.config;
+package com.example.sidepot.global.security.config;
 
 import com.example.sidepot.global.Path;
-import com.example.sidepot.security.CustomAccessDeniedHandler;
-import com.example.sidepot.security.CustomAuthenticationEntryPoint;
-import com.example.sidepot.security.authentication.JwtAuthenticationProvider;
+import com.example.sidepot.global.security.CustomAccessDeniedHandler;
+import com.example.sidepot.global.security.CustomAuthenticationEntryPoint;
+import com.example.sidepot.global.security.authentication.JwtAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;

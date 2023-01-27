@@ -1,13 +1,12 @@
-package com.example.sidepot.security.util;
+package com.example.sidepot.global.security.util;
 
 
 import com.example.sidepot.member.domain.Auth;
-import com.example.sidepot.security.SidePotProperties;
+import com.example.sidepot.global.security.SidePotProperties;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +23,7 @@ public class TokenIssuer {
     public static final String PLATFORM = "O_JIK";
     public static final String KEY_ROLE = "roles";
 
+
     private final SecretKey key;
 
     private final SidePotProperties sidePotProperties;
@@ -34,25 +34,16 @@ public class TokenIssuer {
                 sidePotProperties.getAccessKey().getBytes(StandardCharsets.UTF_8));
     }
 
-    public Claims parseAccessClaims(String token){
+    public Claims parseAccessClaims(String token) throws JwtException {
         return parseClaims(token);
     }
 
-    public Claims parseRefreshClaims(String token){
+    public Claims parseRefreshClaims(String token) throws JwtException{
         return  parseClaims(token);
     }
 
-    private Claims parseClaims(String token) throws RuntimeException {
-        Claims claims = null;
-        try {
-            claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        } catch (SignatureException | IllegalArgumentException signatureException) {
-            log.info("올바르지 않은 토큰 입니다.");
-        } catch (ExpiredJwtException expiredJwtException) {
-            log.info("토큰이 만료되었습니다.");
-        }
-        log.info("[토큰만료 시간] : " + claims.getExpiration());
-        return claims;
+    private Claims parseClaims(String token) throws JwtException {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
     public String createAccessToken(Auth auth){return createToken(auth, TokenType.ACCESS);}
@@ -64,15 +55,14 @@ public class TokenIssuer {
     public Date setExpiryTime(TokenType tokenType){
         switch (tokenType){
             case REFRESH:
-                return Date.from(Instant.now().plus(360, ChronoUnit.MINUTES));
+                return Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
             case ACCESS:
             default:
-                return Date.from(Instant.now().plus(180, ChronoUnit.MINUTES));
+                return Date.from(Instant.now().plus(30, ChronoUnit.MINUTES));
         }
     }
 
     public String createToken(Auth auth, TokenType tokenType){
-
         return Jwts.builder()
                 .claim("userId", auth.getAuthId())
                 .claim("name", auth.getName())

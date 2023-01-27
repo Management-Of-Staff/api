@@ -4,6 +4,8 @@ import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.member.domain.Owner;
+import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.store.dto.StoreResponseDto;
@@ -18,10 +20,12 @@ import java.util.List;
 @Service
 public class StoreService {
     private final StoreRepository storeRepository;
+    private final OwnerRepository ownerRepository;
 
     public ResponseDto createStore(Auth auth, StoreCreateRequestDto storeCreateRequestDto){
-
-        storeRepository.save(new Store(auth.getAuthId(),
+        Owner owner = ownerRepository.findById(auth.getAuthId())
+                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        storeRepository.save(new Store(owner,
                 storeCreateRequestDto.getStoreName(),
                 storeCreateRequestDto.getDetailAddress(),
                 storeCreateRequestDto.getBranchName(),
@@ -40,7 +44,7 @@ public class StoreService {
     }
 
     public ResponseDto readAllStore(Auth auth){
-        List<Store> storeList = storeRepository.findAllByOwnerId(auth.getAuthId());
+        List<Store> storeList = storeRepository.findAllByOwner_AuthId(auth.getAuthId());
         return ResponseDto.builder()
                 .path(String.format("rest/v1/stores"))
                 .method("GET")

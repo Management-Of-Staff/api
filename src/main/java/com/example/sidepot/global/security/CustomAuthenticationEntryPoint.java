@@ -1,4 +1,4 @@
-package com.example.sidepot.security;
+package com.example.sidepot.global.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
