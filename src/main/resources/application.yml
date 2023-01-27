@@ -13,8 +13,8 @@ spring:
   cache:
     type: redis
   redis:
-    host: localhost
-    port: 6379
+    host: svc.gksl2.cloudtype.app
+    port: 30134
 
 
 springdoc:
