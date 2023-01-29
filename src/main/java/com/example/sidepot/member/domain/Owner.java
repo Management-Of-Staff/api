@@ -19,6 +19,7 @@ import java.util.List;
 @DiscriminatorValue("owner")
 @Table(name = "owner")
 public class Owner extends Auth {
+
     @OneToMany(mappedBy = "owner")
     private List<Store> storeList = new ArrayList<>();
 

@@ -17,7 +17,7 @@ public class DayWorkTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "day_work_time_id")
-    private Long dayWorkTimdId;
+    private Long dayWorkTimeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id")

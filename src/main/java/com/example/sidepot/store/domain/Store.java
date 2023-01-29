@@ -64,7 +64,8 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<Employment> employmentId;
 
-    @OneToMany
+    @OneToMany(mappedBy = "store")
+    @Column(name = "todo_lists")
     private List<TodoList> todoLists = new ArrayList<>();
 
     @Builder
