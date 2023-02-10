@@ -1,11 +1,8 @@
 package com.example.sidepot;
 
-import com.example.sidepot.global.security.SidePotProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@EnableConfigurationProperties({SidePotProperties.class})
 @SpringBootApplication
 public class SidepotApplication {
 

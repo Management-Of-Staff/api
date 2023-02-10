@@ -10,6 +10,7 @@ import com.example.sidepot.member.dto.MemberUpdateDto.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class AuthController {
     }
 
     @ApiOperation(value ="[회원 관리] 3.회원 정보 수정", notes = "마이페이지 회원정보 수정 API")
-    @PostMapping(value = "/update-profile")
+    @PostMapping(value = "/update-profile" , consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResponseDto> updateProfile(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                            @RequestPart(value="image", required = false) MultipartFile image,
                                            @RequestPart(value="profile") MemberUpdateProfileRequestDto

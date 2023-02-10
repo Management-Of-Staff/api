@@ -20,7 +20,7 @@ public class FileService {
 
     public String parseProfileImage(MultipartFile multipartFile, FileType fileType) throws Exception, IOException {
         String saveFilePath = "";
-        if(!multipartFile.isEmpty()){
+        if(multipartFile !=null){
             File file = crateSaveDir(fileType.getSaveDir());
             saveFilePath = file + File.separator + getFileName(multipartFile);
 
