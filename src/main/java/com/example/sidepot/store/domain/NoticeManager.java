@@ -20,7 +20,6 @@ public class NoticeManager {
     private String name;
 
     @OneToMany(mappedBy = "noticeManager")
-    @Column(name = "notice_notice_manager_id")
     private List<NoticeNoticeManager> noticeNoticeManagers = new ArrayList<>();
 
 }

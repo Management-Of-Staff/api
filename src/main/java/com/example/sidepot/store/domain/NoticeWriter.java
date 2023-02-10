@@ -23,7 +23,6 @@ public class NoticeWriter {
     private String name;
 
     @OneToMany(mappedBy = "noticeWriter")
-    @Column(name = "notice_id")
     private List<Notice> noticeList = new ArrayList<>();
 
 

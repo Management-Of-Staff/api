@@ -24,11 +24,9 @@ public class Notice {
     private String noticeContent;
 
     @OneToMany(mappedBy = "notice")
-    @Column(name = "notice_image_id")
     private List<NoticeImage> noticeImageList = new ArrayList<>();
 
     @OneToMany(mappedBy = "notice")
-    @Column(name = "notice_notice_manager_id")
     private List<NoticeNoticeManager> noticeNoticeManagers = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
