@@ -3,6 +3,8 @@ package com.example.sidepot.store.domain;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "notice_writer")
 @NoArgsConstructor
@@ -19,5 +21,10 @@ public class NoticeWriter {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "noticeWriter")
+    @Column(name = "notice_id")
+    private List<Notice> noticeList = new ArrayList<>();
+
 
 }
