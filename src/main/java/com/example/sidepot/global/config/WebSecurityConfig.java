@@ -1,9 +1,9 @@
-package com.example.sidepot.global.security.config;
+package com.example.sidepot.global.config;
 
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.security.CustomAccessDeniedHandler;
 import com.example.sidepot.global.security.CustomAuthenticationEntryPoint;
-import com.example.sidepot.global.security.authentication.JwtAuthenticationProvider;
+import com.example.sidepot.global.security.JwtAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

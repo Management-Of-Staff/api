@@ -1,4 +1,4 @@
-package com.example.sidepot.global;
+package com.example.sidepot.global.filehandle;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum FileType {
 
-    PROFILE("profile"), CONTRACT_PDF("contract_pdf");
+    PROFILE("profile"), CONTRACT_PDF("contract");
 
     private String saveDir;
 

@@ -23,6 +23,8 @@ public enum ErrorCode {
     FAILED_UPDATE_PHONE(HttpStatus.BAD_REQUEST.value(), "핸드폰 번호 변경에 실패했어요"),
     NOT_FOUND_YOUR_STORE(HttpStatus.NO_CONTENT.value(), "회원님의 매장이 아니에요."),
     NOT_FOUND_STAFF_IN_STORE(HttpStatus.NO_CONTENT.value(),"매장 직원이 아니에요"),
+    NOT_SUPPORTED_IMAGE_EXTENSION(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), "프로필 파일은 JPG, PNG 파일만 가능해요"),
+    NOT_SUPPORTED_PDF_EXTENSION(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), "근로 계약서는 PDF 파일로 보내주세요"),
     FAILED_UPLOAD_PROFILE(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), "프로필 파일은 JPG, PNG 파일만 가능해요"),
             // HttpStatus.UNAUTHORIZED
     MAIL_ADDRESS_PARSING_FAIL(HttpStatus.UNAUTHORIZED.value(), "잘못된 메일 주소입니다"),

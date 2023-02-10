@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -48,8 +50,8 @@ public class Auth{
     @Column(name = "delete_date")
     private LocalDateTime deleteDate;
 
-    @Column(name = "profile_image_name")
-    private String profileImageName;
+    @OneToMany(mappedBy = "auth")
+    private List<MemberFile> memberFiles = new ArrayList<>();
 
     public Auth(Claims claims){
         this.authId = Long.valueOf(claims.get("userId").toString());
@@ -81,10 +83,9 @@ public class Auth{
     }
 
 
-    public void updateMemberProfile(MemberUpdateProfileRequestDto memberUpdateProfileRequestDto, String profileImagePath){
+    public void updateMemberProfile(MemberUpdateProfileRequestDto memberUpdateProfileRequestDto){
         this.birthDate = LocalDate.parse(memberUpdateProfileRequestDto.getBirthDate(), DateTimeFormatter.ISO_LOCAL_DATE);
         this.email = memberUpdateProfileRequestDto.getEmail();
-        this.profileImageName = profileImagePath;
     }
 
     public void updateMemberPhone(MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto){

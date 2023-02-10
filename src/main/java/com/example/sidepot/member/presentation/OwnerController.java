@@ -44,13 +44,4 @@ public class OwnerController {
     public ResponseEntity<ResponseDto> readOwner(@ApiIgnore @AuthenticationPrincipal Auth auth, HttpServletRequest request) {
         return ResponseEntity.ok(ownerService.readOwner(auth, request));
     }
-
-    @ApiOperation(value = "회원 탈퇴(사용x)", notes = "테스트를 위한 탈퇴 기능")
-    @ApiResponses({@ApiResponse(code = 200, message = "회원 탈퇴 완료"),
-                   @ApiResponse(code = 403, message = "권한 없음")})
-    @DeleteMapping (value = "/")
-    public ResponseEntity<ResponseDto> deleteOwner(@ApiIgnore @AuthenticationPrincipal Auth auth){
-
-        return ResponseEntity.ok(ownerService.deleteOwner(auth));
-    }
 }

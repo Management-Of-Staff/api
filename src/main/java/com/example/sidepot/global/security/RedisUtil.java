@@ -1,4 +1,4 @@
-package com.example.sidepot.global.security.util;
+package com.example.sidepot.global.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
