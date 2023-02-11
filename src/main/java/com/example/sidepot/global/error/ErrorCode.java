@@ -21,6 +21,7 @@ public enum ErrorCode {
     FAILED_UPDATE_PASSWORD(HttpStatus.BAD_REQUEST.value(), "패스워드 변경에 실패했어요"),
     FAILED_UPDATE_PROFILE(HttpStatus.BAD_REQUEST.value(), "프로필 변경에 실패했어요"),
     FAILED_UPDATE_PHONE(HttpStatus.BAD_REQUEST.value(), "핸드폰 번호 변경에 실패했어요"),
+    NOT_FOUND_EMPLOYMENT(HttpStatus.BAD_REQUEST.value(), "정상적인 근무가 아니에요"),
     NOT_FOUND_YOUR_STORE(HttpStatus.NO_CONTENT.value(), "회원님의 매장이 아니에요."),
     NOT_FOUND_STAFF_IN_STORE(HttpStatus.NO_CONTENT.value(),"매장 직원이 아니에요"),
     NOT_SUPPORTED_IMAGE_EXTENSION(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), "프로필 파일은 JPG, PNG 파일만 가능해요"),
@@ -31,8 +32,8 @@ public enum ErrorCode {
     UNAUTHORIZED_ERROR(HttpStatus.UNAUTHORIZED.value(), "권한이 없습니다."),
 
     NOT_FOUND_TODO_LIST(HttpStatus.BAD_REQUEST.value(),"해야할일이 없음"),
-    NOT_FOUND_STORE(HttpStatus.BAD_REQUEST.value(),"매장이 존재하지 않음")
-    ;
+    NOT_FOUND_STORE(HttpStatus.BAD_REQUEST.value(),"매장이 존재하지 않음");
+
 
     private int httpValue;
     private String ErrorMessage;

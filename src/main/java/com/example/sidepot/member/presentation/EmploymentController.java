@@ -13,6 +13,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Api(tags = "매장 관련 APIs")
 @RequiredArgsConstructor
@@ -66,4 +68,15 @@ public class EmploymentController {
 //                                                                @RequestPart("contract-dto") ContractCreateRequestDto contractCreateRequestDto ){
 //        return ResponseEntity.ok().build();
 //    }
+
+    @PreAuthorize("hasAuthority('OWNER')")
+    @PostMapping(value = "/employment/update-schedule")
+    public ResponseEntity<ResponseDto> updateEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal Auth auth,
+                                                                    @RequestParam(value = "storeId", required = true) Long storeId,
+                                                                    @RequestParam(value = "staffId", required = true) Long staffId,
+                                                                    HttpServletRequest request){
+
+        return ResponseEntity.ok(employmentService.updateEmploymentWorkSchedule(auth, storeId, staffId)
+                .builder().path(request.getServletPath()).build());
+    }
 }

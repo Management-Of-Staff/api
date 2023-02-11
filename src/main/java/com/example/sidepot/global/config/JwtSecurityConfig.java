@@ -18,7 +18,6 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
 
     @Override
     public void configure(HttpSecurity http) {
-        log.info("JwtSecurityConfig 필터 실행 중...");
         JwtFilter filter = new JwtFilter(authenticationManager);
         http.addFilterAfter(filter, LogoutFilter.class);
     }

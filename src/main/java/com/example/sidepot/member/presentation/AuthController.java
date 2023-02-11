@@ -34,7 +34,7 @@ public class AuthController {
     @ApiResponses({@ApiResponse(code = 200, message = "로그인 완료")})
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberLoginDto memberLoginDto) throws Throwable {
-        return ResponseEntity.ok(authService.login(memberLoginDto));
+        return ResponseEntity.ok(authService.loginDev(memberLoginDto));
     }
 
 
@@ -44,11 +44,11 @@ public class AuthController {
     @ApiResponses({@ApiResponse(code = 200, message = "토큰 재발급 성공")})
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@ApiIgnore @RequestHeader(AUTHORIZATION_HEADER) String bearerToken) throws Throwable {
-        return ResponseEntity.ok(authService.reissue(bearerToken));
+        return ResponseEntity.ok(authService.reissueDev(bearerToken));
     }
 
     @ApiOperation(value ="[회원 관리] 3.회원 정보 수정", notes = "마이페이지 회원정보 수정 API")
-    @PostMapping(value = "/update-profile" , consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/update-profile")
     public ResponseEntity<ResponseDto> updateProfile(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                            @RequestPart(value="image", required = false) MultipartFile image,
                                            @RequestPart(value="profile") MemberUpdateProfileRequestDto

@@ -8,11 +8,19 @@ import com.example.sidepot.member.dto.ContractCreateDto.*;
 import com.example.sidepot.member.dto.EmploymentReadResponseDto.*;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
+import com.example.sidepot.work.domain.DayWorkTime;
+import com.example.sidepot.work.domain.DayWorkTimeRepository;
+import com.example.sidepot.work.domain.WeekWorkTimeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,15 +30,18 @@ public class EmploymentService {
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     private final EmploymentRepository employmentRepository;
+    private final DayWorkTimeRepository dayWorkTimeRepository;
 
+    private final WeekWorkTimeRepository weekWorkTimeRepository;
 
     @Transactional(readOnly = true)
     public ResponseDto readAllStaffByStoreId(Auth auth, Long storeId){
-        Store verifiedStore= storeRepository.findByOwner_AuthIdAndStoreId(auth.getAuthId(),storeId)
-                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
-        List<Employment> employmentList = employmentRepository.findAllByStore_StoreId(verifiedStore.getStoreId());
-        List<ReadEmploymentListResponseDto> employmentListResponseDtoList
-                = employmentList.stream().map(ReadEmploymentListResponseDto::of).collect(Collectors.toList());
+        Store verifiedStore = storeRepository.findByOwner_AuthIdAndStoreId(auth.getAuthId(),storeId).orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
+        List<ReadEmploymentListResponseDto> employmentListResponseDtoList =
+                employmentRepository.findAllByStore_StoreId(verifiedStore.getStoreId())
+                        .stream()
+                        .map(ReadEmploymentListResponseDto::of)
+                        .collect(Collectors.toList());
         return ResponseDto.builder()
                 .path(String.format("/staff-management/" + storeId))
                 .method("GET")
@@ -62,16 +73,41 @@ public class EmploymentService {
         Staff staff = staffRepository.findById(staffId).orElseThrow(()-> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         employmentRepository.save(Employment.of(store, staff, staff.getName()));
         return ResponseDto.builder()
+                .statusCode(HttpStatus.OK.value())
                 .path(String.format("/staff-management/store/" + storeId + "/invite-staff/" + staffId))
-                .method("POST")
+                .method(HttpMethod.POST.name())
                 .message("직원등록 성공")
                 .data("")
                 .build();
     }
 
-    public ResponseDto createEmploymentContract(Auth auth, Long StoreId, Long StaffId,
+    public ResponseDto createEmploymentContract(Auth auth, Long storeId, Long staffId,
                                                 MultipartFile contractFile,
                                                 ContractCreateRequestDto contractCreateRequestDto){
         return ResponseDto.builder().build();
+    }
+    @Transactional
+    public ResponseDto updateEmploymentWorkSchedule(Auth auth, Long storeId, Long staffId){
+
+//        Employment employment = employmentRepository.findByStore_StoreIdAndStaff_AuthId(storeId, staffId)
+//                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
+//        weekWorkTimeRepository.save(WeekWorkTime.of(employment, employmentUpdateScheduleDto));
+//
+//        dayWorkTimeRepository.saveAll(dayWorkTimes);
+        return ResponseDto.builder()
+                .method(HttpMethod.POST.toString())
+                .message("근무일정 추가")
+                .data("")
+                .statusCode(HttpStatus.OK.value())
+                .build();
+    }
+
+    @Transactional
+    public void testDateCalculator(){
+        final LocalDate startDate = LocalDate.now(); //2023/2/11
+        final LocalDate endDate = startDate.plusMonths(2);
+        final List<DayOfWeek> dayOfWeekList = List.of(DayOfWeek.SUNDAY, DayOfWeek.THURSDAY);
+        List<DayWorkTime> dayWorkTimes = new ArrayList<>();
+
     }
 }
