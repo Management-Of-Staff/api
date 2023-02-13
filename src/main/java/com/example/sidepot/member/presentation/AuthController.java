@@ -53,9 +53,6 @@ public class AuthController {
                                            @RequestPart(value="image", required = false) MultipartFile image,
                                            @RequestPart(value="profile") MemberUpdateProfileRequestDto
                                                                          memberUpdateProfileRequestDto) throws Exception{
-        System.out.println("프로필 업데이터");
-        log.info(memberUpdateProfileRequestDto.getBirthDate());
-        System.out.println(image);
         return ResponseEntity.ok(authService.updateMemberProfile(auth, image, memberUpdateProfileRequestDto));
     }
 

@@ -1,4 +1,4 @@
-package com.example.sidepot.global.security.util;
+package com.example.sidepot.global.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

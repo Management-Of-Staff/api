@@ -1,22 +1,25 @@
 package com.example.sidepot.member.app;
 
 
-import com.example.sidepot.global.FileService;
-import com.example.sidepot.global.FileType;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.global.security.util.RedisUtil;
-import com.example.sidepot.global.security.util.TokenType;
+import com.example.sidepot.global.filehandle.CreateBaseFileDto;
+import com.example.sidepot.global.filehandle.FileHandler;
+import com.example.sidepot.global.filehandle.FileType;
+import com.example.sidepot.global.security.RedisUtil;
+import com.example.sidepot.global.security.TokenType;
+import com.example.sidepot.member.domain.MemberFile;
+import com.example.sidepot.member.domain.MemberFileRepository;
 import com.example.sidepot.member.dto.MemberUpdateDto.*;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.AuthRepository;
 import com.example.sidepot.member.dto.AuthDto.*;
 import com.example.sidepot.member.util.MemberValidator;
-import com.example.sidepot.global.security.util.TokenIssuer;
+import com.example.sidepot.global.security.TokenIssuer;
 import io.jsonwebtoken.Claims;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -27,7 +30,6 @@ import java.time.LocalDateTime;
 
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class AuthService {
 
@@ -36,7 +38,19 @@ public class AuthService {
     private final MemberValidator memberValidator;
     private final TokenIssuer issuer;
     private final RedisUtil redisUtil;
-    private final FileService fileService;
+    private final MemberFileRepository fileRepository;
+    private final FileHandler fileHandler;
+
+    public AuthService(AuthRepository authRepository, MemberValidator memberValidator,
+                       TokenIssuer issuer, RedisUtil redisUtil, MemberFileRepository fileRepository,
+                       @Qualifier(value = "profileFileService")FileHandler fileHandler) {
+        this.authRepository = authRepository;
+        this.memberValidator = memberValidator;
+        this.issuer = issuer;
+        this.redisUtil = redisUtil;
+        this.fileRepository = fileRepository;
+        this.fileHandler = fileHandler;
+    }
 
     public TokenDto login(MemberLoginDto memberLoginDto) {
         if (memberValidator.isDeletedMember(memberLoginDto.getPhone())) {
@@ -124,11 +138,8 @@ public class AuthService {
                                            MemberUpdateProfileRequestDto memberUpdateProfileRequestDto) throws IOException {
         Auth member = authRepository.findByPhone(auth.getPhone())
                 .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
-        if (member.getProfileImageName() != null) {
-            fileService.deleteProfile(member.getProfileImageName(), FileType.PROFILE);
-        }
-        String profileFullPath = fileService.parseProfileImage(profileImage, FileType.PROFILE);
-        member.updateMemberProfile(memberUpdateProfileRequestDto, profileFullPath);
+        getBaseFileDto(profileImage);
+        member.updateMemberProfile(memberUpdateProfileRequestDto);
         authRepository.save(member);
         return ResponseDto.builder()
                 .path(String.format("rest/v1/auth/update-profile"))
@@ -166,6 +177,17 @@ public class AuthService {
                 .statusCode(200)
                 .data("")
                 .build();
+    }
+
+    @Transactional
+    public void getBaseFileDto(MultipartFile profileImage) throws IOException {
+        for(CreateBaseFileDto dto :fileHandler.saveFileAndGetFileDto(profileImage)){
+            fileRepository.save(MemberFile
+                    .builder()
+                    .fileType(FileType.PROFILE)
+                    .fileOriginName(dto.getFileOriginName())
+                    .fileSaveName(dto.getFileSavePath()).build());
+        }
     }
 
     private String resolveToken(String bearerToken) {

@@ -1,4 +1,4 @@
-package com.example.sidepot.global.security.config;
+package com.example.sidepot.global.config;
 
 
 import com.example.sidepot.global.security.JwtFilter;

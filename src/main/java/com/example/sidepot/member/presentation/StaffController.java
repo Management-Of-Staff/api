@@ -41,13 +41,4 @@ public class StaffController {
     public ResponseEntity<ResponseDto> readStaff(@ApiIgnore @AuthenticationPrincipal Auth auth) {
         return ResponseEntity.ok(staffService.readStaff(auth));
     }
-
-    @ApiOperation(value = "회원 탈퇴 사용 x", notes = "테스트를 위한 탈퇴 기능")
-    @ApiResponses({@ApiResponse(code = 200, message = "회원 탈퇴 완료"),
-            @ApiResponse(code = 403, message = "권한 없음")})
-    @DeleteMapping(value = "/")
-    public ResponseEntity<ResponseDto> deleteStaff(@ApiIgnore @AuthenticationPrincipal Auth auth){
-
-        return ResponseEntity.ok(staffService.deleteStaff(auth));
-    }
 }

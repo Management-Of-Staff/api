@@ -1,6 +1,5 @@
 package com.example.sidepot.global.security;
 
-import com.example.sidepot.global.security.authentication.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
