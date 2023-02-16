@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?allowMultiQueries=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
-    username: ${DB_USER:root}
-    password: ${DB_PASSWORD:root}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
