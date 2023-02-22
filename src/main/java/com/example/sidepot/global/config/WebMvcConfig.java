@@ -39,7 +39,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/**")
+        registry.addResourceHandler("/daum_zip_code.html")
                 .addResourceLocations("classpath:/templates/")
                 .setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES));
     }
