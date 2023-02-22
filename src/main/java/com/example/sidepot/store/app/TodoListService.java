@@ -128,7 +128,7 @@ public class TodoListService {
     public void saveNewScheduleManager(TodoList todoList, ManagerCreateDto managerCreateDto){
         scheduleManagerRepository.save(ScheduleManager.builder()
                 .todoList(todoList)
-                .name(managerCreateDto.getmanagerName())
+                .name(managerCreateDto.getManagerName())
                 .staffId(managerCreateDto.getStaffId())
                 .build());
     }
