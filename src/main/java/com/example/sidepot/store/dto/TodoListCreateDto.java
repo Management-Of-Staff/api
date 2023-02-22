@@ -17,7 +17,7 @@ public class TodoListCreateDto {
     public static class ManagerCreateDto{
         private Long managerId;
         private Long staffId;
-        private String mangerName;
+        private String managerName;
     }
 
     @Getter

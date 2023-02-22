@@ -49,18 +49,18 @@ public class TodoListResponseDto {
     @Getter
     public static class ManagerResponseDto{
         private Long staffId;
-        private String mangerName;
+        private String managerName;
 
         @Builder
-        public ManagerResponseDto(Long staffId, String mangerName){
+        public ManagerResponseDto(Long staffId, String managerName){
             this.staffId = staffId;
-            this.mangerName = mangerName;
+            this.managerName = managerName;
         }
 
         public static ManagerResponseDto from(ScheduleManager scheduleManager){
             return ManagerResponseDto.builder()
                     .staffId(scheduleManager.getStaffId())
-                    .mangerName(scheduleManager.getName())
+                    .managerName(scheduleManager.getName())
                     .build();
         }
 
