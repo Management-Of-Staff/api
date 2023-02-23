@@ -3,6 +3,7 @@ package com.example.sidepot.work.domain;
 import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.store.domain.Store;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -56,6 +57,7 @@ public class DayWorkTime {
     @Column(name = "attendance_check")
     private String attendanceCheck;
 
+    @Builder
     public DayWorkTime(Employment employment, WeekWorkTime weekWorkTime, LocalDate workDate, LocalDateTime startTime,
                        LocalDateTime endTime, String dayOfWeek, String attendanceCheck) {
         this.employment = employment;

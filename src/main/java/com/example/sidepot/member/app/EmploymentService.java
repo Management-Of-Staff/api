@@ -30,9 +30,7 @@ public class EmploymentService {
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     private final EmploymentRepository employmentRepository;
-    private final DayWorkTimeRepository dayWorkTimeRepository;
 
-    private final WeekWorkTimeRepository weekWorkTimeRepository;
 
     @Transactional(readOnly = true)
     public ResponseDto readAllStaffByStoreId(Auth auth, Long storeId){
@@ -89,25 +87,11 @@ public class EmploymentService {
     @Transactional
     public ResponseDto updateEmploymentWorkSchedule(Auth auth, Long storeId, Long staffId){
 
-//        Employment employment = employmentRepository.findByStore_StoreIdAndStaff_AuthId(storeId, staffId)
-//                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
-//        weekWorkTimeRepository.save(WeekWorkTime.of(employment, employmentUpdateScheduleDto));
-//
-//        dayWorkTimeRepository.saveAll(dayWorkTimes);
         return ResponseDto.builder()
                 .method(HttpMethod.POST.toString())
                 .message("근무일정 추가")
                 .data("")
                 .statusCode(HttpStatus.OK.value())
                 .build();
-    }
-
-    @Transactional
-    public void testDateCalculator(){
-        final LocalDate startDate = LocalDate.now(); //2023/2/11
-        final LocalDate endDate = startDate.plusMonths(2);
-        final List<DayOfWeek> dayOfWeekList = List.of(DayOfWeek.SUNDAY, DayOfWeek.THURSDAY);
-        List<DayWorkTime> dayWorkTimes = new ArrayList<>();
-
     }
 }

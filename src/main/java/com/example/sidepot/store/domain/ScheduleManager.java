@@ -43,7 +43,7 @@ public class ScheduleManager {
     public static ScheduleManager of(TodoList todoList, ManagerCreateDto managerCreateDto){
         return ScheduleManager.builder()
                 .staffId(managerCreateDto.getStaffId())
-                .name(managerCreateDto.getMangerName())
+                .name(managerCreateDto.getManagerName())
                 .todoList(todoList)
                 .build();
     }
