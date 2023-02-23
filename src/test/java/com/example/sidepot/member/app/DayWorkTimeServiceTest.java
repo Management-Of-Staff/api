@@ -40,18 +40,6 @@ public class DayWorkTimeServiceTest {
 
     private class DayWorkTimeService {
         public void addDate(DayWorkTimeAddRequest dayWorkTimeAddRequest) {
-//            Long count = 0L;
-//            List<DayWorkTime> dayWorkTimes = new ArrayList<>();
-//            long weeksBetween = ChronoUnit.WEEKS.between(dayWorkTimeAddRequest.startDate, dayWorkTimeAddRequest.endDate);
-//            for(DayOfWeek day : dayWorkTimeAddRequest.dayOfWeekList ){
-//                for(int i = 0; i<weeksBetween ; i++) {
-//                       count++;
-//                    LocalDate nextWeek = dayWorkTimeAddRequest.startDate.plusWeeks(i);
-//                    LocalDate nextWorkDate = nextWeek.with(TemporalAdjusters.nextOrSame(day));
-//                    dayWorkTimes.add(new DayWorkTime(count, nextWorkDate, dayWorkTimeAddRequest.startTime, dayWorkTimeAddRequest.endTime, day, false));
-//
-//                }
-//            }
             LongAdder count = new LongAdder();
             List<DayWorkTime> dayWorkTimes = dayWorkTimeAddRequest.dayOfWeekList.stream()
                     .flatMap(day -> LongStream.range(0, ChronoUnit.WEEKS.between(dayWorkTimeAddRequest.startDate, dayWorkTimeAddRequest.endDate))
@@ -62,19 +50,17 @@ public class DayWorkTimeServiceTest {
                                 return new DayWorkTime(count.longValue(), nextWorkDate, dayWorkTimeAddRequest.startTime, dayWorkTimeAddRequest.endTime, day, false);
                             }))
                     .collect(Collectors.toList());
-            System.out.println(count);
             dayWorkTimes.stream().forEach(i -> System.out.println(i.getWorkDate()));
-
         }
     }
 
     private class DayWorkTime {
-        private Long id;
-        private LocalDate workDate;
-        private LocalTime startTime;
-        private LocalTime endTime;
-        private DayOfWeek dayOfWeek;
-        private Boolean attendanceCheck;
+        private final Long id;
+        private final LocalDate workDate;
+        private final LocalTime startTime;
+        private final LocalTime endTime;
+        private final DayOfWeek dayOfWeek;
+        private final Boolean attendanceCheck;
 
 
         public DayWorkTime(Long id, LocalDate workDate, LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek, Boolean attendanceCheck) {
@@ -107,9 +93,7 @@ public class DayWorkTimeServiceTest {
     private static class DayWorkTimeAddRequest {
         private final LocalDate startDate;
         private final LocalDate endDate;
-
         private final LocalTime startTime;
-
         private final LocalTime endTime;
         private final Set<DayOfWeek> dayOfWeekList;
         public DayWorkTimeAddRequest(String startDate, String endDate, String startTime, String endTime, Set<String> dayOfWeekList) {

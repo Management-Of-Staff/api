@@ -6,10 +6,12 @@ import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.member.domain.*;
 import com.example.sidepot.member.dto.ContractCreateDto.*;
 import com.example.sidepot.member.dto.EmploymentReadResponseDto.*;
+import com.example.sidepot.member.dto.WeekWorkAddRequest;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.work.domain.DayWorkTime;
 import com.example.sidepot.work.domain.DayWorkTimeRepository;
+import com.example.sidepot.work.domain.WeekWorkTime;
 import com.example.sidepot.work.domain.WeekWorkTimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
@@ -30,6 +32,10 @@ public class EmploymentService {
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     private final EmploymentRepository employmentRepository;
+    private final AuthRepository authRepository;
+    private final OwnerRepository ownerRepository;
+
+    private final WeekWorkTimeRepository weekWorkTimeRepository;
 
 
     @Transactional(readOnly = true)
@@ -50,7 +56,7 @@ public class EmploymentService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public ResponseDto readEmployment(Auth auth, Long storeId, Long staffId){
         Store verifiedStore = storeRepository.findByOwner_AuthIdAndStoreId(auth.getAuthId(),storeId)
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
@@ -58,8 +64,8 @@ public class EmploymentService {
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_STAFF_IN_STORE));
         return ResponseDto.builder()
                 .path(String.format("/staff-management/store/" + storeId + "/staff/" + staffId))
-                .method("GET")
-                .statusCode(200)
+                .method(HttpMethod.GET.name())
+                .statusCode(HttpStatus.OK.value())
                 .message("매장 직원 조회")
                 .data(ReadEmploymentResponseDto.of(employment))
                 .build();
@@ -85,13 +91,18 @@ public class EmploymentService {
         return ResponseDto.builder().build();
     }
     @Transactional
-    public ResponseDto updateEmploymentWorkSchedule(Auth auth, Long storeId, Long staffId){
-
+    public ResponseDto updateEmploymentWorkSchedule(Auth owner, Long storeId, Long staffId, WeekWorkAddRequest weekWorkAddRequest){
+//        ownerRepository.findByPhone(owner.getPhone()).orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+//        storeRepository.findByOwner_AuthIdAndStoreId(owner.getAuthId(), storeId).orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_STORE));
+        Employment employment = employmentRepository.findByStore_StoreIdAndStaff_AuthId(storeId, staffId).orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
+        WeekWorkTime weekWorkTime = WeekWorkTime.addRequestOf(weekWorkAddRequest);
+        weekWorkTime.setEmployment(employment);
+        weekWorkTimeRepository.save(weekWorkTime);
         return ResponseDto.builder()
+                .statusCode(HttpStatus.OK.value())
                 .method(HttpMethod.POST.toString())
                 .message("근무일정 추가")
                 .data("")
-                .statusCode(HttpStatus.OK.value())
                 .build();
     }
 }

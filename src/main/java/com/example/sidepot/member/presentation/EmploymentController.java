@@ -4,6 +4,7 @@ import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.member.app.EmploymentService;
 import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.member.dto.WeekWorkAddRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,22 +27,22 @@ public class EmploymentController {
 
     @ApiOperation(value = "[매장 직원 관리] 1.매장 직원 목록", notes = "특정 매장의 직원 목록을 보는 API")
     @PreAuthorize("hasAuthority('OWNER')")
-    @GetMapping(value = "/read")
+    @GetMapping(value = "/read-all")
     public ResponseEntity<ResponseDto> readAllStaffByStoreId(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                              @RequestParam(value = "storeId", required = true) Long storeId){
         return ResponseEntity.ok(employmentService.readAllStaffByStoreId(auth, storeId));
     }
 
-    @ApiOperation(value = "[회원 관리] 2.사장님이 매장 직원 정보 조회", notes ="특정 매장 직원의 상세 정보를 보는 API")
+    @ApiOperation(value = "[매장 직원 관리] 2.사장님이 매장 직원 정보 조회", notes ="특정 매장 직원의 상세 정보를 보는 API")
     @PreAuthorize("hasAuthority('OWNER')")
-    @GetMapping(value = "/read/{staffId}")
+    @GetMapping(value = "/read")
     public ResponseEntity<ResponseDto> readStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                                @RequestParam(value = "storeId", required = true) Long storeId,
                                                                @RequestParam(value = "staffId", required = true) Long staffId){
         return ResponseEntity.ok(employmentService.readEmployment(auth, storeId, staffId));
     }
 
-    @ApiOperation(value = "[회원 관리] 3.직원 초대", notes = "특정 매장에 특정 직원을 초대하는 API")
+    @ApiOperation(value = "[매잔 직원 관리] 3.직원 초대", notes = "특정 매장에 특정 직원을 초대하는 API")
     @PreAuthorize("hasAuthority('OWNER')")
     @PostMapping(value = "/add")
     public ResponseEntity<ResponseDto> addStaffToStoreByStoreId(@ApiIgnore @AuthenticationPrincipal Auth auth,
@@ -69,14 +70,14 @@ public class EmploymentController {
 //        return ResponseEntity.ok().build();
 //    }
 
+    @ApiOperation(value =  "[매장 직원 관리] 6.근무 추가", notes ="특정 직원의 근무를 추가하는 API")
     @PreAuthorize("hasAuthority('OWNER')")
-    @PostMapping(value = "/employment/update-schedule")
+    @PostMapping(value = "/update-schedule")
     public ResponseEntity<ResponseDto> updateEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal Auth auth,
                                                                     @RequestParam(value = "storeId", required = true) Long storeId,
                                                                     @RequestParam(value = "staffId", required = true) Long staffId,
-                                                                    HttpServletRequest request){
+                                                                    @RequestBody WeekWorkAddRequest weekWorkAddRequest) {
 
-        return ResponseEntity.ok(employmentService.updateEmploymentWorkSchedule(auth, storeId, staffId)
-                .builder().path(request.getServletPath()).build());
+        return ResponseEntity.ok(employmentService.updateEmploymentWorkSchedule(auth, storeId, staffId, weekWorkAddRequest));
     }
 }

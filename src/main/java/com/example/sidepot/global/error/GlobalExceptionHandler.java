@@ -22,7 +22,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * 모든 최상위 자바 Exception 테스트 로그 용도
      */
     @ExceptionHandler(value = {java.lang.Exception.class})
-    protected java.lang.Exception handleNativeException(java.lang.Exception e){
-        return e;
+    protected ResponseDto handleNativeException(java.lang.Exception e){
+        return  ResponseDto.builder()
+                .message(String.valueOf(e.getCause()))
+                .data(e.getMessage())
+                .build();
     }
 }

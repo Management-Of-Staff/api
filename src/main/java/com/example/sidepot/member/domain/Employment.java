@@ -1,10 +1,13 @@
 package com.example.sidepot.member.domain;
 
 import com.example.sidepot.store.domain.Store;
+import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -23,6 +26,9 @@ public class Employment {
     @ManyToOne
     @JoinColumn(name = "staff_id")
     private Staff staff;
+
+    @OneToMany(mappedBy = "employment")
+    private List<WeekWorkTime> weekWorkTimeList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private WorkingStatus workingStatus;
