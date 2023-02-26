@@ -2,7 +2,7 @@ package com.example.sidepot.work.domain;
 
 import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.member.dto.WeekWorkAddRequest;
+import com.example.sidepot.member.dto.WorkTimeRequest;
 import com.example.sidepot.store.domain.Store;
 import lombok.Builder;
 import lombok.Getter;
@@ -81,7 +81,7 @@ public class WeekWorkTime {
         this.employment = employment;
     }
 
-    public static WeekWorkTime addRequestOf(WeekWorkAddRequest weekWorkAddRequest){
+    public static WeekWorkTime addRequestOf(WorkTimeRequest.WeekWorkAddRequest weekWorkAddRequest){
         return WeekWorkTime.builder()
                 .day(weekWorkAddRequest.getDayOfWeekList())
                 .startDate(weekWorkAddRequest.getStartDate())

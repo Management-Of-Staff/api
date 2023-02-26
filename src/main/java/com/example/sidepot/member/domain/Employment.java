@@ -2,6 +2,7 @@ package com.example.sidepot.member.domain;
 
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.work.domain.WeekWorkTime;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,13 +43,25 @@ public class Employment {
     @Column(name = "rank")
     private Rank rank;
 
-    public Employment(Store store, Staff staff, String staffName) {
+    @Builder
+    public Employment(Store store, Staff staff, List<WeekWorkTime> weekWorkTimeList,
+                      WorkingStatus workingStatus, String staffName, Long hourlyWage, Rank rank) {
         this.store = store;
         this.staff = staff;
+        this.weekWorkTimeList = weekWorkTimeList;
+        this.workingStatus = workingStatus;
         this.staffName = staffName;
+        this.hourlyWage = hourlyWage;
+        this.rank = rank;
     }
 
     public static Employment of(Store store, Staff staff, String staffName){
-       return new Employment(store, staff, staffName);
+        return new Employment().builder()
+                .hourlyWage(0L)
+                .rank(Rank.ETC)
+                .staff(staff)
+                .store(store)
+                .workingStatus(WorkingStatus.INIT)
+                .build();
     }
 }

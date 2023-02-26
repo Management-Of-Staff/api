@@ -4,10 +4,7 @@ import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Rank;
 import com.example.sidepot.member.domain.WorkingStatus;
 import com.example.sidepot.work.domain.WeekWorkTime;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -16,46 +13,60 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EmploymentReadResponseDto {
+public class EmploymentReadDto {
     @Data
     @NoArgsConstructor
-    public static class ReadEmploymentListResponseDto {
+    public static class ReadEmploymentListResponse {
 
         private Long EmploymentId;
         private String staffName;
         private WorkingStatus workingStatus;
+        private String profilePath;
+        private Boolean healthCertificateCheck;
+        private List<ReadWorkTimeWithStaff> workTimeRequests;
 
-        public ReadEmploymentListResponseDto(Long employmentId, String staffName, WorkingStatus workingStatus) {
-            this.EmploymentId = employmentId;
+        @Builder
+        public ReadEmploymentListResponse(Long employmentId, String staffName, WorkingStatus workingStatus, String profilePath,
+                                          Boolean healthCertificateCheck, List<ReadWorkTimeWithStaff> workTimeRequests) {
+            EmploymentId = employmentId;
             this.staffName = staffName;
             this.workingStatus = workingStatus;
+            this.profilePath = profilePath;
+            this.healthCertificateCheck = healthCertificateCheck;
+            this.workTimeRequests = workTimeRequests;
         }
 
-        public static ReadEmploymentListResponseDto of(Employment employment){
-            return new ReadEmploymentListResponseDto(employment.getEmploymentId(),
+        public static ReadEmploymentListResponse of(Employment employment){
+            return new ReadEmploymentListResponse(employment.getEmploymentId(),
                                                      employment.getStaff().getName(),
-                                                     employment.getWorkingStatus());
+                                                     employment.getWorkingStatus(),
+                                                     null,
+                                                     false,
+                                                     employment.getWeekWorkTimeList().stream().map(list -> new ReadWorkTimeWithStaff(list)).collect(Collectors.toList()));
         }
     }
 
     @Getter
     @NoArgsConstructor
-    public static class ReadEmploymentResponseDto {
+    public static class ReadOneEmploymentResponse {
 
         private Long employmentId;
         private String name;
+        private String phone;
+        private String profilePath;
         private Rank rank;
+        private Long hourlyWage;
         private List<ReadWorkTimeWithStaff> readWorkTimsWithStaffList;
 
-        public ReadEmploymentResponseDto(Long employmentId, String name, Rank rank, List<ReadWorkTimeWithStaff> readWorkTimsWithStaffList) {
+        public ReadOneEmploymentResponse(Long employmentId, String name, Rank rank, List<ReadWorkTimeWithStaff> readWorkTimsWithStaffList) {
             this.employmentId = employmentId;
             this.name = name;
             this.rank = rank;
             this.readWorkTimsWithStaffList = readWorkTimsWithStaffList;
         }
 
-        public static ReadEmploymentResponseDto of(Employment employment){
-            return new ReadEmploymentResponseDto(employment.getEmploymentId(),
+        public static ReadOneEmploymentResponse of(Employment employment){
+            return new ReadOneEmploymentResponse(employment.getEmploymentId(),
                                                  employment.getStaffName(),
                                                  employment.getRank(),
                                                  employment.getWeekWorkTimeList().stream().map(ReadWorkTimeWithStaff::new).collect(Collectors.toList()));
@@ -78,7 +89,5 @@ public class EmploymentReadResponseDto {
             this.startTime = weekWorkTime.getStartTime();
             this.endTime = weekWorkTime.getEndTime();
         }
-
     }
-
 }

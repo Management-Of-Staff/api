@@ -1,42 +1,42 @@
-spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?allowMultiQueries=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  cache:
-    type: redis
-  redis:
-    host: svc.gksl2.cloudtype.app
-    port: 30134
-
-
-springdoc:
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
-  api-docs:
-    groups:
-      enabled: true
-  swagger-ui:
-    operations-sorter: alpha # alpha(알파벳 오름차순), method(HTTP메소드순)
-    tags-sorter: alpha # 태그 정렬 기준
-    path: /swagger-ui.html # html 문서 접속 경로
-    disable-swagger-default-url: true
-    display-query-params-without-oauth2: true
-    doc-expansion: none # tag, operation 펼치는 방식
-  paths-to-match:
-    - /**
-
-side-pot:
-  access-key: zsdioufgasdoifyuq3jklrhzdkjlvhuiotyvo7q8yqojoisedhsakjlvnzcx5fds23dafa8j
-  refresh-key: zxcvlkjdsfiopufas8301d3cnsddcn3h9cnu0qvasdfsdagdfgdfshbbvccsdzl2
-
-server:
-  address: 0.0.0.0
-  port: 8080
+#spring:
+#  datasource:
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?allowMultiQueries=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
+#    username: ${DB_USER}
+#    password: ${DB_PASSWORD}
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#  cache:
+#    type: redis
+#  redis:
+#    host: svc.gksl2.cloudtype.app
+#    port: 30134
+#
+#
+#springdoc:
+#  default-consumes-media-type: application/json
+#  default-produces-media-type: application/json
+#  api-docs:
+#    groups:
+#      enabled: true
+#  swagger-ui:
+#    operations-sorter: alpha # alpha(알파벳 오름차순), method(HTTP메소드순)
+#    tags-sorter: alpha # 태그 정렬 기준
+#    path: /swagger-ui.html # html 문서 접속 경로
+#    disable-swagger-default-url: true
+#    display-query-params-without-oauth2: true
+#    doc-expansion: none # tag, operation 펼치는 방식
+#  paths-to-match:
+#    - /**
+#
+#side-pot:
+#  access-key: zsdioufgasdoifyuq3jklrhzdkjlvhuiotyvo7q8yqojoisedhsakjlvnzcx5fds23dafa8j
+#  refresh-key: zxcvlkjdsfiopufas8301d3cnsddcn3h9cnu0qvasdfsdagdfgdfshbbvccsdzl2
+#
+#server:
+#  address: 0.0.0.0
+#  port: 8080
