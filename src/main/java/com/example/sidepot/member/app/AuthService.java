@@ -100,50 +100,6 @@ public class AuthService {
         redisUtil.setRefreshToken(TokenType.REFRESH.getDescription() + claims.get("phone").toString(), tokenDto.getRefreshToken());
         return tokenDto;
     }
-    public TokenDto loginDev(MemberLoginDto memberLoginDto) {
-        if (memberValidator.isDeletedMember(memberLoginDto.getPhone())) {
-            throw new Exception(ErrorCode.ALREADY_DELETED_MEMBER);
-        }
-        Auth auth = authRepository.findByPhone(memberLoginDto.getPhone())
-                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
-        memberValidator.checkPassword(memberLoginDto.getPassword(), auth.getPassword());
-
-        return TokenDto.builder()
-                .accessToken(issuer.createAccessToken(auth))
-                .refreshToken(issuer.createRefreshToken(auth))
-                .build();
-    }
-
-    public ResponseDto logoutDev(String BearerToken) {
-        String accessToken = resolveToken(BearerToken);
-        Claims claims = issuer.parseAccessClaims(accessToken);
-        return ResponseDto.builder()
-                .path(String.format("rest/v1/auth/logout"))
-                .method("POST")
-                .message(String.format("로그아웃 성공"))
-                .statusCode(200)
-                .data("")
-                .build();
-    }
-
-    public TokenDto reissueDev(String BearerToken) {
-        String refreshToken = resolveToken(BearerToken);
-        if (!StringUtils.hasText(refreshToken)) {
-            log.info("올바르지 않은 헤더");
-        }
-        Claims claims = issuer.parseRefreshClaims(refreshToken);
-        if (claims == null) {
-            log.info("토큰 오류");
-        }
-        Auth auth;
-        auth = authRepository.findByPhone(claims.getSubject())
-                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
-
-        return TokenDto.builder()
-                .accessToken(issuer.createAccessToken(auth))
-                .refreshToken(issuer.createRefreshToken(auth))
-                .build();
-    }
 
     @Transactional
     public ResponseDto updateMemberPassword(Auth auth, MemberUpdatePasswordRequestDto memberUpdatePasswordRequestDto) {

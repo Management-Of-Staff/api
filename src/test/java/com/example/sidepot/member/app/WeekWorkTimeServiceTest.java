@@ -39,7 +39,6 @@ public class WeekWorkTimeServiceTest {
         private final LocalDate endDate;
         private final LocalTime startTime;
         private final LocalTime endTime;
-
         private final Set<DayOfWeek> dayOfWeekList;
         public WWorkAddRequest(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, Set<DayOfWeek> dayOfWeekList) {
             this.startDate = startDate;

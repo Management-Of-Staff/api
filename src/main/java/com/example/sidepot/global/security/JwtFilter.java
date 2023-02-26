@@ -29,6 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        log.info("JwtFilter 가동 중...");
         String token = resolveToken(request);
         try {
             Authentication authentication = authenticationManager.authenticate(new JwtAuthenticationToken(token));
