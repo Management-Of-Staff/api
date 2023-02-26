@@ -7,6 +7,7 @@ import com.example.sidepot.member.domain.*;
 import com.example.sidepot.member.dto.ContractCreateDto.*;
 import com.example.sidepot.member.dto.EmploymentAddDto.*;
 import com.example.sidepot.member.dto.EmploymentReadDto.*;
+import com.example.sidepot.member.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.member.dto.WorkTimeRequest;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
@@ -127,6 +128,21 @@ public class EmploymentService {
                 .message(HttpMethod.POST.name())
                 .method("초대 직원 검색")
                 .data(FindStaffToInviteResponse.of(staff))
+                .build();
+    }
+    @Transactional
+    public ResponseDto updateStoreStaffRankAndWage(Auth auth, UpdateRankAndWageRequest updateRankAndWageRequest) {
+        Employment employment = employmentRepository
+                .findByStore_StoreIdAndStaff_AuthId(updateRankAndWageRequest.getStoreId(), updateRankAndWageRequest.getStaffId())
+                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
+        employment.updateRankAndWage(updateRankAndWageRequest);
+        employmentRepository.save(employment);
+        return ResponseDto.builder()
+                .path("/employment/update")
+                .statusCode(HttpStatus.OK.value())
+                .message(HttpMethod.POST.name())
+                .method("근무 정보 수정")
+                .data("")
                 .build();
     }
 }

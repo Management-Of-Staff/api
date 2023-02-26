@@ -1,5 +1,6 @@
 package com.example.sidepot.member.dto;
 
+import com.example.sidepot.global.filehandle.FileType;
 import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Rank;
 import com.example.sidepot.member.domain.WorkingStatus;
@@ -56,20 +57,30 @@ public class EmploymentReadDto {
         private String profilePath;
         private Rank rank;
         private Long hourlyWage;
-        private List<ReadWorkTimeWithStaff> readWorkTimsWithStaffList;
+        private List<ReadWorkTimeWithStaff> readWorkTimesWithStaffList;
 
-        public ReadOneEmploymentResponse(Long employmentId, String name, Rank rank, List<ReadWorkTimeWithStaff> readWorkTimsWithStaffList) {
+        @Builder
+        public ReadOneEmploymentResponse(Long employmentId, String name, String phone, String profilePath, Rank rank,
+                                         Long hourlyWage, List<ReadWorkTimeWithStaff> readWorkTimesWithStaffList) {
             this.employmentId = employmentId;
             this.name = name;
+            this.phone = phone;
+            this.profilePath = profilePath;
             this.rank = rank;
-            this.readWorkTimsWithStaffList = readWorkTimsWithStaffList;
+            this.hourlyWage = hourlyWage;
+            this.readWorkTimesWithStaffList = readWorkTimesWithStaffList;
         }
 
         public static ReadOneEmploymentResponse of(Employment employment){
-            return new ReadOneEmploymentResponse(employment.getEmploymentId(),
-                                                 employment.getStaffName(),
-                                                 employment.getRank(),
-                                                 employment.getWeekWorkTimeList().stream().map(ReadWorkTimeWithStaff::new).collect(Collectors.toList()));
+            return ReadOneEmploymentResponse.builder()
+                    .employmentId(employment.getEmploymentId())
+                    .name(employment.getStaffName())
+                    .hourlyWage(employment.getHourlyWage())
+                    .rank(employment.getRank())
+                    .readWorkTimesWithStaffList(employment.getWeekWorkTimeList().stream()
+                            .map(ReadWorkTimeWithStaff::new)
+                            .collect(Collectors.toList()))
+                    .build();
         }
     }
 

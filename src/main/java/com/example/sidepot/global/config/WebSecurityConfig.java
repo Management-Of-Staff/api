@@ -67,6 +67,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        log.info("WebSecurityConfig 필터 중..");
         http
                 .csrf()
                     .disable()

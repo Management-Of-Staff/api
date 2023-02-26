@@ -5,10 +5,12 @@ import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.member.app.EmploymentService;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.dto.EmploymentAddDto.*;
+import com.example.sidepot.member.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.member.dto.WorkTimeRequest.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.jdbc.Work;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -54,17 +56,16 @@ public class EmploymentController {
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
     @PostMapping("/find-invitee")
     public ResponseEntity<ResponseDto> findStaffToInvite(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                                   @RequestBody FindStaffToInviteRequest findStaffToInviteRequest){
+                                                         @RequestBody FindStaffToInviteRequest findStaffToInviteRequest){
         return ResponseEntity.ok(employmentService.findStaffToInvite(auth, findStaffToInviteRequest));
     }
 
     @ApiOperation(value = "[매장 직원 관리] 5.매장 직원 정보 수정", notes = "사장님이 매장 직원의 정보를 수정하는 API" )
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
-    @PostMapping(value = "/store/{storeId}/update-staff/{staffId}")
-    public ResponseEntity<ResponseDto> updateStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                                                 @PathVariable Long storeId,
-                                                                 @PathVariable Long staffId){
-        return ResponseEntity.ok().build();
+    @PostMapping(value = "/update")
+    public ResponseEntity<ResponseDto> updateStoreStaffRankAndWage(@ApiIgnore @AuthenticationPrincipal Auth auth,
+                                                                 @RequestBody UpdateRankAndWageRequest updateRankAndWageRequest){
+        return ResponseEntity.ok(employmentService.updateStoreStaffRankAndWage(auth, updateRankAndWageRequest));
     }
 
 //    @ApiOperation(value = "[회원 관리] 5.근로계약서 등록", notes = "근로 계약서를 서버에 저장하는 API")
@@ -92,7 +93,7 @@ public class EmploymentController {
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
     @PutMapping(value = "/update-schedule")
     public ResponseEntity<ResponseDto> deleteEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal Auth auth,
-                                                                     @RequestBody WeekWorkDeleteRequest weekWorkDeleteRequest){
+                                                                    @RequestBody WeekWorkDeleteRequest weekWorkDeleteRequest){
         return ResponseEntity.ok(employmentService.deleteEmploymentWorkSchedule(auth, weekWorkDeleteRequest));
     }
 }

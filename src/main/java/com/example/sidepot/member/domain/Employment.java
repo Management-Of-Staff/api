@@ -1,5 +1,6 @@
 package com.example.sidepot.member.domain;
 
+import com.example.sidepot.member.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.Builder;
@@ -63,5 +64,10 @@ public class Employment {
                 .store(store)
                 .workingStatus(WorkingStatus.INIT)
                 .build();
+    }
+
+    public void updateRankAndWage(UpdateRankAndWageRequest updateRankAndWageRequest) {
+        this.rank = updateRankAndWageRequest.getRank();
+        this.hourlyWage = updateRankAndWageRequest.getHourlyWage();
     }
 }
