@@ -28,6 +28,8 @@ public class StoreController {
     ){
         return ResponseEntity.ok(storeService.readAllStore(auth));
     }
+
+
     @PostMapping("/stores")
     @ApiOperation(value = "[매장관리] 2. 매장 생성", notes = "오너가 가진 매장을 추가하는 API")
     public ResponseEntity createStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
@@ -49,5 +51,14 @@ public class StoreController {
                                       @RequestBody StoreCreateRequestDto storeCreateRequestDto){
         return ResponseEntity.ok(storeService.updateStore(storeId, storeCreateRequestDto ));
     }
+
+    @GetMapping("/stores/{storeId}")
+    @ApiOperation(value = "[매장관리] 5. 매장 상세 조회", notes = "오너가 가진 매장을 상세 조회하는 API")
+    public ResponseEntity findStore(@ApiIgnore @AuthenticationPrincipal final Auth auth,
+                                    @PathVariable final Long storeId
+    ){
+        return ResponseEntity.ok(storeService.readOneStore(auth, storeId));
+    }
+
 
 }

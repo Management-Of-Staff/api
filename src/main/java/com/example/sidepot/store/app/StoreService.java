@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -54,6 +55,17 @@ public class StoreService {
                 .build();
     }
 
+    public ResponseDto readOneStore(Auth auth, Long storeId){
+        Store store = storeRepository.findByOwner_AuthIdAndStoreId(auth.getAuthId(), storeId)
+                .orElseThrow(()->new Exception(ErrorCode.NOT_FOUND_STORE));
+        return ResponseDto.builder()
+                .path(String.format("rest/v1/stores"))
+                .method("GET")
+                .message(String.format("매장 상세 조회 성공"))
+                .statusCode(200)
+                .data(StoreResponseDto.from(store))
+                .build();
+    }
     @Transactional
     public ResponseDto deleteStore(Long storeId){
         storeRepository.deleteByStoreId(storeId);
