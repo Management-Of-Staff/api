@@ -1,6 +1,7 @@
 package com.example.sidepot.store.dto;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +24,9 @@ public class StoreCreateRequestDto {
     private String earlyLeaveTime;
 
 
-    public StoreCreateRequestDto(final String storeName,
+    @Builder
+    public StoreCreateRequestDto(
+                                 final String storeName,
                                  final String branchName,
                                  final String primaryAdrress,
                                  final String detailAddress,
