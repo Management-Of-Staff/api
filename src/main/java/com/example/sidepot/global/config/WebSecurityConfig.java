@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -60,23 +59,30 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().antMatchers(PERMIT_URL_ARRAY)
-                .antMatchers(PERMIT_URL_AUTH_ARRAY);
+    public SecurityFilterChain permitFilter(HttpSecurity http) throws Exception {
+        http
+                .requestMatchers(requestMatchers ->
+                        requestMatchers
+                                .mvcMatchers(PERMIT_URL_ARRAY)
+                                .mvcMatchers(PERMIT_URL_AUTH_ARRAY)
+                )
+                .authorizeRequests(authorize ->
+                        authorize.anyRequest().permitAll()
+                )
+                .requestCache().disable()
+                .securityContext().disable()
+                .sessionManagement().disable();
+        return http.build();
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        log.info("WebSecurityConfig 필터 중..");
+    public SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception{
+        log.debug("WebSecurityConfig 필터 중..");
         http
-                .csrf()
-                    .disable()
-                .cors()
-                    .disable()
-                .formLogin()
-                    .disable()
-                .httpBasic()
-                    .disable()
+                .csrf().disable()
+                .cors().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
                 .authorizeRequests()
                     .antMatchers(Path.REST_BASE_PATH + "/auth/**").authenticated()
                     .antMatchers(Path.REST_BASE_PATH + "/owners/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
@@ -85,17 +91,17 @@ public class WebSecurityConfig {
                     .antMatchers(Path.REST_BASE_PATH + "/stores/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
                 .anyRequest().permitAll()
                 .and()
-                    .headers().frameOptions().disable()
+                .headers()
+                    .frameOptions().disable()
                 .and()
-                    .sessionManagement()
+                .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .exceptionHandling()
+                    .accessDeniedHandler(new CustomAccessDeniedHandler())
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
-                    .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and()
-                    .apply(new JwtSecurityConfig(authenticationManagerBuilder.getOrBuild()))
-                ;
+                .apply(new JwtSecurityConfig(authenticationManagerBuilder.getOrBuild()));
 
         return http.build();
     }
