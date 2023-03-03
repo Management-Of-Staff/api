@@ -3,6 +3,7 @@ package com.example.sidepot.member.dto;
 import com.example.sidepot.global.filehandle.FileType;
 import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Rank;
+import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.domain.WorkingStatus;
 import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.*;
@@ -19,7 +20,8 @@ public class EmploymentReadDto {
     @NoArgsConstructor
     public static class ReadEmploymentListResponse {
 
-        private Long EmploymentId;
+        private Long employmentId;
+        private Long staffId;
         private String staffName;
         private WorkingStatus workingStatus;
         private String profilePath;
@@ -27,9 +29,10 @@ public class EmploymentReadDto {
         private List<ReadWorkTimeWithStaff> workTimeRequests;
 
         @Builder
-        public ReadEmploymentListResponse(Long employmentId, String staffName, WorkingStatus workingStatus, String profilePath,
-                                          Boolean healthCertificateCheck, List<ReadWorkTimeWithStaff> workTimeRequests) {
-            EmploymentId = employmentId;
+        public ReadEmploymentListResponse(Long employmentId, Long staffId, String staffName, WorkingStatus workingStatus,
+                                          String profilePath, Boolean healthCertificateCheck, List<ReadWorkTimeWithStaff> workTimeRequests) {
+            this.employmentId = employmentId;
+            this.staffId = staffId;
             this.staffName = staffName;
             this.workingStatus = workingStatus;
             this.profilePath = profilePath;
@@ -39,6 +42,7 @@ public class EmploymentReadDto {
 
         public static ReadEmploymentListResponse of(Employment employment){
             return new ReadEmploymentListResponse(employment.getEmploymentId(),
+                                                     employment.getStaff().getAuthId(),
                                                      employment.getStaff().getName(),
                                                      employment.getWorkingStatus(),
                                                      null,
@@ -52,6 +56,7 @@ public class EmploymentReadDto {
     public static class ReadOneEmploymentResponse {
 
         private Long employmentId;
+        private Long staffId;
         private String name;
         private String phone;
         private String profilePath;
@@ -60,9 +65,10 @@ public class EmploymentReadDto {
         private List<ReadWorkTimeWithStaff> readWorkTimesWithStaffList;
 
         @Builder
-        public ReadOneEmploymentResponse(Long employmentId, String name, String phone, String profilePath, Rank rank,
+        public ReadOneEmploymentResponse(Long employmentId, Long staffId, String name, String phone, String profilePath, Rank rank,
                                          Long hourlyWage, List<ReadWorkTimeWithStaff> readWorkTimesWithStaffList) {
             this.employmentId = employmentId;
+            this.staffId = staffId;
             this.name = name;
             this.phone = phone;
             this.profilePath = profilePath;
@@ -74,7 +80,9 @@ public class EmploymentReadDto {
         public static ReadOneEmploymentResponse of(Employment employment){
             return ReadOneEmploymentResponse.builder()
                     .employmentId(employment.getEmploymentId())
-                    .name(employment.getStaffName())
+                    .staffId(employment.getStaff().getAuthId())
+                    .name(employment.getStaff().getName())
+                    .phone(employment.getStaff().getPhone())
                     .hourlyWage(employment.getHourlyWage())
                     .rank(employment.getRank())
                     .readWorkTimesWithStaffList(employment.getWeekWorkTimeList().stream()

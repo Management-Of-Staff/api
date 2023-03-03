@@ -47,7 +47,7 @@ public class MemberRegisterDto {
         private String phone;
         private String password;
         private Role role;
-
+        @ApiModelProperty(hidden = true)
         private LocalDateTime createDate = LocalDateTime.now();
 
         @Builder

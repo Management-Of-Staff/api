@@ -13,9 +13,6 @@ public class WorkTimeRequest {
     @Getter
     @NoArgsConstructor
     public static class WeekWorkAddRequest {
-
-        //private Long storeId;
-        //private Long staffId;
         private LocalDate startDate;
         private LocalDate endDate;
         private LocalTime startTime;
@@ -25,8 +22,6 @@ public class WorkTimeRequest {
         @Builder
         public WeekWorkAddRequest(Long storeId, Long staffId, LocalDate startDate, LocalDate endDate,
                                   LocalTime startTime, LocalTime endTime, Set<DayOfWeek> dayOfWeekList) {
-            //this.storeId = storeId;
-            //this.staffId = staffId;
             this.startDate = startDate;
             this.endDate = endDate;
             this.startTime = startTime;
