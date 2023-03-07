@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -61,6 +62,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain permitFilter(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .requestMatchers(requestMatchers ->
                         requestMatchers
                                 .mvcMatchers(PERMIT_URL_ARRAY)
@@ -77,7 +79,6 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception{
-        log.debug("WebSecurityConfig 필터 중..");
         http
                 .csrf().disable()
                 .cors().disable()
