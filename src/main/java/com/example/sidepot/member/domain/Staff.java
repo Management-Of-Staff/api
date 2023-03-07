@@ -1,5 +1,6 @@
 package com.example.sidepot.member.domain;
 
+import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,10 @@ import java.util.List;
 public class Staff extends Auth {
 
     @OneToMany(mappedBy = "staff")
-    private List<Employment> employment = new ArrayList<>();
+    private List<Employment> employments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "staff")
+    private List<WeekWorkTime> weekWorkTimeList = new ArrayList<>();
     @Builder
     public Staff(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate) {
         super(name, phone, password, uuid, role, createDate);

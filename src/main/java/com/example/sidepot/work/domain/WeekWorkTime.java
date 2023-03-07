@@ -1,14 +1,21 @@
 package com.example.sidepot.work.domain;
 
+import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.member.dto.WorkTimeRequest;
 import com.example.sidepot.store.domain.Store;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,20 +36,58 @@ public class WeekWorkTime {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @Column(name = "day_of_week")
-    private String dayOfWeek;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employment_id")
+    private Employment employment;
 
-    @Column(name = "start_time")
-    private LocalDate startTime;
+    @ElementCollection
+    @CollectionTable(name = "day_of_week",
+    joinColumns = @JoinColumn(name = "week_work_time"))
+    @Column(name = "day")
+    private Set<DayOfWeek> day = new HashSet<>();
 
-    @Column(name = "end_time")
-    private LocalDate endTime;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @Column(name = "start_time", columnDefinition = "TIME")
+    private LocalTime startTime;
+
+    @Column(name = "end_time", columnDefinition = "TIME")
+    private LocalTime endTime;
 
     @CreationTimestamp
     @Column(name = "create_time",
             updatable = false,
             nullable = false)
     private LocalDateTime createTime;
+    @Builder
+    public WeekWorkTime(Staff staff, Store store, Employment employment, Set<DayOfWeek> day, LocalDate startDate,
+                        LocalDate endDate, LocalTime startTime, LocalTime endTime, LocalDateTime createTime) {
+        this.staff = staff;
+        this.store = store;
+        this.employment = employment;
+        this.day = day;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.createTime = createTime;
+    }
 
+    public void setEmployment(Employment employment){
+        this.employment = employment;
+    }
+
+    public static WeekWorkTime addRequestOf(WorkTimeRequest.WeekWorkAddRequest weekWorkAddRequest){
+        return WeekWorkTime.builder()
+                .day(weekWorkAddRequest.getDayOfWeekList())
+                .startDate(weekWorkAddRequest.getStartDate())
+                .endDate(weekWorkAddRequest.getEndDate())
+                .startTime(weekWorkAddRequest.getStartTime())
+                .endTime(weekWorkAddRequest.getEndTime())
+                .build();
+    }
 }

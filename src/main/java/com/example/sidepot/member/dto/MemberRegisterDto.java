@@ -3,6 +3,7 @@ package com.example.sidepot.member.dto;
 import com.example.sidepot.member.domain.Auth;
 import com.example.sidepot.member.domain.Role;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,9 @@ public class MemberRegisterDto {
         private String phone;
         private String uuid;
         private Role role;
+
+        @ApiModelProperty(hidden = true)
+        private LocalDateTime createDate = LocalDateTime.now();
 
 
         @Builder
@@ -43,7 +47,7 @@ public class MemberRegisterDto {
         private String phone;
         private String password;
         private Role role;
-
+        @ApiModelProperty(hidden = true)
         private LocalDateTime createDate = LocalDateTime.now();
 
         @Builder

@@ -138,7 +138,7 @@ public class AuthService {
                                            MemberUpdateProfileRequestDto memberUpdateProfileRequestDto) throws IOException {
         Auth member = authRepository.findByPhone(auth.getPhone())
                 .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
-        getBaseFileDto(profileImage);
+        profileSaveWithMember(profileImage, member);
         member.updateMemberProfile(memberUpdateProfileRequestDto);
         authRepository.save(member);
         return ResponseDto.builder()
@@ -180,10 +180,11 @@ public class AuthService {
     }
 
     @Transactional
-    public void getBaseFileDto(MultipartFile profileImage) throws IOException {
-        for(CreateBaseFileDto dto :fileHandler.saveFileAndGetFileDto(profileImage)){
+    public void profileSaveWithMember(MultipartFile profileImage, Auth member) throws IOException {
+        for(CreateBaseFileDto dto : fileHandler.saveFileAndGetFileDto(profileImage)){
             fileRepository.save(MemberFile
                     .builder()
+                    .auth(member)
                     .fileType(FileType.PROFILE)
                     .fileOriginName(dto.getFileOriginName())
                     .fileSaveName(dto.getFileSavePath()).build());

@@ -27,9 +27,7 @@ public class MemberUpdateDto {
     }
 
     @Getter
-    @Setter
     @NoArgsConstructor
-    @AllArgsConstructor
     @ApiModel(value = "MemberUpdateProfileRequestDto")
     public static class MemberUpdateProfileRequestDto {
         private String birthDate;
