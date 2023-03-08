@@ -1,6 +1,6 @@
 package com.example.sidepot.member.dto;
 
-import com.example.sidepot.member.domain.Rank;
+import com.example.sidepot.work.domain.Rank;
 import lombok.Getter;
 
 

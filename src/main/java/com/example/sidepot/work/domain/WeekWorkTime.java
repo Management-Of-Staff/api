@@ -1,6 +1,5 @@
 package com.example.sidepot.work.domain;
 
-import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.dto.WorkTimeRequest;
 import com.example.sidepot.store.domain.Store;
