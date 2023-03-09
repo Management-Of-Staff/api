@@ -1,8 +1,8 @@
-package com.example.sidepot.work.domain;
+package com.example.sidepot.member.domain;
 
-import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.store.domain.Store;
+import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -11,8 +11,6 @@ import com.example.sidepot.member.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.member.dto.WorkTimeRequest;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
-import com.example.sidepot.work.domain.Employment;
-import com.example.sidepot.work.domain.EmploymentRepository;
 import com.example.sidepot.work.domain.WeekWorkTime;
 import com.example.sidepot.work.domain.WeekWorkTimeRepository;
 import lombok.RequiredArgsConstructor;

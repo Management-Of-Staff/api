@@ -1,8 +1,10 @@
 package com.example.sidepot.member.dto;
 
-import com.example.sidepot.work.domain.Employment;
-import com.example.sidepot.work.domain.Rank;
-import com.example.sidepot.work.domain.WorkingStatus;
+import com.example.sidepot.global.filehandle.FileType;
+import com.example.sidepot.member.domain.Employment;
+import com.example.sidepot.member.domain.Rank;
+import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.member.domain.WorkingStatus;
 import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.*;
 
