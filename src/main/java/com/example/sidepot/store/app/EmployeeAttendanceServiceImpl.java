@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,12 @@ public class EmployeeAttendanceServiceImpl implements EmployeeAttendanceService{
     public List<EmployeeAttendanceDto> getCurrentAttendance(Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new EntityNotFoundException("No matching store ID found."));
-        List<EmployeeAttendance> employeeAttendances = employeeAttendanceRepository.findByStoreAndAndCheckOutTimeIsNull(store);
+
+        // 수정 예정
+        LocalDate 매장시작시간 = LocalDate.now();
+        LocalDate 매장종료시간 = LocalDate.now();
+
+        List<EmployeeAttendance> employeeAttendances = employeeAttendanceRepository.getTodayNormalAttendanceListByStore(store, 매장시작시간, 매장종료시간);
         return employeeAttendances.stream()
                 .map(EmployeeAttendanceDto::from)
                 .collect(Collectors.toList());

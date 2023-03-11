@@ -34,6 +34,10 @@ public class EmployeeAttendance extends BaseEntity {
     @Column(name = "check_out_time")
     private LocalDateTime checkOutTime;
 
+    @Column(name = "attendance_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AttendanceStatus attendanceStatus;
+
     public String getStaffName() {
         // 에러 반환 예정
         if(employment == null) {
