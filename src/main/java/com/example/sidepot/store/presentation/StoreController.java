@@ -12,8 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.websocket.server.PathParam;
-
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "매장 관련 APIs")
@@ -59,6 +57,4 @@ public class StoreController {
     ){
         return ResponseEntity.ok(storeService.readOneStore(auth, storeId));
     }
-
-
 }
