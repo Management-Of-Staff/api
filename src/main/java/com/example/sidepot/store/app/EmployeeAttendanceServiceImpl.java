@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,10 +34,9 @@ public class EmployeeAttendanceServiceImpl implements EmployeeAttendanceService{
                 .orElseThrow(() -> new EntityNotFoundException("No matching store ID found."));
 
         // 수정 예정
-        LocalDate 매장시작시간 = LocalDate.now();
-        LocalDate 매장종료시간 = LocalDate.now();
+        LocalDateTime 매장시작시간 = LocalDate.now().atStartOfDay();
 
-        List<EmployeeAttendance> employeeAttendances = employeeAttendanceRepository.getTodayNormalAttendanceListByStore(store, 매장시작시간, 매장종료시간);
+        List<EmployeeAttendance> employeeAttendances = employeeAttendanceRepository.getTodayNormalAttendanceListByStore(store, 매장시작시간);
         return employeeAttendances.stream()
                 .map(EmployeeAttendanceDto::from)
                 .collect(Collectors.toList());
