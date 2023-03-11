@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -89,5 +90,19 @@ public class WeekWorkTime {
                 .startTime(weekWorkAddRequest.getStartTime())
                 .endTime(weekWorkAddRequest.getEndTime())
                 .build();
+    }
+
+    /**
+     * 근무 요일 조회
+     * ex) '월, 화, 수'
+     */
+    public String getWorkDays() {
+        // 예외 예정
+        if(day == null || day.isEmpty()) {
+            return "";
+        }
+        return day.stream()
+                .map(Enum::name)
+                .collect(Collectors.joining(","));
     }
 }
