@@ -6,6 +6,7 @@ import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -70,4 +71,20 @@ public class Employment {
         this.rank = updateRankAndWageRequest.getRank();
         this.hourlyWage = updateRankAndWageRequest.getHourlyWage();
     }
+
+    /**
+     * 폰 번호 조회
+     */
+    public String getPhoneNumber() {
+        if (staff == null) {
+            return "";
+        }
+        String phoneNumber = staff.getPhone();
+        if (!StringUtils.hasText(phoneNumber)) {
+            return "전화번호가 등록되어 있지 않습니다.";
+        }
+        return phoneNumber;
+    }
+
+
 }

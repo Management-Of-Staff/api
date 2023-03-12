@@ -63,6 +63,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain permitFilter(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().disable()
                 .requestMatchers(requestMatchers ->
                         requestMatchers
                                 .mvcMatchers(PERMIT_URL_ARRAY)
