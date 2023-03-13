@@ -13,15 +13,19 @@ public class RedisUtil {
 
     private final RedisTemplate redisTemplate;
 
-    public void setRefreshToken(String key, String value){
-        redisTemplate.opsForValue().set(key, value, TokenType.REFRESH.getExpiration(), TimeUnit.MILLISECONDS);
+    public void setRefreshToken(String token, String value){
+        redisTemplate.opsForValue().set(token, value, TokenType.REFRESH.getExpiration(), TimeUnit.MILLISECONDS);
     }
 
     public void deleteRefreshToken(String key){
         redisTemplate.delete(key);
     }
-    public void setBlackList(String value, Date expirationTime){
-        redisTemplate.opsForValue().set(value, "logout", getExpirationTime(expirationTime), TimeUnit.MILLISECONDS);
+    public void setBlackList(String token, Date expirationTime){
+        redisTemplate.opsForValue().set(token, "logout", getExpirationTime(expirationTime), TimeUnit.MILLISECONDS);
+    }
+
+    public String getRefreshToken(String refreshToken){
+        return (String) redisTemplate.opsForValue().get(refreshToken);
     }
 
     public Long getExpirationTime(Date expiration){

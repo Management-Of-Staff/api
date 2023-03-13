@@ -33,38 +33,19 @@ public class Employment {
     @OneToMany(mappedBy = "employment")
     private List<WeekWorkTime> weekWorkTimeList = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private WorkingStatus workingStatus;
-
-    @Column(name = "staff_name")
-    private String staffName;
-
     @Column(name = "hourly_wage")
     private Long hourlyWage;
 
     @Column(name = "rank")
     private Rank rank;
 
-    @Builder
-    public Employment(Store store, Staff staff, List<WeekWorkTime> weekWorkTimeList,
-                      WorkingStatus workingStatus, String staffName, Long hourlyWage, Rank rank) {
+    private Employment(Store store, Staff staff) {
         this.store = store;
         this.staff = staff;
-        this.weekWorkTimeList = weekWorkTimeList;
-        this.workingStatus = workingStatus;
-        this.staffName = staffName;
-        this.hourlyWage = hourlyWage;
-        this.rank = rank;
     }
 
-    public static Employment of(Store store, Staff staff, String staffName){
-        return new Employment().builder()
-                .hourlyWage(0L)
-                .rank(Rank.ETC)
-                .staff(staff)
-                .store(store)
-                .workingStatus(WorkingStatus.INIT)
-                .build();
+    public static Employment createEmployment(Store store, Staff staff){
+       return new Employment(store, staff);
     }
 
     public void updateRankAndWage(UpdateRankAndWageRequest updateRankAndWageRequest) {
@@ -79,12 +60,10 @@ public class Employment {
         if (staff == null) {
             return "";
         }
-        String phoneNumber = staff.getPhone();
+        String phoneNumber = staff.getMemberPhoneNum();
         if (!StringUtils.hasText(phoneNumber)) {
             return "전화번호가 등록되어 있지 않습니다.";
         }
         return phoneNumber;
     }
-
-
 }

@@ -9,11 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
-
-    boolean existsByPhone(String phone);
-    Optional<Owner> findByPhone(String phone);
-    void deleteByAuthId(Long id);
-
+    Owner findByMemberId(Long ownerId);
+    Optional<Owner> findByMemberPhoneNum(String phoneNum);
+    boolean existsByMemberPhoneNum(String phone);
+    boolean existsByMemberPhoneNumAndWithdrawalDateIsNotNull(String staffId);
     List<Owner> findAll();
 
 }

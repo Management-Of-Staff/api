@@ -1,5 +1,6 @@
 package com.example.sidepot.member.dto;
 
+import com.example.sidepot.member.domain.Role;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 import lombok.Builder;
@@ -9,29 +10,24 @@ import lombok.NoArgsConstructor;
 public class AuthDto {
 
     @Getter
-    @NoArgsConstructor
-    @ApiModel(value = "MemberLoginDto")
     public static class MemberLoginDto{
-        @ApiParam(value = "사용자 ID(핸드폰번호)", required = true)
-        private String phone;
-        @ApiParam(value = "사용자 비밀번호", required = true)
+        private String phoneNum;
         private String password;
     }
 
     @Getter
-    @ApiModel(value = "tokenDto")
     public static class TokenDto{
 
         private String accessToken;
         private String refreshToken;
-        @Builder
-        public TokenDto(String accessToken, String refreshToken) {
+
+        private TokenDto(String accessToken, String refreshToken) {
             this.accessToken = accessToken;
             this.refreshToken = refreshToken;
         }
 
-        public static TokenDto of(String accessToken, String refreshToken){
-            return new TokenDto(accessToken,refreshToken);
+        public static TokenDto from(String accessToken, String refreshToken){
+            return new TokenDto(accessToken, refreshToken);
         }
     }
 }

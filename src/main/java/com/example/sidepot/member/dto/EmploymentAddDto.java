@@ -8,7 +8,7 @@ public class EmploymentAddDto {
 
     @Getter
     public static class FindStaffToInviteRequest {
-        private String phone;
+        private String phoneNum;
     }
 
     @Getter
@@ -26,9 +26,9 @@ public class EmploymentAddDto {
 
         public static FindStaffToInviteResponse of(Staff staff){
             return FindStaffToInviteResponse.builder()
-                    .staffId(staff.getAuthId())
-                    .phone(staff.getPhone())
-                    .name(staff.getName()).build();
+                    .staffId(staff.getMemberId())
+                    .phone(staff.getMemberPhoneNum())
+                    .name(staff.getMemberName()).build();
         }
     }
 

@@ -29,14 +29,15 @@ public class EmploymentService {
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     private final EmploymentRepository employmentRepository;
-    private final AuthRepository authRepository;
     private final OwnerRepository ownerRepository;
     private final WeekWorkTimeRepository weekWorkTimeRepository;
 
 
     @Transactional(readOnly = true)
-    public ResponseDto readAllStaffByStoreId(Auth auth, Long storeId){
-        Store verifiedStore = storeRepository.findByOwner_AuthIdAndStoreId(auth.getAuthId(),storeId).orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
+    public ResponseDto readAllStaffByStoreId(Member member, Long storeId){
+        Store verifiedStore = storeRepository
+                .findByOwnerAndStoreId(ownerRepository.findByMemberId(member.getMemberId()), storeId)
+                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
         List<ReadEmploymentListResponse> employmentListResponseDtoList =
                 employmentRepository.findAllByStore_StoreId(verifiedStore.getStoreId())
                         .stream()
@@ -52,10 +53,11 @@ public class EmploymentService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseDto readEmployment(Auth auth, Long storeId, Long staffId){
-        Store verifiedStore = storeRepository.findByOwner_AuthIdAndStoreId(auth.getAuthId(),storeId)
+    public ResponseDto readEmployment(Member member, Long storeId, Long staffId){
+        Store verifiedStore = storeRepository
+                .findByOwnerAndStoreId(ownerRepository.findByMemberId(member.getMemberId()), storeId)
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
-        Employment employment = employmentRepository.findByStore_StoreIdAndStaff_AuthId(verifiedStore.getStoreId(), staffId)
+        Employment employment = employmentRepository.findByStore_StoreIdAndStaff(verifiedStore.getStoreId(), staffId)
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_STAFF_IN_STORE));
         return ResponseDto.builder()
                 .path(String.format("/staff-management/store/" + storeId + "/staff/" + staffId))
@@ -70,7 +72,7 @@ public class EmploymentService {
     public ResponseDto addStaffToStoreByStoreId(Long storeId, Long staffId){
         Store store = storeRepository.findById(storeId).orElseThrow(()-> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
         Staff staff = staffRepository.findById(staffId).orElseThrow(()-> new Exception(ErrorCode.MEMBER_NOT_FOUND));
-        employmentRepository.save(Employment.of(store, staff, staff.getName()));
+        employmentRepository.save(Employment.createEmployment(store, staff));
         return ResponseDto.builder()
                 .statusCode(HttpStatus.OK.value())
                 .path(String.format("/staff-management/store/" + storeId + "/invite-staff/" + staffId))
@@ -80,14 +82,14 @@ public class EmploymentService {
                 .build();
     }
 
-    public ResponseDto createEmploymentContract(Auth auth, Long storeId, Long staffId,
+    public ResponseDto createEmploymentContract(Member auth, Long storeId, Long staffId,
                                                 MultipartFile contractFile,
                                                 ContractCreateRequestDto contractCreateRequestDto){
         return ResponseDto.builder().build();
     }
     @Transactional
-    public ResponseDto updateEmploymentWorkSchedule(Auth owner, Long storeId, Long staffId, WorkTimeRequest.WeekWorkAddRequest weekWorkAddRequest){
-        Employment employment = employmentRepository.findByStore_StoreIdAndStaff_AuthId(storeId, staffId).orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
+    public ResponseDto updateEmploymentWorkSchedule(Member owner, Long storeId, Long staffId, WorkTimeRequest.WeekWorkAddRequest weekWorkAddRequest){
+        Employment employment = employmentRepository.findByStore_StoreIdAndStaff(storeId, staffId).orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
         WeekWorkTime weekWorkTime = WeekWorkTime.addRequestOf(weekWorkAddRequest);
         weekWorkTime.setEmployment(employment);
         weekWorkTimeRepository.save(weekWorkTime);
@@ -100,9 +102,9 @@ public class EmploymentService {
     }
 
     @Transactional
-    public ResponseDto deleteEmploymentWorkSchedule(Auth auth, WorkTimeRequest.WeekWorkDeleteRequest weekWorkDeleteRequest) {
+    public ResponseDto deleteEmploymentWorkSchedule(Member auth, WorkTimeRequest.WeekWorkDeleteRequest weekWorkDeleteRequest) {
         employmentRepository.
-                findByStore_StoreIdAndStaff_AuthId(weekWorkDeleteRequest.getStoreId(), weekWorkDeleteRequest.getStaffId())
+                findByStore_StoreIdAndStaff(weekWorkDeleteRequest.getStoreId(), weekWorkDeleteRequest.getStaffId())
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
 
         weekWorkTimeRepository.delete(
@@ -119,8 +121,8 @@ public class EmploymentService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseDto findStaffToInvite(Auth auth, FindStaffToInviteRequest findStaffToInviteRequest) {
-        Staff staff = staffRepository.findByPhone(findStaffToInviteRequest.getPhone())
+    public ResponseDto findStaffToInvite(Member auth, FindStaffToInviteRequest findStaffToInviteRequest) {
+        Staff staff = staffRepository.findByMemberPhoneNum(findStaffToInviteRequest.getPhoneNum())
                 .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         return ResponseDto.builder()
                 .path("/employment/find-invitee")
@@ -131,9 +133,9 @@ public class EmploymentService {
                 .build();
     }
     @Transactional
-    public ResponseDto updateStoreStaffRankAndWage(Auth auth, UpdateRankAndWageRequest updateRankAndWageRequest) {
+    public ResponseDto updateStoreStaffRankAndWage(Member auth, UpdateRankAndWageRequest updateRankAndWageRequest) {
         Employment employment = employmentRepository
-                .findByStore_StoreIdAndStaff_AuthId(updateRankAndWageRequest.getStoreId(), updateRankAndWageRequest.getStaffId())
+                .findByStore_StoreIdAndStaff(updateRankAndWageRequest.getStoreId(), updateRankAndWageRequest.getStaffId())
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
         employment.updateRankAndWage(updateRankAndWageRequest);
         employmentRepository.save(employment);

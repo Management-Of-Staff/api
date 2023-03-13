@@ -1,5 +1,6 @@
 package com.example.sidepot.store.domain;
 
+import com.example.sidepot.member.domain.Owner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,9 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    List<Store> findAllByOwner_AuthId(Long ownerId);
+    List<Store> findAllByOwner(Owner owner);
     Optional<Store> getByStoreId(Long storeId);
     void deleteByStoreId(Long storeId);
-    Optional<Store> findByOwner_AuthIdAndStoreId(Long OwnerId, Long StoreId);
+    Optional<Store> findByOwnerAndStoreId(Owner owner, Long StoreId);
 
 }

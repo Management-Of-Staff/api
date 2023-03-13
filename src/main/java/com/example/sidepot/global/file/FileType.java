@@ -1,4 +1,4 @@
-package com.example.sidepot.global.filehandle;
+package com.example.sidepot.global.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

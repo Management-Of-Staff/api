@@ -1,36 +1,36 @@
 package com.example.sidepot.member.domain;
 
 import com.example.sidepot.work.domain.WeekWorkTime;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@DiscriminatorValue("staff")
+@AttributeOverrides({
+        @AttributeOverride(name = "memberId", column = @Column(name = "staff_id"))
+})
 @Entity
 @Table(name = "staff")
-public class Staff extends Auth {
+public class Staff extends Member {
 
     @OneToMany(mappedBy = "staff")
     private List<Employment> employments = new ArrayList<>();
 
     @OneToMany(mappedBy = "staff")
     private List<WeekWorkTime> weekWorkTimeList = new ArrayList<>();
-    @Builder
-    public Staff(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate) {
-        super(name, phone, password, uuid, role, createDate);
+
+
+    private Staff(String name, String password, String phoneNum,  Role role, LocalDateTime createDate) {
+        super(name, password, phoneNum, role, createDate);
     }
 
-    public static Staff of(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate){
-        return new Staff(name, phone, password, uuid, role, createDate);}
+    public static Staff registerStaff(String name, String password, String phoneNum, LocalDateTime createDate){
+        return new Staff(name, password, phoneNum, Role.STAFF, createDate);}
+
 
 }

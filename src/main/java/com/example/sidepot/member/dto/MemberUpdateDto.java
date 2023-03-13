@@ -22,8 +22,7 @@ public class MemberUpdateDto {
     @NoArgsConstructor
     @ApiModel(value = "MemberUpdatePhoneRequestDto")
     public static class MemberUpdatePhoneRequestDto {
-        private String UUID;
-        private String phone;
+        private String phoneNum;
     }
 
     @Getter

@@ -1,9 +1,7 @@
 package com.example.sidepot.member.dto;
 
-import com.example.sidepot.global.filehandle.FileType;
 import com.example.sidepot.member.domain.Employment;
 import com.example.sidepot.member.domain.Rank;
-import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.domain.WorkingStatus;
 import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.*;
@@ -42,10 +40,10 @@ public class EmploymentReadDto {
 
         public static ReadEmploymentListResponse of(Employment employment){
             return new ReadEmploymentListResponse(employment.getEmploymentId(),
-                                                     employment.getStaff().getAuthId(),
-                                                     employment.getStaff().getName(),
-                                                     employment.getWorkingStatus(),
+                                                     employment.getStaff().getMemberId(),
+                                                     employment.getStaff().getMemberName(),
                                                      null,
+                                                     employment.getStaff().getProfileImage().getFileSavePath(),
                                                      false,
                                                      employment.getWeekWorkTimeList().stream().map(list -> new ReadWorkTimeWithStaff(list)).collect(Collectors.toList()));
         }
@@ -80,9 +78,9 @@ public class EmploymentReadDto {
         public static ReadOneEmploymentResponse of(Employment employment){
             return ReadOneEmploymentResponse.builder()
                     .employmentId(employment.getEmploymentId())
-                    .staffId(employment.getStaff().getAuthId())
-                    .name(employment.getStaff().getName())
-                    .phone(employment.getStaff().getPhone())
+                    .staffId(employment.getStaff().getMemberId())
+                    .name(employment.getStaff().getMemberName())
+                    .phone(employment.getStaff().getMemberPhoneNum())
                     .hourlyWage(employment.getHourlyWage())
                     .rank(employment.getRank())
                     .readWorkTimesWithStaffList(employment.getWeekWorkTimeList().stream()

@@ -3,7 +3,7 @@ package com.example.sidepot.store.app;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.member.domain.OwnerRepository;
 import com.example.sidepot.store.domain.Store;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -24,9 +24,8 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final OwnerRepository ownerRepository;
 
-    public ResponseDto createStore(Auth auth, StoreCreateRequestDto storeCreateRequestDto){
-        Owner owner = ownerRepository.findById(auth.getAuthId())
-                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+    public ResponseDto createStore(LoginMember member, StoreCreateRequestDto storeCreateRequestDto){
+        Owner owner = ownerRepository.findByMemberId(member.getMemberId());
         storeRepository.save(new Store(owner,
                 storeCreateRequestDto.getStoreName(),
                 storeCreateRequestDto.getDetailAddress(),
@@ -45,26 +44,32 @@ public class StoreService {
                 .build();
     }
 
-    public ResponseDto readAllStore(Auth auth){
-        List<Store> storeList = storeRepository.findAllByOwner_AuthId(auth.getAuthId());
+    public ResponseDto readAllStore(LoginMember member){
+        Stream<StoreResponseDto> storeDetailResponseDtoStream =
+                ownerRepository.findByMemberId(member.getMemberId()).getStoreList().stream()
+                    .map(StoreResponseDto::from);
         return ResponseDto.builder()
                 .path(String.format("rest/v1/stores"))
                 .method("GET")
                 .message(String.format("매장 조회 성공"))
                 .statusCode(200)
-                .data(StoreResponseDto.fromList(storeList))
+                .data(storeDetailResponseDtoStream)
                 .build();
     }
 
-    public ResponseDto readOneStore(Auth auth, Long storeId){
-        Store store = storeRepository.findByOwner_AuthIdAndStoreId(auth.getAuthId(), storeId)
-                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_STORE));
+    public ResponseDto readOneStore(LoginMember member, Long storeId){
+        StoreDetailResponseDto storeDetailResponseDto =
+                ownerRepository.findByMemberId(member.getMemberId()).getStoreList().stream()
+                    .filter(store -> store.getStoreId().equals(storeId))
+                    .map(StoreDetailResponseDto::from)
+                    .findFirst()
+                    .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_STORE));
         return ResponseDto.builder()
                 .path(String.format("rest/v1/stores"))
                 .method("GET")
                 .message(String.format("매장 상세 조회 성공"))
                 .statusCode(200)
-                .data(StoreDetailResponseDto.from(store))
+                .data(storeDetailResponseDto)
                 .build();
     }
     @Transactional

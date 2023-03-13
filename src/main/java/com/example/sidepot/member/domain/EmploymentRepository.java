@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface EmploymentRepository extends JpaRepository<Employment, Long> {
 
     List<Employment> findAllByStore_StoreId(Long storeId);
-    Optional<Employment> findByStore_StoreIdAndStaff_AuthId(Long storeId, Long staffId);
+    Optional<Employment> findByStore_StoreIdAndStaff(Long storeId, Long staffId);
 }

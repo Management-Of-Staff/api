@@ -1,8 +1,7 @@
-package com.example.sidepot.global.filehandle;
+package com.example.sidepot.global.file;
 
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import org.springframework.http.MediaType;
@@ -12,17 +11,17 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.UUID;
 
-@Slf4j
-@Qualifier(value = "profileFileService")
+
+@Qualifier(value = "profileService")
 @Service
-public class profileFileService implements FileHandler{
+public class ProfileService implements FileService {
 
     private static final String SAVE_DIR = BASE_DIR_PATH + FileType.PROFILE.getSaveDir() + File.separator;
     private static final String JPG_EXTENSION = ".jpg";
     private static final String PNG_EXTENSION = ".png";
 
 
-    public profileFileService() {
+    public ProfileService() {
         new File(SAVE_DIR).mkdirs();
     }
 

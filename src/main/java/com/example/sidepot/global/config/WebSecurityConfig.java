@@ -20,10 +20,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class WebSecurityConfig {
 
-    private final String ROLE_STAFF = "STAFF";
-    private final String ROLE_OWNER = "OWNER";
-    private final String ROLE_ADMIN = "ADMIN";
-
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private static final String[] PERMIT_URL_ARRAY = {
@@ -86,11 +82,6 @@ public class WebSecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                    .antMatchers(Path.REST_BASE_PATH + "/auth/**").authenticated()
-                    .antMatchers(Path.REST_BASE_PATH + "/owners/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/staffs/**").hasAnyAuthority(ROLE_STAFF, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/work/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
-                    .antMatchers(Path.REST_BASE_PATH + "/stores/**").hasAnyAuthority(ROLE_OWNER, ROLE_ADMIN)
                 .anyRequest().permitAll()
                 .and()
                 .headers()

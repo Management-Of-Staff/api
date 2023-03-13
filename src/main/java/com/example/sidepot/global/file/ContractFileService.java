@@ -1,4 +1,4 @@
-package com.example.sidepot.global.filehandle;
+package com.example.sidepot.global.file;
 
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
@@ -14,11 +14,11 @@ import java.util.UUID;
 @Slf4j
 @Service
 @Qualifier(value = "contractFileService")
-public class contractFileService implements FileHandler{
+public class ContractFileService implements FileService {
     private static final String SAVE_DIR = BASE_DIR_PATH + FileType.CONTRACT_PDF.getSaveDir() + File.separator;
     private static final String PDF_EXTENSION = ".pdf";
 
-    public contractFileService() {
+    public ContractFileService() {
         new File(SAVE_DIR).mkdirs();
     }
 

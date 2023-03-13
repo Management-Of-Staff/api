@@ -43,7 +43,7 @@ public class EmployeeAttendance extends BaseEntity {
         if(employment == null) {
             return "";
         }
-        return employment.getStaffName();
+        return employment.getStaff().getMemberName();
     }
 
     public String getPhoneNumber() {
