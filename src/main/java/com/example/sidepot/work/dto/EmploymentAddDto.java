@@ -1,4 +1,4 @@
-package com.example.sidepot.member.dto;
+package com.example.sidepot.work.dto;
 
 import com.example.sidepot.member.domain.Staff;
 import lombok.Builder;
@@ -17,20 +17,18 @@ public class EmploymentAddDto {
         private String phone;
         private String name;
 
-        @Builder
-        public FindStaffToInviteResponse(Long staffId, String phone, String name) {
+
+        private FindStaffToInviteResponse(Long staffId, String phone, String name) {
             this.staffId = staffId;
             this.phone = phone;
             this.name = name;
         }
 
         public static FindStaffToInviteResponse of(Staff staff){
-            return FindStaffToInviteResponse.builder()
-                    .staffId(staff.getMemberId())
-                    .phone(staff.getMemberPhoneNum())
-                    .name(staff.getMemberName()).build();
+            return new FindStaffToInviteResponse(staff.getMemberId(),
+                                                 staff.getMemberPhoneNum(),
+                                                 staff.getMemberName());
+
         }
     }
-
-
 }

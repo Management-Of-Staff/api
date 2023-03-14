@@ -24,9 +24,6 @@ public class Member {
     @Column(name = "member_id")
     private Long memberId;
 
-    @Column(name = "uuid")
-    private String UUID;
-
     @Column(name = "email")
     private String email;
     @Column(name = "member_name", nullable = false)
@@ -64,10 +61,6 @@ public class Member {
         this.memberPhoneNum = phoneNum;
         this.role = role;
         this.registerDate = registerDate;
-    }
-
-    public static Member createPrincipal(Long memberId){
-        return new Member(memberId);
     }
 
     public void updateMemberProfile(MemberUpdateProfileRequestDto memberUpdateProfileRequestDto,

@@ -53,7 +53,7 @@ public class OwnerService {
                 .statusCode(HttpStatus.OK.value())
                 .method(HttpMethod.GET.name())
                 .message(String.format("사장님 개인정보 조회 완료"))
-                .data(OwnerReadResponseDto.from(owner))
+                .data(OwnerReadResponseDto.of(owner))
                 .build();
     }
 

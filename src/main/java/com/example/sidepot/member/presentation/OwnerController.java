@@ -3,7 +3,6 @@ package com.example.sidepot.member.presentation;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.member.app.LoginService;
 import com.example.sidepot.member.app.OwnerService;
 import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import com.example.sidepot.member.dto.MemberUpdateDto.*;

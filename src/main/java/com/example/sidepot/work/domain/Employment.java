@@ -1,9 +1,10 @@
-package com.example.sidepot.member.domain;
+package com.example.sidepot.work.domain;
 
-import com.example.sidepot.member.dto.EmploymentUpdateDto.*;
+import com.example.sidepot.member.domain.Rank;
+import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.store.domain.AttendanceStatus;
+import com.example.sidepot.work.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.work.domain.WeekWorkTime;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -39,9 +40,19 @@ public class Employment {
     @Column(name = "rank")
     private Rank rank;
 
+    @Column(name ="health_certificate")
+    private boolean healthCertificate;
+
+    @Column(name = "attendance_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AttendanceStatus attendanceStatus;
+
+
     private Employment(Store store, Staff staff) {
         this.store = store;
         this.staff = staff;
+        this.healthCertificate = false;
+        this.attendanceStatus = AttendanceStatus.INITIAL;
     }
 
     public static Employment createEmployment(Store store, Staff staff){

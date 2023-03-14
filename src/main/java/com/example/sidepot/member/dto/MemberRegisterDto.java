@@ -2,25 +2,20 @@ package com.example.sidepot.member.dto;
 
 import com.example.sidepot.member.domain.Member;
 import com.example.sidepot.member.domain.Role;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 
 public class MemberRegisterDto {
 
-    @Data
+    @Getter
     @NoArgsConstructor
-    @ApiModel(value = "MemberRegisterResponseDto")
     public static class MemberRegisterResponseDto {
         private String name;
         private String phone;
         private Role role;
-        @ApiModelProperty(hidden = true)
-        private LocalDateTime createDate = LocalDateTime.now();
 
         public MemberRegisterResponseDto(String name, String phone, Role role) {
             this.name = name;
@@ -33,9 +28,8 @@ public class MemberRegisterDto {
         }
     }
 
-    @Data
+    @Getter
     @NoArgsConstructor
-    @ApiModel(value = "MemberRegisterRequestDto")
     public static class MemberRegisterRequestDto {
         private String name;
         private String phone;

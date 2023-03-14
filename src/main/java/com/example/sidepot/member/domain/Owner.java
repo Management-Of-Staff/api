@@ -21,7 +21,6 @@ import java.util.List;
 @Entity
 @Table(name = "owner")
 public class Owner extends Member {
-
     @OneToMany(mappedBy = "owner")
     private List<Store> storeList = new ArrayList<>();
 

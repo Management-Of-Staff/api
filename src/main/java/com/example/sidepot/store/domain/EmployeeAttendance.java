@@ -1,7 +1,7 @@
 package com.example.sidepot.store.domain;
 
 import com.example.sidepot.global.domain.BaseEntity;
-import com.example.sidepot.member.domain.Employment;
+import com.example.sidepot.work.domain.Employment;
 import com.example.sidepot.store.dto.WorkTimeDto;
 import lombok.AccessLevel;
 import lombok.Getter;

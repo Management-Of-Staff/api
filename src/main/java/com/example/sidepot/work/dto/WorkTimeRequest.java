@@ -1,4 +1,4 @@
-package com.example.sidepot.member.dto;
+package com.example.sidepot.work.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -19,8 +19,7 @@ public class WorkTimeRequest {
         private LocalTime endTime;
         private Set<DayOfWeek> dayOfWeekList;
 
-        @Builder
-        public WeekWorkAddRequest(Long storeId, Long staffId, LocalDate startDate, LocalDate endDate,
+        public WeekWorkAddRequest(LocalDate startDate, LocalDate endDate,
                                   LocalTime startTime, LocalTime endTime, Set<DayOfWeek> dayOfWeekList) {
             this.startDate = startDate;
             this.endDate = endDate;
@@ -31,13 +30,11 @@ public class WorkTimeRequest {
     }
 
     @Getter
-    @NoArgsConstructor
     public static class WeekWorkDeleteRequest{
         private Long storeId;
         private Long staffId;
         private Long weekWorkTimeId;
 
-        @Builder
         public WeekWorkDeleteRequest(Long storeId, Long staffId, Long weekWorkTimeId) {
             this.storeId = storeId;
             this.staffId = staffId;

@@ -1,6 +1,5 @@
 package com.example.sidepot.member.presentation;
 
-
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
