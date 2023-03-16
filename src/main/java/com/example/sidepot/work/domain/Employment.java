@@ -18,7 +18,6 @@ import java.util.List;
 @Table(name = "employment")
 @Entity
 public class Employment {
-
     @Id @GeneratedValue
     @Column(name = "employment_id")
     private Long employmentId;
@@ -32,7 +31,7 @@ public class Employment {
     private Staff staff;
 
     @OneToMany(mappedBy = "employment")
-    private List<WeekWorkTime> weekWorkTimeList = new ArrayList<>();
+    private List<WorkTime> workTimeList = new ArrayList<>();
 
     @Column(name = "hourly_wage")
     private Long hourlyWage;
@@ -47,12 +46,16 @@ public class Employment {
     @Enumerated(EnumType.STRING)
     private AttendanceStatus attendanceStatus;
 
+    @Column(name = "withdrawal_status", nullable = false)
+    private Boolean withdrawal_status;
+
 
     private Employment(Store store, Staff staff) {
         this.store = store;
         this.staff = staff;
         this.healthCertificate = false;
         this.attendanceStatus = AttendanceStatus.INITIAL;
+        this.withdrawal_status = false;
     }
 
     public static Employment createEmployment(Store store, Staff staff){
@@ -62,6 +65,10 @@ public class Employment {
     public void updateRankAndWage(UpdateRankAndWageRequest updateRankAndWageRequest) {
         this.rank = updateRankAndWageRequest.getRank();
         this.hourlyWage = updateRankAndWageRequest.getHourlyWage();
+    }
+
+    public void withdrawEmployment(Boolean withDrawCheck){
+        this.withdrawal_status = true;
     }
 
     /**

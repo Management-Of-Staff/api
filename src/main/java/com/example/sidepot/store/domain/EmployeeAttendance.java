@@ -58,6 +58,6 @@ public class EmployeeAttendance extends BaseEntity {
      * 등록된 근무 시간 조회
      */
     public List<WorkTimeDto> getRegisteredWorkingTime() {
-        return WorkTimeDto.fromList(employment.getWeekWorkTimeList());
+        return WorkTimeDto.fromList(employment.getWorkTimeList());
     }
 }

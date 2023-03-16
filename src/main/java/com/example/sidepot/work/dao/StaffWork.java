@@ -9,8 +9,8 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 @Getter
-public class EmploymentWorkList implements Serializable {
-    private Long EmploymentId;
+public class StaffWork implements Serializable {
+    private Long employmentId;
     private String staffName;
     private String profileImage;
     private DayOfWeek day;
@@ -18,9 +18,9 @@ public class EmploymentWorkList implements Serializable {
     private LocalTime endTime;
     private AttendanceStatus attendanceStatus;
 
-    public EmploymentWorkList(Long employmentId, String staffName, String profileImage, DayOfWeek day,
-                              LocalTime startTime, LocalTime endTime, AttendanceStatus attendanceStatus) {
-        EmploymentId = employmentId;
+    public StaffWork(Long employmentId, String staffName, String profileImage, DayOfWeek day,
+                     LocalTime startTime, LocalTime endTime, AttendanceStatus attendanceStatus) {
+        this.employmentId = employmentId;
         this.staffName = staffName;
         this.profileImage = profileImage;
         this.day = day;
@@ -33,12 +33,14 @@ public class EmploymentWorkList implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EmploymentWorkList that = (EmploymentWorkList) o;
-        return EmploymentId.equals(that.EmploymentId) && startTime.equals(that.startTime) && endTime.equals(that.endTime);
+        StaffWork that = (StaffWork) o;
+        return employmentId.equals(that.employmentId)
+                && startTime.equals(that.startTime)
+                && endTime.equals(that.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(EmploymentId, startTime, endTime);
+        return Objects.hash(employmentId, startTime, endTime);
     }
 }

@@ -1,7 +1,5 @@
 package com.example.sidepot.work.domain;
 
-import com.example.sidepot.store.domain.AttendanceStatus;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,13 +9,13 @@ import java.time.LocalTime;
 
 @Entity
 @Getter
-@Table(name = "week_work_time")
+@Table(name = "work_time")
 @NoArgsConstructor
-public class WeekWorkTime {
+public class WorkTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "week_work_time_id")
-    private Long weekWorkTimeId;
+    @Column(name = "work_time_id")
+    private Long workTimeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employment_id")
@@ -30,22 +28,20 @@ public class WeekWorkTime {
     private LocalTime endTime;
 
     @Column(name = "day_of_week")
+    @Enumerated(EnumType.STRING)
     private DayOfWeek day;
 
-
-
-    @Builder
-    public WeekWorkTime(Employment employment, DayOfWeek day,
-                        LocalTime startTime, LocalTime endTime) {
+    public WorkTime(Employment employment, DayOfWeek day,
+                    LocalTime startTime, LocalTime endTime) {
         this.employment = employment;
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public static WeekWorkTime createWeekWorkTime(Employment employment, DayOfWeek day,
-                                                  LocalTime startTime, LocalTime endTime){
-        return new WeekWorkTime(employment, day, startTime, endTime);
+    public static WorkTime createWorkTime(Employment employment, DayOfWeek day,
+                                          LocalTime startTime, LocalTime endTime){
+        return new WorkTime(employment, day, startTime, endTime);
     }
 
     /**

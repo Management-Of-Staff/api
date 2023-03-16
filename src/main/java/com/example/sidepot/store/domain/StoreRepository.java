@@ -13,5 +13,4 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> getByStoreId(Long storeId);
     void deleteByStoreId(Long storeId);
     Optional<Store> findByOwnerAndStoreId(Owner owner, Long StoreId);
-
 }

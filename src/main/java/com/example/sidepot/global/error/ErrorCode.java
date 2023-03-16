@@ -21,6 +21,8 @@ public enum ErrorCode {
     FAILED_UPDATE_PASSWORD(HttpStatus.BAD_REQUEST.value(), "패스워드 변경에 실패했어요"),
     FAILED_UPDATE_PROFILE(HttpStatus.BAD_REQUEST.value(), "프로필 변경에 실패했어요"),
     FAILED_UPDATE_PHONE(HttpStatus.BAD_REQUEST.value(), "핸드폰 번호 변경에 실패했어요"),
+    ALREADY_STAFF_REGISTRATION(HttpStatus.BAD_REQUEST.value(), "이미 등록된 직원입니다."),
+    OVERLAP_WORK_SCHEDULE(HttpStatus.BAD_REQUEST.value(), "해당 시간에 겹치는 근무가 있습니다."),
     NOT_FOUND_EMPLOYMENT(HttpStatus.BAD_REQUEST.value(), "정상적인 근무가 아니에요"),
     NOT_FOUND_YOUR_STORE(HttpStatus.NO_CONTENT.value(), "회원님의 매장이 아니에요."),
     NOT_FOUND_STAFF_IN_STORE(HttpStatus.NO_CONTENT.value(),"매장 직원이 아니에요"),

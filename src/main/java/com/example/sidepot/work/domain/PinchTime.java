@@ -1,17 +1,18 @@
 package com.example.sidepot.work.domain;
 
-import com.example.sidepot.store.domain.Store;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+
 @Getter
-@Table(name = "pinch_time")
 @NoArgsConstructor
+@Table(name = "pinch_time")
+@Entity
 public class PinchTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +20,8 @@ public class PinchTime {
     private Long pinchTimeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "week_work_time_id")
-    private WeekWorkTime weekWorkTime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @JoinColumn(name = "work_time_id")
+    private WorkTime workTime;
 
     @Column(name = "request_staff_id")
     private Long requestStaffId;
@@ -32,11 +29,12 @@ public class PinchTime {
     @Column(name = "accepted_staff_id")
     private Long acceptedStaffId;
 
-    @Column(name = "accept_check")
-    private String acceptCheck;
-
     @Column(name = "pinch_date")
     private LocalDate pinchDate;
+
+    @Column(name = "day_of_week")
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek day_of_week;
 
     @Column(name = "create_time")
     private LocalDateTime createTime;
@@ -48,5 +46,25 @@ public class PinchTime {
     private LocalDateTime endTime;
 
     @Column(name = "success_check")
-    private String successCheck;
+    private boolean successCheck;
+
+    public PinchTime(WorkTime workTime, Long requestStaffId, Long acceptedStaffId, LocalDate pinchDate,
+                     LocalDateTime createTime, LocalDateTime startTime, LocalDateTime endTime) {
+        this.workTime = workTime;
+        this.requestStaffId = requestStaffId;
+        this.acceptedStaffId = acceptedStaffId;
+        this.pinchDate = pinchDate;
+        this.day_of_week = pinchDate.getDayOfWeek();
+        this.createTime = createTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.successCheck = false;
+    }
+
+    //요청 수락 시 생성되는 경우,
+    public static PinchTime createPinchTime(WorkTime workTime, Long requestStaffId, LocalDate pinchDate,
+                                            LocalDateTime createTime, LocalDateTime startTime, LocalDateTime endTime){
+        return new PinchTime(workTime, requestStaffId, requestStaffId, pinchDate, createTime, startTime ,endTime);
+    }
 }
+

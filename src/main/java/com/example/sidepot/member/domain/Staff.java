@@ -1,7 +1,6 @@
 package com.example.sidepot.member.domain;
 
 import com.example.sidepot.work.domain.Employment;
-import com.example.sidepot.work.domain.WeekWorkTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

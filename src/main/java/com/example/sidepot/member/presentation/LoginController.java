@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "로그인 관련 APIs")
-@RequestMapping(value = Path.REST_BASE_PATH)
+@RequestMapping(value = Path.REST_BASE_PATH + " /member-account")
 @RequiredArgsConstructor
 @RestController
 public class LoginController {

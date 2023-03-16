@@ -2,7 +2,7 @@ package com.example.sidepot.work.dto;
 
 import com.example.sidepot.work.domain.Employment;
 import com.example.sidepot.member.domain.Rank;
-import com.example.sidepot.work.domain.WeekWorkTime;
+import com.example.sidepot.work.domain.WorkTime;
 import lombok.*;
 
 import java.time.DayOfWeek;
@@ -18,11 +18,10 @@ public class EmploymentReadDto {
         private String staffName;
         private String profilePath;
         private Boolean healthCertificateCheck;
-        private List<ReadWorkTimeWithStaff> workTimeRequests;
-
+        private List<ReadWorkTime> workTimeRequests;
 
         public ReadEmploymentListResponse(Long employmentId, Long staffId, String staffName, String profilePath,
-                                          Boolean healthCertificateCheck, List<ReadWorkTimeWithStaff> workTimeRequests) {
+                                          Boolean healthCertificateCheck, List<ReadWorkTime> workTimeRequests) {
             this.employmentId = employmentId;
             this.staffId = staffId;
             this.staffName = staffName;
@@ -37,7 +36,9 @@ public class EmploymentReadDto {
                                                      employment.getStaff().getMemberName(),
                                                      employment.getStaff().getProfileImage().getFileSavePath(),
                                                      false,
-                                                     employment.getWeekWorkTimeList().stream().map(list -> new ReadWorkTimeWithStaff(list)).collect(Collectors.toList()));
+                                                     employment.getWorkTimeList().stream()
+                                                             .map(ReadWorkTime::of)
+                                                             .collect(Collectors.toList()));
         }
     }
 
@@ -50,11 +51,10 @@ public class EmploymentReadDto {
         private String profilePath;
         private Rank rank;
         private Long hourlyWage;
-        private List<ReadWorkTimeWithStaff> readWorkTimesWithStaffList;
+        private List<ReadWorkTime> readWorkTimesWithStaffList;
 
-        @Builder
         public ReadOneEmploymentResponse(Long employmentId, Long staffId, String name, String phone, String profilePath, Rank rank,
-                                         Long hourlyWage, List<ReadWorkTimeWithStaff> readWorkTimesWithStaffList) {
+                                         Long hourlyWage, List<ReadWorkTime> readWorkTimesWithStaffList) {
             this.employmentId = employmentId;
             this.staffId = staffId;
             this.name = name;
@@ -66,29 +66,37 @@ public class EmploymentReadDto {
         }
 
         public static ReadOneEmploymentResponse of(Employment employment){
-            return ReadOneEmploymentResponse.builder()
-                    .employmentId(employment.getEmploymentId())
-                    .staffId(employment.getStaff().getMemberId())
-                    .name(employment.getStaff().getMemberName())
-                    .phone(employment.getStaff().getMemberPhoneNum())
-                    .hourlyWage(employment.getHourlyWage())
-                    .rank(employment.getRank())
-                    .readWorkTimesWithStaffList(employment.getWeekWorkTimeList().stream()
-                            .map(ReadWorkTimeWithStaff::new)
-                            .collect(Collectors.toList()))
-                    .build();
+            return new ReadOneEmploymentResponse(
+                                employment.getEmploymentId(),
+                                employment.getStaff().getMemberId(),
+                                employment.getStaff().getMemberName(),
+                                employment.getStaff().getMemberPhoneNum(),
+                                employment.getStaff().getProfileImage().getFileSavePath(),
+                                employment.getRank(), employment.getHourlyWage(),
+                                employment.getWorkTimeList().stream()
+                                    .map(ReadWorkTime::of)
+                                    .collect(Collectors.toList()));
         }
     }
 
     @Getter
-    public static class ReadWorkTimeWithStaff{
+    public static class ReadWorkTime {
+        private Long workTimeId;
         private DayOfWeek dayOfWeek;
         private LocalTime startTime;
         private LocalTime endTime;
-        public ReadWorkTimeWithStaff(WeekWorkTime weekWorkTime) {
-            this.dayOfWeek = weekWorkTime.getDay();
-            this.startTime = weekWorkTime.getStartTime();
-            this.endTime = weekWorkTime.getEndTime();
+
+        private ReadWorkTime(Long workTimeId, DayOfWeek dayOfWeek,
+                             LocalTime startTime, LocalTime endTime) {
+            this.workTimeId = workTimeId;
+            this.dayOfWeek = dayOfWeek;
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+
+        public static ReadWorkTime of(WorkTime workTime) {
+            return new ReadWorkTime(workTime.getWorkTimeId(), workTime.getDay(),
+                                             workTime.getStartTime(), workTime.getEndTime());
         }
     }
 }

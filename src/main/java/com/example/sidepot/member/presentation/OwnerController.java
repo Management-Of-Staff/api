@@ -26,26 +26,26 @@ public class OwnerController {
 
     private final OwnerService ownerService;
 
-    @ApiOperation(value = "[사장] 회원가입", notes = "사장님 회원 가입 API")
-    @PostMapping(value = "/owner/sign-up")
-    public ResponseEntity<ResponseDto> registerOwner(@RequestBody MemberRegisterRequestDto memberRegisterRequestDto){
-        return ResponseEntity.ok(ownerService.registerOwner(memberRegisterRequestDto));
-    }
-
-    @ApiOperation(value = "[사장] 회원 탈퇴", notes = "사장 회원 탈퇴 요청 API")
-    @PostMapping("/owner/withdrawal")
-    public ResponseEntity<ResponseDto> withdrawalMember(@ApiIgnore @AuthenticationPrincipal LoginMember member){
-        return ResponseEntity.ok(ownerService.withdrawalOwner(member));
-    }
-
     @ApiOperation(value = "[사장] 정보 조회", notes = "사장 상세보기(마이페이지) API")
-    @GetMapping(value ="/owner")
+    @GetMapping(value ="/owners")
     public ResponseEntity<ResponseDto> readOwner(@ApiIgnore @AuthenticationPrincipal LoginMember member){
         return ResponseEntity.ok(ownerService.readOwner(member));
     }
 
+    @ApiOperation(value = "[사장] 회원 탈퇴", notes = "사장 회원 탈퇴 요청 API")
+    @PutMapping("/owners")
+    public ResponseEntity<ResponseDto> withdrawalMember(@ApiIgnore @AuthenticationPrincipal LoginMember member){
+        return ResponseEntity.ok(ownerService.withdrawalOwner(member));
+    }
+
+    @ApiOperation(value = "[사장] 회원가입", notes = "사장님 회원 가입 API")
+    @PostMapping(value = "/owners/sign-up")
+    public ResponseEntity<ResponseDto> registerOwner(@RequestBody MemberRegisterRequestDto memberRegisterRequestDto){
+        return ResponseEntity.ok(ownerService.registerOwner(memberRegisterRequestDto));
+    }
+
     @ApiOperation(value = "[사장] 비밀번호 변경", notes = "사장 비밀번호 변경 API")
-    @PostMapping(value ="/owner/password-update")
+    @PostMapping(value ="/owners/password")
     public ResponseEntity<ResponseDto> updateOwnerPassword(
                             @ApiIgnore @AuthenticationPrincipal LoginMember member,
                             MemberUpdatePasswordRequestDto updatePasswordRequestDto
@@ -54,7 +54,7 @@ public class OwnerController {
     }
 
     @ApiOperation(value = "[사장] 프로필 정보 변경", notes = "사장 프로필 정보 변경 API")
-    @PostMapping(value ="/owner/profile-update")
+    @PostMapping(value ="/owners/profile")
     public ResponseEntity<ResponseDto> updateOwnerProfileInfo(
                             @ApiIgnore @AuthenticationPrincipal LoginMember member,
                             @RequestPart(value = "image", required = false) MultipartFile image,
@@ -64,7 +64,7 @@ public class OwnerController {
     }
 
     @ApiOperation(value = "[사장] 비밀번호 확인", notes = "사장 비밀번호 확인 API")
-    @PostMapping(value ="/owner/password-check")
+    @PostMapping(value ="/owners/password-check")
     public ResponseEntity<ResponseDto> checkOwnerPassword(
                             @ApiIgnore @AuthenticationPrincipal LoginMember member,
                             MemberCheckPasswordRequestDto memberCheckPasswordRequestDto
@@ -73,7 +73,7 @@ public class OwnerController {
     }
 
     @ApiOperation(value = "[사장] 핸드폰 번호 수정 ", notes = "사장 핸드폰 번호 수정 API")
-    @PostMapping(value ="/owner/phone-update]")
+    @PostMapping(value ="/owners/phone")
     public ResponseEntity<ResponseDto> updateOwnerProfileInfo(
                             @ApiIgnore @AuthenticationPrincipal LoginMember member,
                             MemberUpdatePhoneRequestDto memberUpdatePhoneRequestDto
