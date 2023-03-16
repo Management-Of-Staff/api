@@ -1,6 +1,6 @@
 package com.example.sidepot.store.dto;
 
-import com.example.sidepot.work.domain.WeekWorkTime;
+import com.example.sidepot.work.domain.WorkTime;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,16 +22,16 @@ public class WorkTimeDto {
         this.endTime = endTime;
     }
 
-    public static WorkTimeDto from(WeekWorkTime weekWorkTime) {
+    public static WorkTimeDto from(WorkTime workTime) {
         return WorkTimeDto.builder()
-                .workDays(weekWorkTime.getWorkDays())
-                .startTime(weekWorkTime.getStartTime())
-                .endTime(weekWorkTime.getEndTime())
+                .workDays(workTime.getWorkDays())
+                .startTime(workTime.getStartTime())
+                .endTime(workTime.getEndTime())
                 .build();
     }
 
-    public static List<WorkTimeDto> fromList(List<WeekWorkTime> weekWorkTimes) {
-        return weekWorkTimes.stream()
+    public static List<WorkTimeDto> fromList(List<WorkTime> workTimes) {
+        return workTimes.stream()
                 .map(WorkTimeDto::from)
                 .collect(toList());
     }

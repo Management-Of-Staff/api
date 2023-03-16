@@ -1,7 +1,7 @@
 package com.example.sidepot.store.domain;
 
 
-import com.example.sidepot.member.domain.Employment;
+import com.example.sidepot.work.domain.Employment;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.sun.istack.NotNull;
@@ -25,7 +25,7 @@ public class Store {
     private Long storeId;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 

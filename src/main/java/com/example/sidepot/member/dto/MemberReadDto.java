@@ -1,69 +1,78 @@
 package com.example.sidepot.member.dto;
 
-import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.member.domain.Member;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.member.domain.Role;
 import com.example.sidepot.member.domain.Staff;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiOperation;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import java.time.LocalDate;
 
 
 public class MemberReadDto {
     @Getter
-    @Setter
-    @ApiModel(value = "MemberReadResponseDto")
     public static class MemberReadResponseDto{
-        private String UUID;
         private String name;
         private String phone;
         private String email;
         private LocalDate birthDate;
         private Role role;
+        private String profilePath;
 
-        public MemberReadResponseDto(String name, String phone, String email, String UUID, LocalDate birthDate, Role role) {
+        public MemberReadResponseDto(String name, String phone, String email,
+                                     LocalDate birthDate, Role role, String profilePath) {
             this.name = name;
             this.phone = phone;
             this.email = email;
-            this.UUID = UUID;
             this.birthDate = birthDate;
             this.role = role;
+            this.profilePath = profilePath;
         }
 
-        public static MemberReadResponseDto from(Auth auth){
-            return new MemberReadResponseDto(auth.getName(), auth.getPhone(), auth.getEmail(), auth.getUUID(), auth.getBirthDate(), auth.getRole());
+        public static MemberReadResponseDto of(Member member){
+            return new MemberReadResponseDto(member.getMemberName(),
+                                             member.getMemberPhoneNum(),
+                                             member.getEmail(),
+                                             member.getBirthDate(),
+                                             member.getRole(),
+                                             member.getProfileImage().getFileSavePath());
         }
     }
     @Getter
-    @Setter
-    @ApiOperation(value = "OwnerReadResponseDto")
     public static class OwnerReadResponseDto extends MemberReadResponseDto {
 
         @Builder
-        public OwnerReadResponseDto(String name, String phone, String email, String UUID, LocalDate birthDate, Role role) {
-            super(name, phone, email, UUID, birthDate, role);
+        public OwnerReadResponseDto(String name, String phone, String email,
+                                    LocalDate birthDate, Role role, String profilePath) {
+            super(name, phone, email, birthDate, role, profilePath);
         }
 
-        public static OwnerReadResponseDto from(Owner owner){
-            return new OwnerReadResponseDto(owner.getName(), owner.getPhone(), owner.getEmail(), owner.getUUID(), owner.getBirthDate(), owner.getRole());
+        public static OwnerReadResponseDto of(Owner owner){
+            return new OwnerReadResponseDto(owner.getMemberName(),
+                                            owner.getMemberPhoneNum(),
+                                            owner.getEmail(),
+                                            owner.getBirthDate(),
+                                            owner.getRole(),
+                                            owner.getProfileImage().getFileSavePath());
         }
     }
 
     @Getter
-    @Setter
-    @ApiOperation(value ="StaffReadResponseDto")
     public static class StaffReadResponseDto extends MemberReadResponseDto {
 
         @Builder
-        public StaffReadResponseDto(String name, String phone, String email, String UUID, LocalDate birthDate, Role role) {
-            super(name, phone, email, UUID, birthDate, role);
+        public StaffReadResponseDto(String name, String phone, String email,
+                                    LocalDate birthDate, Role role, String profilePath) {
+            super(name, phone, email, birthDate, role, profilePath);
         }
 
-        public static OwnerReadResponseDto from(Staff staff){
-            return new OwnerReadResponseDto(staff.getName(), staff.getPhone(), staff.getEmail(), staff.getUUID(), staff.getBirthDate(),  staff.getRole());
+        public static StaffReadResponseDto of(Staff staff){
+            return new StaffReadResponseDto(staff.getMemberName(),
+                                            staff.getMemberName(),
+                                            staff.getEmail(),
+                                            staff.getBirthDate(),
+                                            staff.getRole(),
+                                            staff.getProfileImage().getFileSavePath());
         }
     }
 }

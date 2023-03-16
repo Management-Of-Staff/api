@@ -17,37 +17,54 @@ public class MemberValidator {
     private final OwnerRepository ownerRepository;
     private final StaffRepository staffRepository;
 
-    private final AuthRepository authRepository;
-
-    @Transactional(readOnly = true)
-    public boolean isDeletedMember(String phone){
-        return authRepository.existsByPhoneAndDeleteDateIsNotNull(phone);
-    }
-
-
     @Transactional(readOnly = true)
     public void checkOwnerDuplicate(String phone){
-        if(ownerRepository.existsByPhone(phone)){
+        if(ownerRepository.existsByMemberPhoneNum(phone)){
             throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
     }
 
     @Transactional(readOnly = true)
     public void checkStaffDuplicate(String phone){
-        if(staffRepository.existsByPhone(phone)){
+        if(staffRepository.existsByMemberPhoneNum(phone)){
             throw new Exception(ErrorCode.PHONE_DUPLICATE);
         }
     }
+
     @Transactional(readOnly = true)
-    public Owner ownerDtoToEntity(MemberRegisterRequestDto ownerDto){
-        return Owner.of(ownerDto.getName(), ownerDto.getPhone(), encodePassword(ownerDto.getPassword()),
-                        ownerDto.getUuid(),ownerDto.getRole(),ownerDto.getCreateDate());
+    public void checkStaffWithdrawal(String phoneNum){
+        if(staffRepository.existsByMemberPhoneNumAndWithdrawalDateIsNotNull(phoneNum))
+            throw new Exception(ErrorCode.ALREADY_DELETED_MEMBER);
     }
 
     @Transactional(readOnly = true)
-    public Staff staffDtoToEntity(MemberRegisterRequestDto staffDto){
-        return Staff.of(staffDto.getName(), staffDto.getPhone(), encodePassword(staffDto.getPassword()),
-                        staffDto.getUuid(), staffDto.getRole(), staffDto.getCreateDate());
+    public void checkOwnerWithdrawal(String phoneNum){
+        if(ownerRepository.existsByMemberPhoneNumAndWithdrawalDateIsNotNull(phoneNum))
+            throw new Exception(ErrorCode.ALREADY_DELETED_MEMBER);
+    }
+
+    public Staff verifyStaff(String phoneNum) {
+        return staffRepository.findByMemberPhoneNum(phoneNum)
+                .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    public Owner verifyOwner(String phoneNum) {
+        return ownerRepository.findByMemberPhoneNum(phoneNum)
+                .orElseThrow(()->new Exception(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    public Owner ownerDtoToEntity(MemberRegisterRequestDto memberRegisterRequestDto){
+        return Owner.registerOwner(memberRegisterRequestDto.getName(),
+                                   encodePassword(memberRegisterRequestDto.getPassword()),
+                                   memberRegisterRequestDto.getPhone(),
+                                   memberRegisterRequestDto.getCreateDate());
+    }
+
+    public Staff staffDtoToEntity(MemberRegisterRequestDto memberRegisterRequestDto){
+        return Staff.registerStaff(memberRegisterRequestDto.getName(),
+                                   encodePassword(memberRegisterRequestDto.getPassword()),
+                                   memberRegisterRequestDto.getPhone(),
+                                   memberRegisterRequestDto.getCreateDate());
     }
 
     public String encodePassword(String password){

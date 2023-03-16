@@ -15,25 +15,20 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@AttributeOverrides({
+        @AttributeOverride(name = "memberId", column = @Column(name = "owner_id"))
+})
 @Entity
-@DiscriminatorValue("owner")
 @Table(name = "owner")
-public class Owner extends Auth {
-
+public class Owner extends Member {
     @OneToMany(mappedBy = "owner")
     private List<Store> storeList = new ArrayList<>();
 
-    @Builder
-    public Owner(Long id, String UUID, String email, String name, String phone, String password, Role role,
-                 LocalDate birthDate, LocalDateTime createDate, LocalDateTime deleteDate, String testCode) {
-        super(id, UUID, email, name, phone, password, role, birthDate, createDate, deleteDate);
+    private Owner(String name, String password, String phoneNum, Role role, LocalDateTime createDate) {
+        super(name, password, phoneNum,  role, createDate);
     }
 
-    public Owner(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate) {
-        super(name, phone, password, uuid, role, createDate);
-    }
-
-    public static Owner of(String name, String phone, String password, String uuid, Role role, LocalDateTime createDate){
-        return new Owner(name, phone, password, uuid, role, createDate);
+    public static Owner registerOwner(String name, String password, String phoneNum, LocalDateTime createDate){
+        return new Owner(name, password, phoneNum, Role.OWNER, createDate);
     }
 }

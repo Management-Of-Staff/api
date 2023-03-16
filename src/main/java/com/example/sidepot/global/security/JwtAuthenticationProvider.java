@@ -1,6 +1,7 @@
 package com.example.sidepot.global.security;
 
-import com.example.sidepot.member.domain.Auth;
+import com.example.sidepot.member.domain.Member;
+import com.example.sidepot.member.domain.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -19,22 +20,26 @@ import java.util.Collections;
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
-    private final String KEY_ROLES = "roles";
     private final TokenIssuer issuer;
+    private final MemberFactory memberFactory;
 
-    public JwtAuthenticationProvider(TokenIssuer issuer) {
+    public JwtAuthenticationProvider(TokenIssuer issuer, MemberFactory memberFactory) {
         this.issuer = issuer;
+        this.memberFactory = memberFactory;
     }
 
-    private Collection<? extends GrantedAuthority> grantedAuthorities(Claims claims) {
-        String role = (String) claims.get(KEY_ROLES);
-        return Collections.singleton(new SimpleGrantedAuthority(role));
+    private Collection<? extends GrantedAuthority> grantedAuthorities(Role role) {
+        return Collections.singleton(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException, JwtException {
         Claims claims = issuer.parseAccessClaims(((JwtAuthenticationToken) authentication).getToken());
-        return new JwtAuthenticationToken(new Auth(claims) ,"",grantedAuthorities(claims));
+        Member member = memberFactory.loadMemberByJwtClaims(claims);
+        return new JwtAuthenticationToken(new LoginMember(member.getMemberId(),
+                                                          member.getMemberPhoneNum()),
+                                                " ",
+                                                          grantedAuthorities(member.getRole()));
     }
 
     @Override

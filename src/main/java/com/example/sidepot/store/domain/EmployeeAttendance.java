@@ -1,7 +1,7 @@
 package com.example.sidepot.store.domain;
 
 import com.example.sidepot.global.domain.BaseEntity;
-import com.example.sidepot.member.domain.Employment;
+import com.example.sidepot.work.domain.Employment;
 import com.example.sidepot.store.dto.WorkTimeDto;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -43,7 +43,7 @@ public class EmployeeAttendance extends BaseEntity {
         if(employment == null) {
             return "";
         }
-        return employment.getStaffName();
+        return employment.getStaff().getMemberName();
     }
 
     public String getPhoneNumber() {
@@ -58,6 +58,6 @@ public class EmployeeAttendance extends BaseEntity {
      * 등록된 근무 시간 조회
      */
     public List<WorkTimeDto> getRegisteredWorkingTime() {
-        return WorkTimeDto.fromList(employment.getWeekWorkTimeList());
+        return WorkTimeDto.fromList(employment.getWorkTimeList());
     }
 }

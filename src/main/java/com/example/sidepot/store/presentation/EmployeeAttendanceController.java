@@ -27,7 +27,7 @@ public class EmployeeAttendanceController {
         return response;
     }
 
-    @GetMapping("/stores/{storeId}/attandance")
+    @GetMapping("/stores/{storeId}/attendance")
     @ApiOperation(value = "[출석관리] 2. 출석 직원 조회", notes = "매장에 출석한 직원을 조회하는 API")
     public List<EmployeeAttendanceDto> getCurrentAttendance(@PathVariable Long storeId) {
         return employeeAttendanceService.getCurrentAttendance(storeId);
