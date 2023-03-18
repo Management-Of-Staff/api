@@ -17,28 +17,21 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Api(tags = "매장 직원 관리 APIs")
+@Api(tags = "직원 근무 관리 APIs")
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
 public class WorkTimeController {
-
     private final WorkTimeCommandService workTimeCommandService;
-
-    @ApiOperation(value = "[홈] 일별 근무 조회", notes = "매장 일별 일정을 보여주는 API")
-    @GetMapping()
-    public ResponseEntity<ResponseDto> read(){
-        return ResponseEntity.ok().build();
-    }
 
     @ApiOperation(value =  "[직원 관리] 근무 추가", notes = "특정 직원의 근무를 추가하는 API")
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
     @PostMapping(value = "/employments/{employmentId}/schedule")
     public ResponseEntity<ResponseDto> updateEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                     @PathVariable("employmentId") Long employmentId,
-                                                                    @RequestBody WeekWorkAddRequest weekWorkAddRequest,
+                                                                    @RequestBody WorkAddRequest workAddRequest,
                                                                     @ApiIgnore HttpServletRequest httpServletRequest) {
-        workTimeCommandService.createEmploymentWorkSchedule(member, employmentId, weekWorkAddRequest);
+        workTimeCommandService.createEmploymentWorkSchedule(member, employmentId, workAddRequest);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -53,9 +46,9 @@ public class WorkTimeController {
     @DeleteMapping(value = "/employments/{employmentId}/schedule")
     public ResponseEntity<ResponseDto> deleteEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                     @PathVariable("employmentId") Long employmentId,
-                                                                    @RequestBody WeekWorkDeleteRequest weekWorkDeleteRequest,
+                                                                    @RequestBody WorkDeleteRequest workDeleteRequest,
                                                                     @ApiIgnore HttpServletRequest httpServletRequest){
-        workTimeCommandService.deleteEmploymentWorkSchedule(member,employmentId ,weekWorkDeleteRequest);
+        workTimeCommandService.deleteEmploymentWorkSchedule(member,employmentId , workDeleteRequest);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -70,9 +63,9 @@ public class WorkTimeController {
     @PutMapping(value = "/employment/{employmentId}/schedule")
     public ResponseEntity<ResponseDto> updateEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                     @PathVariable("employmentId") Long employmentId,
-                                                                    @RequestBody WeekWorkUpdateRequest weekWorkUpdateRequest,
+                                                                    @RequestBody WorkUpdateRequest workUpdateRequest,
                                                                     @ApiIgnore HttpServletRequest httpServletRequest){
-        workTimeCommandService.updateEmploymentWorkSchedule(member, employmentId, weekWorkUpdateRequest);
+        workTimeCommandService.updateEmploymentWorkSchedule(member, employmentId, workUpdateRequest);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())

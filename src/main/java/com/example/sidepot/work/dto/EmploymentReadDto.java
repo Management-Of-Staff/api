@@ -1,31 +1,34 @@
 package com.example.sidepot.work.dto;
 
+import com.example.sidepot.global.file.BaseFilePath;
 import com.example.sidepot.work.domain.Employment;
 import com.example.sidepot.member.domain.Rank;
 import com.example.sidepot.work.domain.WorkTime;
 import lombok.*;
 
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class EmploymentReadDto {
+
     @Getter
     public static class ReadEmploymentListResponse {
         private Long employmentId;
         private Long staffId;
         private String staffName;
-        private String profilePath;
+        private BaseFilePath profileImage;
         private Boolean healthCertificateCheck;
         private List<ReadWorkTime> workTimeRequests;
 
-        public ReadEmploymentListResponse(Long employmentId, Long staffId, String staffName, String profilePath,
+        public ReadEmploymentListResponse(Long employmentId, Long staffId, String staffName, BaseFilePath profileImage,
                                           Boolean healthCertificateCheck, List<ReadWorkTime> workTimeRequests) {
             this.employmentId = employmentId;
             this.staffId = staffId;
             this.staffName = staffName;
-            this.profilePath = profilePath;
+            this.profileImage = profileImage;
             this.healthCertificateCheck = healthCertificateCheck;
             this.workTimeRequests = workTimeRequests;
         }
@@ -34,7 +37,7 @@ public class EmploymentReadDto {
             return new ReadEmploymentListResponse(employment.getEmploymentId(),
                                                      employment.getStaff().getMemberId(),
                                                      employment.getStaff().getMemberName(),
-                                                     employment.getStaff().getProfileImage().getFileSavePath(),
+                                                     employment.getStaff().getProfileImage(),
                                                      false,
                                                      employment.getWorkTimeList().stream()
                                                              .map(ReadWorkTime::of)
@@ -48,18 +51,18 @@ public class EmploymentReadDto {
         private Long staffId;
         private String name;
         private String phone;
-        private String profilePath;
+        private BaseFilePath profileImage;
         private Rank rank;
         private Long hourlyWage;
         private List<ReadWorkTime> readWorkTimesWithStaffList;
 
-        public ReadOneEmploymentResponse(Long employmentId, Long staffId, String name, String phone, String profilePath, Rank rank,
+        public ReadOneEmploymentResponse(Long employmentId, Long staffId, String name, String phone, BaseFilePath profileImage, Rank rank,
                                          Long hourlyWage, List<ReadWorkTime> readWorkTimesWithStaffList) {
             this.employmentId = employmentId;
             this.staffId = staffId;
             this.name = name;
             this.phone = phone;
-            this.profilePath = profilePath;
+            this.profileImage = profileImage;
             this.rank = rank;
             this.hourlyWage = hourlyWage;
             this.readWorkTimesWithStaffList = readWorkTimesWithStaffList;
@@ -71,7 +74,7 @@ public class EmploymentReadDto {
                                 employment.getStaff().getMemberId(),
                                 employment.getStaff().getMemberName(),
                                 employment.getStaff().getMemberPhoneNum(),
-                                employment.getStaff().getProfileImage().getFileSavePath(),
+                                employment.getStaff().getProfileImage(),
                                 employment.getRank(), employment.getHourlyWage(),
                                 employment.getWorkTimeList().stream()
                                     .map(ReadWorkTime::of)

@@ -1,5 +1,6 @@
 package com.example.sidepot.work.domain;
 
+import com.example.sidepot.global.domain.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 @Getter
 @Table(name = "work_time")
 @NoArgsConstructor
-public class WorkTime {
+public class WorkTime extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "work_time_id")
@@ -31,17 +32,22 @@ public class WorkTime {
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
 
-    public WorkTime(Employment employment, DayOfWeek day,
-                    LocalTime startTime, LocalTime endTime) {
-        this.employment = employment;
+    public WorkTime(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public static WorkTime createWorkTime(Employment employment, DayOfWeek day,
-                                          LocalTime startTime, LocalTime endTime){
-        return new WorkTime(employment, day, startTime, endTime);
+    public static WorkTime createWorkTime(DayOfWeek day, LocalTime startTime, LocalTime endTime){
+        return new WorkTime(day, startTime, endTime);
+    }
+
+    public void remove() {
+        this.employment = null;
+    }
+
+    public void setEmployment(Employment employment) {
+        this.employment = employment;
     }
 
     /**

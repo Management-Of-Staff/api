@@ -3,84 +3,71 @@ package com.example.sidepot.work.app;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.work.dao.WorkReedQuery;
-import com.example.sidepot.work.domain.Employment;
-import com.example.sidepot.work.domain.EmploymentRepository;
-import com.example.sidepot.work.domain.WorkTime;
-import com.example.sidepot.work.domain.WorkTimeRepository;
+import com.example.sidepot.work.domain.*;
 import com.example.sidepot.work.dto.WorkTimeRequest.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class WorkTimeCommandService {
 
     private final EmploymentRepository employmentRepository;
-    private final WorkTimeRepository workTimeRepository;
-    private final WorkReedQuery workReedQuery;
 
     @Transactional
     public void createEmploymentWorkSchedule(LoginMember member, Long employmentId,
-                                                    WeekWorkAddRequest weekWorkAddRequest){
-        Employment employment = employmentRepository.findById(employmentId)
-                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
+                                             WorkAddRequest workAddRequest){
 
-        isScheduleOverlapping(employment.getStaff().getMemberId(), weekWorkAddRequest.getDayOfWeekList(),
-                              weekWorkAddRequest.getStartTime(), weekWorkAddRequest.getEndTime());
+        //개념적으로 도메인 모델에서, 직원 도메인과 근무 도메인이 모두 사용될 때 이벤트 및 도메인 서비스를 만들지만,
+        //모놀리틱 서버이며, 모든 도메인이 JPA 기술로 직접 연관되어 있기 때문에 도메인 서비스를 생략하고
+        //JPA 기술 "외래키_필드명" 도메인 직접 참조를 채택
+        List<Employment> employmentList
+                = employmentRepository.findAllByStaff_MemberId(workAddRequest.getStaffId());
 
-        List<WorkTime> workTimeList = createWorkTimeList(weekWorkAddRequest, employment);
-        workTimeRepository.saveAll(workTimeList);
+        isPossibleWork(workAddRequest, employmentList);
+        Employment employment = employmentList.stream()
+                .filter(e -> e.getEmploymentId().equals(employmentId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("일치하는 근무가 없습니다."));
+        employment.createWorkSchedule(workAddRequest);
+        employmentRepository.save(employment);
     }
 
     @Transactional
     public void updateEmploymentWorkSchedule(LoginMember member, Long employmentId,
-                                                    WeekWorkUpdateRequest weekWorkUpdateRequest){
-        Employment employment = employmentRepository.findById(employmentId)
-                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
+                                             WorkUpdateRequest workUpdateRequest){
 
-        isScheduleOverlapping(employmentId,
-                              weekWorkUpdateRequest.getWeekWorkAddRequest().getDayOfWeekList(),
-                              weekWorkUpdateRequest.getWeekWorkAddRequest().getStartTime(),
-                              weekWorkUpdateRequest.getWeekWorkAddRequest().getEndTime());
+        List<Employment> employmentList
+                = employmentRepository.findAllByStaff_MemberId(workUpdateRequest.getWorkAddRequest().getStaffId());
 
-        workTimeRepository.deleteAllById(weekWorkUpdateRequest.getWeekWorkIds());
-        List<WorkTime> workTimeList = createWorkTimeList(weekWorkUpdateRequest.getWeekWorkAddRequest(), employment);
-        workTimeRepository.saveAll(workTimeList);
+        isPossibleWork(workUpdateRequest.getWorkAddRequest(), employmentList);
+        Employment employment = employmentList.stream()
+                .filter(e -> e.getEmploymentId().equals(employmentId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("일치하는 근무가 없습니다."));
+        employment.deleteWorkSchedule(workUpdateRequest.getWorkTimeIds());
+        employment.createWorkSchedule(workUpdateRequest.getWorkAddRequest());
+        employmentRepository.save(employment);
     }
 
     @Transactional
     public void deleteEmploymentWorkSchedule(LoginMember member, Long employmentId,
-                                                    WeekWorkDeleteRequest weekWorkDeleteRequest) {
+                                             WorkDeleteRequest workDeleteRequest) {
         employmentRepository.findById(employmentId)
-                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
-        workTimeRepository.deleteAll(
-                workTimeRepository.findAllById(weekWorkDeleteRequest.getWeekWorkTimeIds()));
+                .ifPresentOrElse(
+                        employment -> employment.deleteWorkSchedule(workDeleteRequest.getWorkTimeIds()),
+                        () -> {throw new IllegalArgumentException("일치하는 근무가 없습니다.");}
+                );
     }
 
-    private List<WorkTime> createWorkTimeList(WeekWorkAddRequest weekWorkAddRequest,
-                                              Employment employment) {
-        List<WorkTime> workTimeList =
-                weekWorkAddRequest.getDayOfWeekList().stream()
-                        .map(day -> WorkTime.createWorkTime(employment, day,
-                                                                weekWorkAddRequest.getStartTime(),
-                                                                weekWorkAddRequest.getEndTime()))
-                        .collect(Collectors.toList());
-        return workTimeList;
-    }
-
-    private void isScheduleOverlapping(Long staffId, Set<DayOfWeek> days,
-                                       LocalTime startTime, LocalTime endTime){
-        List<WorkTime> workTimes =
-                workReedQuery.readAllEmploymentInTime(staffId, days, startTime, endTime);
-        if(!workTimes.isEmpty()){
-            throw new Exception(ErrorCode.OVERLAP_WORK_SCHEDULE);
-        }
+    private void isPossibleWork(WorkAddRequest workAddRequest, List<Employment> employmentList) {
+        employmentList.forEach(
+                e -> e.checkOverlappingSchedule(
+                        workAddRequest.getDayOfWeekList(),
+                        workAddRequest.getStartTime(),
+                        workAddRequest.getEndTime()));
     }
 }

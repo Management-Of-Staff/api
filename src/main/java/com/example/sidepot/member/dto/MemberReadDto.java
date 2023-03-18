@@ -1,11 +1,11 @@
 package com.example.sidepot.member.dto;
 
-import com.example.sidepot.member.domain.Member;
-import com.example.sidepot.member.domain.Owner;
-import com.example.sidepot.member.domain.Role;
-import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.global.file.BaseFilePath;
+import com.example.sidepot.member.domain.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
 
@@ -73,6 +73,35 @@ public class MemberReadDto {
                                             staff.getBirthDate(),
                                             staff.getRole(),
                                             staff.getProfileImage().getFileSavePath());
+        }
+    }
+    @NoArgsConstructor
+    @Getter
+    public static class StaffSearchRequestDto {
+        private String phoneNum;
+    }
+
+    @NoArgsConstructor
+    @Getter
+    public static class StaffSearchResponseDto {
+        private Long staffId;
+        private String memberPhoneNum;
+        private String memberName;
+        private BaseFilePath profileImage;
+
+        public StaffSearchResponseDto(Long staffId, String memberPhoneNum, String memberName, BaseFilePath profileImage) {
+            this.staffId = staffId;
+            this.memberPhoneNum = memberPhoneNum;
+            this.memberName = memberName;
+            this.profileImage = profileImage;
+        }
+
+        public static StaffSearchResponseDto of(Staff staff){
+            return new StaffSearchResponseDto(
+                    staff.getMemberId(),
+                    staff.getMemberPhoneNum(),
+                    staff.getMemberName(),
+                    staff.getProfileImage());
         }
     }
 }

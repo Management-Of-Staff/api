@@ -1,11 +1,13 @@
 package com.example.sidepot.member.app;
 
 import com.example.sidepot.global.dto.ResponseDto;
+import com.example.sidepot.global.error.ErrorCode;
+import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.global.file.BaseFilePath;
 import com.example.sidepot.global.file.FileService;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.member.domain.*;
-import com.example.sidepot.member.dto.MemberReadDto;
+import com.example.sidepot.member.dto.MemberReadDto.*;
 import com.example.sidepot.member.dto.MemberRegisterDto.*;
 import com.example.sidepot.member.dto.MemberUpdateDto.*;
 import com.example.sidepot.member.util.MemberValidator;
@@ -57,7 +59,7 @@ public class StaffService {
                 .statusCode(200)
                 .method("POST")
                 .message(String.format("직원 정보 조회 완료"))
-                .data(MemberReadDto.StaffReadResponseDto.of(staff))
+                .data(StaffReadResponseDto.of(staff))
                 .build();
     }
 
@@ -129,5 +131,11 @@ public class StaffService {
                 .message(String.format("직원 회원탈퇴 완료"))
                 .data("")
                 .build();
+    }
+    @Transactional(readOnly = true)
+    public StaffSearchResponseDto findStaffByPhoneNum(LoginMember member, StaffSearchRequestDto staffSearchRequestDto) {
+        Staff staff = staffRepository.findByMemberPhoneNum(staffSearchRequestDto.getPhoneNum())
+                .orElseThrow(() -> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        return StaffSearchResponseDto.of(staff);
     }
 }

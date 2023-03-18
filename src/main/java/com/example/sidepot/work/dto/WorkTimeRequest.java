@@ -9,25 +9,22 @@ import java.util.List;
 import java.util.Set;
 
 public class WorkTimeRequest {
-    @NoArgsConstructor
     @Getter
-    public static class WeekWorkAddRequest {
+    public static class WorkAddRequest {
+        private Long staffId;
         private LocalTime startTime;
         private LocalTime endTime;
         private Set<DayOfWeek> dayOfWeekList;
 
     }
-
-    @NoArgsConstructor
     @Getter
-    public static class WeekWorkDeleteRequest{
-        private Set<Long> weekWorkTimeIds;
+    public static class WorkDeleteRequest {
+        private Set<Long> workTimeIds;
 
     }
-    @NoArgsConstructor
     @Getter
-    public static class WeekWorkUpdateRequest {
-        private List<Long> weekWorkIds;
-        private WeekWorkAddRequest weekWorkAddRequest;
+    public static class WorkUpdateRequest {
+        private Set<Long> workTimeIds;
+        private WorkAddRequest workAddRequest;
     }
 }

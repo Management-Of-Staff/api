@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 
-@Api(tags = "회원 관련 APIs")
+@Api(tags = "회원 직원 관련 APIs")
 @RequestMapping(value = Path.REST_BASE_PATH + "/member-account")
 @RequiredArgsConstructor
 @RestController

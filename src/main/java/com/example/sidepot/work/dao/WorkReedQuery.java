@@ -34,7 +34,7 @@ public class WorkReedQuery {
                         StaffWork.class,
                         employment.employmentId,
                         staff.memberName,
-                        staff.profileImage.fileOriginName,
+                        staff.profileImage.fileSavePath,
                         workTime.day,
                         workTime.startTime,
                         workTime.endTime,
@@ -69,26 +69,5 @@ public class WorkReedQuery {
                         .and(workTime.day.eq(day))
                         .and(employment.withdrawal_status.eq(false)))
                 .fetch();
-    }
-    @Transactional(readOnly = true)
-    public List<WorkTime> readAllEmploymentInTime(Long staffId, Set<DayOfWeek> days,
-                                                  LocalTime startTime, LocalTime endTime){
-        return jpaQueryFactory.query().select(workTime)
-                .from(workTime)
-                .join(workTime.employment, employment)
-                .join(employment.staff, staff)
-                .where(timeRangePredicate(startTime, endTime)
-                        .and(weekdayPredicate(days))
-                        .and(staff.memberId.eq(staffId)))
-                .fetch();
-    }
-
-    BooleanExpression timeRangePredicate(LocalTime startTime, LocalTime endTime){
-        return workTime.startTime.between(startTime, endTime)
-                .or(workTime.endTime.between(startTime,endTime));
-    }
-
-    BooleanExpression weekdayPredicate(Set<DayOfWeek> days){
-        return workTime.day.in(days);
     }
 }
