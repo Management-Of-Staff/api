@@ -46,7 +46,7 @@ public class StaffController {
     @ApiOperation(value = "[직원] 비밀번호 변경", notes = "직원 비밀번호 변경 API")
     @PostMapping(value ="/staffs/password")
     public ResponseEntity<ResponseDto> readOwner(@ApiIgnore @AuthenticationPrincipal LoginMember member,
-                                                 MemberUpdatePasswordRequestDto updatePasswordRequestDto){
+                                                 @RequestBody MemberUpdatePasswordRequestDto updatePasswordRequestDto){
         return ResponseEntity.ok(staffService.updateStaffPassword(member, updatePasswordRequestDto));
     }
 
