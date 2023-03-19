@@ -1,8 +1,6 @@
 package com.example.sidepot.work.dao;
 
-import com.example.sidepot.work.domain.WorkTime;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,11 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.sidepot.work.domain.QEmployment.employment;
@@ -67,6 +63,24 @@ public class WorkReedQuery {
                 .join(employment.store, store)
                 .where(store.storeId.eq(storeId)
                         .and(workTime.day.eq(day))
+                        .and(employment.withdrawal_status.eq(false)))
+                .fetch();
+    }
+
+    @Transactional(readOnly = true)
+    public List<StaffWorkOnDay> readEmploymentDetails(Long employmentId){
+        return jpaQueryFactory.query()
+                .select(Projections.constructor(
+                        StaffWorkOnDay.class,
+                        employment.employmentId,
+                        staff.memberName,
+                        workTime.day,
+                        workTime.startTime,
+                        workTime.endTime))
+                .from(employment)
+                .join(employment.workTimeList, workTime)
+                .join(employment.staff, staff)
+                .where(employment.employmentId.eq(employmentId)
                         .and(employment.withdrawal_status.eq(false)))
                 .fetch();
     }

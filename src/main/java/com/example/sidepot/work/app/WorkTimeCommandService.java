@@ -20,10 +20,6 @@ public class WorkTimeCommandService {
     @Transactional
     public void createEmploymentWorkSchedule(LoginMember member, Long employmentId,
                                              WorkAddRequest workAddRequest){
-
-        //개념적으로 도메인 모델에서, 직원 도메인과 근무 도메인이 모두 사용될 때 이벤트 및 도메인 서비스를 만들지만,
-        //모놀리틱 서버이며, 모든 도메인이 JPA 기술로 직접 연관되어 있기 때문에 도메인 서비스를 생략하고
-        //JPA 기술 "외래키_필드명" 도메인 직접 참조를 채택
         List<Employment> employmentList
                 = employmentRepository.findAllByStaff_MemberId(workAddRequest.getStaffId());
 

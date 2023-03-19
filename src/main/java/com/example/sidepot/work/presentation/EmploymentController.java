@@ -47,7 +47,7 @@ public class EmploymentController {
                                                            @RequestParam("on_day") String onDay,
                                                            @ApiIgnore HttpServletRequest httpServletRequest){
         List<StaffWorkOnDay> staffWorkOnDays
-                = workTimeReadService.readAllEmploymentOnDay(member, storeId,  LocalDate.parse(onDay));
+                = workTimeReadService.readAllEmploymentOnDay(member, storeId, LocalDate.parse(onDay));
         return ResponseEntity.ok(ResponseDto.builder()
                 .statusCode(HttpStatus.OK.value())
                 .method(HttpMethod.GET.name())

@@ -17,16 +17,16 @@ public class MemberReadDto {
         private String email;
         private LocalDate birthDate;
         private Role role;
-        private String profilePath;
+        private BaseFilePath profileImage;
 
         public MemberReadResponseDto(String name, String phone, String email,
-                                     LocalDate birthDate, Role role, String profilePath) {
+                                     LocalDate birthDate, Role role, BaseFilePath profileImage) {
             this.name = name;
             this.phone = phone;
             this.email = email;
             this.birthDate = birthDate;
             this.role = role;
-            this.profilePath = profilePath;
+            this.profileImage = profileImage;
         }
 
         public static MemberReadResponseDto of(Member member){
@@ -35,7 +35,7 @@ public class MemberReadDto {
                                              member.getEmail(),
                                              member.getBirthDate(),
                                              member.getRole(),
-                                             member.getProfileImage().getFileSavePath());
+                                             member.getProfileImage());
         }
     }
     @Getter
@@ -43,8 +43,8 @@ public class MemberReadDto {
 
         @Builder
         public OwnerReadResponseDto(String name, String phone, String email,
-                                    LocalDate birthDate, Role role, String profilePath) {
-            super(name, phone, email, birthDate, role, profilePath);
+                                    LocalDate birthDate, Role role, BaseFilePath profileImage) {
+            super(name, phone, email, birthDate, role, profileImage);
         }
 
         public static OwnerReadResponseDto of(Owner owner){
@@ -53,7 +53,7 @@ public class MemberReadDto {
                                             owner.getEmail(),
                                             owner.getBirthDate(),
                                             owner.getRole(),
-                                            owner.getProfileImage().getFileSavePath());
+                                            owner.getProfileImage());
         }
     }
 
@@ -62,8 +62,8 @@ public class MemberReadDto {
 
         @Builder
         public StaffReadResponseDto(String name, String phone, String email,
-                                    LocalDate birthDate, Role role, String profilePath) {
-            super(name, phone, email, birthDate, role, profilePath);
+                                    LocalDate birthDate, Role role, BaseFilePath profileImage) {
+            super(name, phone, email, birthDate, role, profileImage);
         }
 
         public static StaffReadResponseDto of(Staff staff){
@@ -72,7 +72,7 @@ public class MemberReadDto {
                                             staff.getEmail(),
                                             staff.getBirthDate(),
                                             staff.getRole(),
-                                            staff.getProfileImage().getFileSavePath());
+                                            staff.getProfileImage());
         }
     }
     @NoArgsConstructor

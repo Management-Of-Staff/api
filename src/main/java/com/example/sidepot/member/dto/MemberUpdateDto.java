@@ -1,6 +1,5 @@
 package com.example.sidepot.member.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 public class MemberUpdateDto {

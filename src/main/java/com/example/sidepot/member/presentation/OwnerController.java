@@ -67,7 +67,7 @@ public class OwnerController {
     @PostMapping(value ="/owners/password-check")
     public ResponseEntity<ResponseDto> checkOwnerPassword(
                             @ApiIgnore @AuthenticationPrincipal LoginMember member,
-                            MemberCheckPasswordRequestDto memberCheckPasswordRequestDto
+                            @RequestBody MemberCheckPasswordRequestDto memberCheckPasswordRequestDto
                             ){
         return ResponseEntity.ok(ownerService.checkOwnerPassword(member, memberCheckPasswordRequestDto));
     }
