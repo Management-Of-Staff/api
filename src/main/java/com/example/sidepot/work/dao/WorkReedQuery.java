@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static com.example.sidepot.work.domain.QEmployment.employment;
 import static com.example.sidepot.work.domain.QWorkTime.workTime;
+import static com.example.sidepot.work.domain.QCoverWorkTime.coverWorkTime1;
 import static com.example.sidepot.member.domain.QStaff.staff;
 import static com.example.sidepot.store.domain.QStore.store;
 
@@ -63,24 +64,6 @@ public class WorkReedQuery {
                 .join(employment.store, store)
                 .where(store.storeId.eq(storeId)
                         .and(workTime.day.eq(day))
-                        .and(employment.withdrawal_status.eq(false)))
-                .fetch();
-    }
-
-    @Transactional(readOnly = true)
-    public List<StaffWorkOnDay> readEmploymentDetails(Long employmentId){
-        return jpaQueryFactory.query()
-                .select(Projections.constructor(
-                        StaffWorkOnDay.class,
-                        employment.employmentId,
-                        staff.memberName,
-                        workTime.day,
-                        workTime.startTime,
-                        workTime.endTime))
-                .from(employment)
-                .join(employment.workTimeList, workTime)
-                .join(employment.staff, staff)
-                .where(employment.employmentId.eq(employmentId)
                         .and(employment.withdrawal_status.eq(false)))
                 .fetch();
     }

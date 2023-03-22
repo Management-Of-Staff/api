@@ -6,10 +6,12 @@ import com.example.sidepot.member.domain.Rank;
 import com.example.sidepot.work.domain.WorkTime;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EmploymentReadDto {
@@ -54,10 +56,11 @@ public class EmploymentReadDto {
         private BaseFilePath profileImage;
         private Rank rank;
         private Long hourlyWage;
-        private List<ReadWorkTime> readWorkTimesWithStaffList;
+        private  Map<List<Serializable>, List<ReadWorkTime>> workTimeList;
 
-        public ReadOneEmploymentResponse(Long employmentId, Long staffId, String name, String phone, BaseFilePath profileImage, Rank rank,
-                                         Long hourlyWage, List<ReadWorkTime> readWorkTimesWithStaffList) {
+        public ReadOneEmploymentResponse(Long employmentId, Long staffId, String name, String phone,
+                                         BaseFilePath profileImage, Rank rank, Long hourlyWage,
+                                         Map<List<Serializable>, List<ReadWorkTime>> workTimeList) {
             this.employmentId = employmentId;
             this.staffId = staffId;
             this.name = name;
@@ -65,20 +68,23 @@ public class EmploymentReadDto {
             this.profileImage = profileImage;
             this.rank = rank;
             this.hourlyWage = hourlyWage;
-            this.readWorkTimesWithStaffList = readWorkTimesWithStaffList;
+            this.workTimeList = workTimeList;
         }
 
         public static ReadOneEmploymentResponse of(Employment employment){
+            Map<List<Serializable>, List<ReadWorkTime>> collect
+                    = employment.getWorkTimeList().stream()
+                    .map(ReadWorkTime::of)
+                    .collect(Collectors.groupingBy(w -> Arrays.asList(w.getStartTime(), w.getEndTime())));
             return new ReadOneEmploymentResponse(
                                 employment.getEmploymentId(),
                                 employment.getStaff().getMemberId(),
                                 employment.getStaff().getMemberName(),
                                 employment.getStaff().getMemberPhoneNum(),
                                 employment.getStaff().getProfileImage(),
-                                employment.getRank(), employment.getHourlyWage(),
-                                employment.getWorkTimeList().stream()
-                                    .map(ReadWorkTime::of)
-                                    .collect(Collectors.toList()));
+                                employment.getRank(),
+                                employment.getHourlyWage(),
+                                collect);
         }
     }
 
