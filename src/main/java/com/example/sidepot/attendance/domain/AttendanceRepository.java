@@ -13,10 +13,11 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     List<Attendance> findByStoreAndCheckOutTimeIsNull(Store store);
 
-    @Query("SELECT e FROM Attendance e " +
-            "WHERE e.attendanceStatus = 'CHECK_IN' " +
-            "AND e.store = :store")
+    @Query("SELECT a FROM Attendance a " +
+            "WHERE a.attendanceStatus = 'CHECK_IN' " +
+            "AND a.store = :store")
     List<Attendance> getCheckInListByStore(@Param("store") Store store);
 
-    Optional<Attendance> findByAttendanceStatusAndEmployment(AttendanceStatus status, Employment employment);
+    @Query("SELECT a FROM Attendance a where a.attendanceStatus = :status and a.store = :store and a.employment = :employment")
+    Optional<Attendance> findAttendanceByCondition(AttendanceStatus status, Store store, Employment employment);
 }
