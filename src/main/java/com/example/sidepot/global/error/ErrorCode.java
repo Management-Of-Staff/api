@@ -36,7 +36,8 @@ public enum ErrorCode {
 
     NOT_FOUND_TODO_LIST(HttpStatus.BAD_REQUEST.value(),"해야할일이 없음"),
     NOT_FOUND_STORE(HttpStatus.BAD_REQUEST.value(),"매장이 존재하지 않음"),
-    NOT_FOUND_ATTENDANCE(HttpStatus.BAD_REQUEST.value(), "출석이 존재하지 않음")
+    NOT_FOUND_ATTENDANCE(HttpStatus.BAD_REQUEST.value(), "출석이 존재하지 않음"),
+    ALREADY_CHECKED_IN(HttpStatus.CONFLICT.value(), "이미 출석된 직원입니다")
     ;
 
     private int httpValue;

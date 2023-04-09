@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.*;
 
 import com.example.sidepot.attendance.domain.Attendance;
 import com.example.sidepot.attendance.domain.AttendanceRepository;
+import com.example.sidepot.attendance.domain.AttendanceStatus;
 import com.example.sidepot.attendance.dto.AttendanceRequestDto;
 import com.example.sidepot.attendance.dto.AttendanceResponseDto;
 import com.example.sidepot.attendance.dto.EmployeeAttendanceDto;
@@ -36,6 +37,7 @@ public class AttendanceServiceImpl implements AttendanceService{
     @Transactional
     public AttendanceResponseDto createAttendanceForCheckIn(Long storeId, Long employeeId) {
         Employment employment = findEmploymentById(storeId);
+        validateCheckIn(employment);
         Store store = findStoreById(storeId);
         Attendance attendance = attendanceRepository.save(Attendance.ofCheckIn(store, employment));
         return AttendanceResponseDto.from(attendance);
@@ -71,6 +73,13 @@ public class AttendanceServiceImpl implements AttendanceService{
     private Attendance findAttendanceById(Long attendanceId) {
         return attendanceRepository.findById(attendanceId)
             .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_ATTENDANCE));
+    }
+
+    private void validateCheckIn(Employment employment) {
+        if(attendanceRepository.findByAttendanceStatusAndEmployment(AttendanceStatus.CHECK_IN, employment)
+                .isPresent()) {
+            throw new Exception(ErrorCode.ALREADY_CHECKED_IN);
+        }
     }
 
 }
