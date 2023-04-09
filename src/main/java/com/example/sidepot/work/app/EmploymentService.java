@@ -5,6 +5,7 @@ import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.member.domain.*;
 import com.example.sidepot.work.dao.StaffWork;
+import com.example.sidepot.work.dao.WorkReedQuery;
 import com.example.sidepot.work.domain.*;
 import com.example.sidepot.work.dto.EmploymentReadDto.*;
 import com.example.sidepot.work.dto.EmploymentUpdateDto.*;

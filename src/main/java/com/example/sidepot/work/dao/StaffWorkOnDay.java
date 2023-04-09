@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 public class StaffWorkOnDay {
@@ -19,5 +20,11 @@ public class StaffWorkOnDay {
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public static class ReadPinchWork{
+        private Long pinchTimeId;
+        private String acceptStaffName;
+        private String requestStaffName;
     }
 }

@@ -18,14 +18,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -77,8 +75,8 @@ public class EmploymentController {
     public ResponseEntity<ResponseDto> readStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                @PathVariable("employmentId") Long employmentId,
                                                                @ApiIgnore HttpServletRequest httpServletRequest){
-
-        ReadOneEmploymentResponse readOneEmploymentResponse = employmentService.readEmploymentDetail(member, employmentId);
+        ReadOneEmploymentResponse readOneEmploymentResponse
+                = employmentService.readEmploymentDetail(member, employmentId);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())

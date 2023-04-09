@@ -1,6 +1,7 @@
 package com.example.sidepot.work.domain;
 
 import com.example.sidepot.global.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ public class WorkTime extends BaseEntity {
     private Long workTimeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonIgnoreProperties("workTimeList")
     @JoinColumn(name = "employment_id")
     private Employment employment;
 

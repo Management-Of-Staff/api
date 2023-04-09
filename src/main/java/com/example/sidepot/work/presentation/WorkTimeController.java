@@ -60,7 +60,7 @@ public class WorkTimeController {
 
     @ApiOperation(value = "[직원 관리] 근무 수정", notes = "직원의 근무를 수정하는 API")
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
-    @PutMapping(value = "/employment/{employmentId}/schedule")
+    @PutMapping(value = "/employments/{employmentId}/schedule")
     public ResponseEntity<ResponseDto> updateEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                     @PathVariable("employmentId") Long employmentId,
                                                                     @RequestBody WorkUpdateRequest workUpdateRequest,
