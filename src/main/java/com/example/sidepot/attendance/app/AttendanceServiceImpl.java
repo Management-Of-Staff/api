@@ -60,6 +60,7 @@ public class AttendanceServiceImpl implements AttendanceService{
     @Transactional
     public void createAttendanceForCheckOut(Long attendanceId) {
         Attendance attendance = findAttendanceById(attendanceId);
+        validateCheckOut(attendance);
         attendance.setCheckOutTime();
     }
 
@@ -85,7 +86,6 @@ public class AttendanceServiceImpl implements AttendanceService{
     private Attendance findAttendanceById(Long attendanceId) {
         Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_ATTENDANCE));
-        validateCheckOut(attendance);
         return attendance;
     }
 
