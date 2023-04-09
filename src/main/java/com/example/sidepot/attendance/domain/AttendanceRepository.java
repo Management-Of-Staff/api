@@ -19,5 +19,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> getCheckInListByStore(@Param("store") Store store);
 
     @Query("SELECT a FROM Attendance a where a.attendanceStatus = :status and a.store = :store and a.employment = :employment")
-    Optional<Attendance> findAttendanceByCondition(AttendanceStatus status, Store store, Employment employment);
+    Optional<Attendance> findAttendanceByCondition(@Param("status") AttendanceStatus status, @Param("store") Store store, @Param("employment") Employment employment);
 }
