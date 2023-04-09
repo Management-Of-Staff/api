@@ -59,7 +59,7 @@ public class AttendanceServiceImpl implements AttendanceService{
      */
     @Override
     @Transactional
-    public void createAttendanceForCheckOut(Long attendanceId) {
+    public void updateAttendanceForCheckOut(Long attendanceId) {
         Attendance attendance = findAttendanceById(attendanceId);
         validateCheckOut(attendance);
         attendance.setCheckOutTime();
@@ -93,12 +93,14 @@ public class AttendanceServiceImpl implements AttendanceService{
     private void validateCheckIn(Store store, Employment employment) {
         if(attendanceRepository.findAttendanceByCondition(AttendanceStatus.CHECK_IN,store, employment)
                 .isPresent()) {
+            log.error("이미 출근 체크된 직원입니다. 매장 ID: {}, 직원 ID: {}", store.getStoreId(), employment.getEmploymentId());
             throw new Exception(ErrorCode.ALREADY_CHECKED_IN);
         }
     }
 
     private void validateCheckOut(Attendance attendance) {
         if(attendance.isCheckOut()){
+            log.error("이미 퇴근 체크된 직원입니다. 출석 ID: {}", attendance.getId());
             throw new Exception(ErrorCode.ALREADY_CHECKED_OUT);
         }
     }

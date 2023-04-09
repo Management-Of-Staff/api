@@ -12,7 +12,7 @@ import java.util.List;
 public interface AttendanceService {
 
     /**
-     * 매장에 출석
+     * 출석
      *
      * @param storeId 매장 ID
      * @param employeeId 직원 ID
@@ -21,12 +21,12 @@ public interface AttendanceService {
     AttendanceResponseDto createAttendanceForCheckIn(Long storeId, Long employeeId);
 
     /**
-     * 매장에 퇴근
+     * 출석 상태 퇴근으로 변경
      *
      * @param storeId 매장 ID
      * @param employeeId 직원 ID
      */
-    void createAttendanceForCheckOut(Long attendanceId);
+    void updateAttendanceForCheckOut(Long attendanceId);
 
     /**
      * 출석 체크한 직원 조회
