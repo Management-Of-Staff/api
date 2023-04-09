@@ -1,6 +1,6 @@
 package com.example.sidepot.work.dao;
 
-import com.example.sidepot.store.domain.AttendanceStatus;
+import com.example.sidepot.attendance.domain.AttendanceStatus;
 import lombok.Getter;
 
 import java.io.Serializable;

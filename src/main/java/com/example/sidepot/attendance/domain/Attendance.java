@@ -1,9 +1,14 @@
-package com.example.sidepot.store.domain;
+package com.example.sidepot.attendance.domain;
 
 import com.example.sidepot.global.domain.BaseEntity;
+import com.example.sidepot.global.error.ErrorCode;
+import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.work.domain.Employment;
 import com.example.sidepot.store.dto.WorkTimeDto;
+
+import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,9 +17,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity @Getter
-@Table(name = "employee_attendance")
+@Table(name = "attendance")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EmployeeAttendance extends BaseEntity {
+public class Attendance extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,19 +44,23 @@ public class EmployeeAttendance extends BaseEntity {
     private AttendanceStatus attendanceStatus;
 
     public String getStaffName() {
-        // 에러 반환 예정
-        if(employment == null) {
-            return "";
-        }
+        Assert.notNull(employment, "Employment must not be null");
         return employment.getStaff().getMemberName();
     }
 
     public String getPhoneNumber() {
-        // 에러 반환 예정
-        if(employment == null) {
-            return "";
-        }
+        Assert.notNull(employment, "Employment must not be null");
         return employment.getPhoneNumber();
+    }
+
+    @Builder
+    private Attendance(Employment employment, Store store, LocalDateTime checkInTime, LocalDateTime checkOutTime,
+        AttendanceStatus attendanceStatus) {
+        this.employment = employment;
+        this.store = store;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.attendanceStatus = attendanceStatus;
     }
 
     /**
@@ -59,5 +68,20 @@ public class EmployeeAttendance extends BaseEntity {
      */
     public List<WorkTimeDto> getRegisteredWorkingTime() {
         return WorkTimeDto.fromList(employment.getWorkTimeList());
+    }
+
+    public static Attendance ofCheckIn(Store store, Employment employment) {
+        Assert.notNull(store, "Store must not be null");
+        Assert.notNull(employment, "Employment must not be null");
+        return Attendance.builder()
+            .store(store)
+            .employment(employment)
+            .attendanceStatus(AttendanceStatus.CHECK_IN)
+            .checkInTime(LocalDateTime.now())
+            .build();
+    }
+
+    public void setCheckOutTime() {
+        this.checkOutTime = LocalDateTime.now();
     }
 }

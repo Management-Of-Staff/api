@@ -1,5 +1,7 @@
 package com.example.sidepot.store.presentation;
 
+import com.example.sidepot.attendance.app.AttendanceService;
+import com.example.sidepot.attendance.dto.EmployeeAttendanceDto;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.store.app.StoreService;
@@ -12,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "매장 관련 APIs")
@@ -19,6 +23,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class StoreController {
 
     private final StoreService storeService;
+    private final AttendanceService attendanceService;
 
     @GetMapping("/stores")
     @ApiOperation(value = "[매장관리] 1. 매장 리스트 조회", notes = "오너가 가진 모든 매장을 조회하는 API")
@@ -55,5 +60,11 @@ public class StoreController {
                                     @PathVariable final Long storeId
     ){
         return ResponseEntity.ok(storeService.readOneStore(member, storeId));
+    }
+
+    @GetMapping("/stores/{storeId}/attendances")
+    @ApiOperation(value = "[매장관리] 6. 출석 직원 조회", notes = "매장에 출석한 직원을 조회하는 API")
+    public List<EmployeeAttendanceDto> getCurrentAttendance(@PathVariable Long storeId) {
+        return attendanceService.getCurrentAttendanceList(storeId);
     }
 }

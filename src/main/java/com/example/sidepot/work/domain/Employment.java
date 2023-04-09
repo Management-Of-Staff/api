@@ -3,7 +3,7 @@ package com.example.sidepot.work.domain;
 import com.example.sidepot.global.domain.BaseEntity;
 import com.example.sidepot.member.domain.Rank;
 import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.store.domain.AttendanceStatus;
+import com.example.sidepot.attendance.domain.AttendanceStatus;
 import com.example.sidepot.work.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.work.dto.WorkTimeRequest.*;

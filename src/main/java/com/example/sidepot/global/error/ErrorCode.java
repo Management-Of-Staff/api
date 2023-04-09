@@ -35,7 +35,8 @@ public enum ErrorCode {
     UNAUTHORIZED_ERROR(HttpStatus.UNAUTHORIZED.value(), "권한이 없습니다."),
 
     NOT_FOUND_TODO_LIST(HttpStatus.BAD_REQUEST.value(),"해야할일이 없음"),
-    NOT_FOUND_STORE(HttpStatus.BAD_REQUEST.value(),"매장이 존재하지 않음")
+    NOT_FOUND_STORE(HttpStatus.BAD_REQUEST.value(),"매장이 존재하지 않음"),
+    NOT_FOUND_ATTENDANCE(HttpStatus.BAD_REQUEST.value(), "출석이 존재하지 않음")
     ;
 
     private int httpValue;
