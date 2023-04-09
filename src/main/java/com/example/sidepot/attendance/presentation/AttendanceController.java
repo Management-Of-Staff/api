@@ -23,7 +23,7 @@ public class AttendanceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(attendanceService.createAttendanceForCheckIn(storeId, employeeId));
     }
 
-    @PutMapping("/attendance/{attendanceId}/checkOut")
+    @PutMapping("/attendance/{attendanceId}/check-out")
     @ApiOperation(value = "[출석관리] 매장 퇴근", notes = "매장에 퇴근하는 API")
     public ResponseEntity<Void> checkOut(@PathVariable Long attendanceId) {
         attendanceService.createAttendanceForCheckOut(attendanceId);
