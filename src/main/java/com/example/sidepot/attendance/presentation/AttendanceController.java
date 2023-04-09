@@ -1,13 +1,11 @@
 package com.example.sidepot.attendance.presentation;
 
 import com.example.sidepot.attendance.app.AttendanceService;
-import com.example.sidepot.attendance.dto.AttendanceRequestDto;
 import com.example.sidepot.attendance.dto.AttendanceResponseDto;
 import com.example.sidepot.global.Path;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

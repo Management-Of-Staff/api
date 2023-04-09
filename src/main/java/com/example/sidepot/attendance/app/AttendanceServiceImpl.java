@@ -1,11 +1,8 @@
 package com.example.sidepot.attendance.app;
 
-import static java.util.stream.Collectors.*;
-
 import com.example.sidepot.attendance.domain.Attendance;
 import com.example.sidepot.attendance.domain.AttendanceRepository;
 import com.example.sidepot.attendance.domain.AttendanceStatus;
-import com.example.sidepot.attendance.dto.AttendanceRequestDto;
 import com.example.sidepot.attendance.dto.AttendanceResponseDto;
 import com.example.sidepot.attendance.dto.EmployeeAttendanceDto;
 import com.example.sidepot.global.error.ErrorCode;
@@ -14,17 +11,18 @@ import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.work.domain.Employment;
 import com.example.sidepot.work.domain.EmploymentRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
+/**
+ * 출석 관련 서비스
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -33,16 +31,31 @@ public class AttendanceServiceImpl implements AttendanceService{
     private final StoreRepository storeRepository;
     private final EmploymentRepository employmentRepository;
 
+    /**
+     * 출근 체크
+     * 매장 ID와 직원 ID 값을 사용하여 출근 등록
+     *
+     * @param storeId 매장 ID
+     * @param employeeId 직원 ID
+     * @return
+     */
     @Override
     @Transactional
     public AttendanceResponseDto createAttendanceForCheckIn(Long storeId, Long employeeId) {
         Employment employment = findEmploymentById(storeId);
         validateCheckIn(employment);
+
         Store store = findStoreById(storeId);
         Attendance attendance = attendanceRepository.save(Attendance.ofCheckIn(store, employment));
         return AttendanceResponseDto.from(attendance);
     }
 
+    /**
+     * 퇴근 체크
+     * 출석 ID를 사용하여 퇴근 등록
+     *
+     * @param attendanceId
+     */
     @Override
     @Transactional
     public void createAttendanceForCheckOut(Long attendanceId) {
@@ -53,7 +66,6 @@ public class AttendanceServiceImpl implements AttendanceService{
     @Override
     public List<EmployeeAttendanceDto> getCurrentAttendanceList(Long storeId) {
         Store store = findStoreById(storeId);
-
         List<Attendance> attendances = attendanceRepository.getCheckInListByStore(store);
         return attendances.stream()
                 .map(EmployeeAttendanceDto::from)
