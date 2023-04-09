@@ -43,9 +43,10 @@ public class AttendanceServiceImpl implements AttendanceService{
     @Transactional
     public AttendanceResponseDto createAttendanceForCheckIn(Long storeId, Long employeeId) {
         Employment employment = findEmploymentById(storeId);
-        validateCheckIn(employment);
-
         Store store = findStoreById(storeId);
+
+        validateCheckIn(store,employment);
+
         Attendance attendance = attendanceRepository.save(Attendance.ofCheckIn(store, employment));
         return AttendanceResponseDto.from(attendance);
     }
@@ -89,8 +90,8 @@ public class AttendanceServiceImpl implements AttendanceService{
         return attendance;
     }
 
-    private void validateCheckIn(Employment employment) {
-        if(attendanceRepository.findByAttendanceStatusAndEmployment(AttendanceStatus.CHECK_IN, employment)
+    private void validateCheckIn(Store store, Employment employment) {
+        if(attendanceRepository.findAttendanceByCondition(AttendanceStatus.CHECK_IN,store, employment)
                 .isPresent()) {
             throw new Exception(ErrorCode.ALREADY_CHECKED_IN);
         }
