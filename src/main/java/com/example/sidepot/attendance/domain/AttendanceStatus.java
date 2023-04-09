@@ -16,4 +16,8 @@ public enum AttendanceStatus {
     AttendanceStatus(String name) {
         this.name = name;
     }
+
+    public boolean isCheckOut() {
+        return CHECK_OUT.equals(this);
+    }
 }

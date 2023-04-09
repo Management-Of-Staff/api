@@ -71,14 +71,22 @@ public class AttendanceServiceImpl implements AttendanceService{
     }
 
     private Attendance findAttendanceById(Long attendanceId) {
-        return attendanceRepository.findById(attendanceId)
-            .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_ATTENDANCE));
+        Attendance attendance = attendanceRepository.findById(attendanceId)
+                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_ATTENDANCE));
+        validateCheckOut(attendance);
+        return attendance;
     }
 
     private void validateCheckIn(Employment employment) {
         if(attendanceRepository.findByAttendanceStatusAndEmployment(AttendanceStatus.CHECK_IN, employment)
                 .isPresent()) {
             throw new Exception(ErrorCode.ALREADY_CHECKED_IN);
+        }
+    }
+
+    private void validateCheckOut(Attendance attendance) {
+        if(attendance.isCheckOut()){
+            throw new Exception(ErrorCode.ALREADY_CHECKED_OUT);
         }
     }
 

@@ -85,4 +85,8 @@ public class Attendance extends BaseEntity {
         this.attendanceStatus = AttendanceStatus.CHECK_OUT;
         this.checkOutTime = LocalDateTime.now();
     }
+
+    public boolean isCheckOut() {
+        return this.attendanceStatus.isCheckOut();
+    }
 }
