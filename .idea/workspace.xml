@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eda6a151-9d5d-42ce-9c8c-9ada20555d9d" name="Changes" comment="refactor : 출근, 퇴근 에러 로그 추가">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/src/main/java/com/example/sidepot/SidepotApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/src/main/resources/templates/daum_zip_code.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-service/src/test/java/com/example/sidepot/SidepotApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/SidepotApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/app/AttendanceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/app/AttendanceServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/domain/Attendance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/domain/AttendanceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/domain/AttendanceStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/dto/AttendanceRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/dto/AttendanceResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/dto/EmployeeAttendanceDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/attendance/presentation/AttendanceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/Path.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/config/JwtSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/config/QuerydslConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/config/RedisConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/config/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/config/WebMvcConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/config/WebSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/domain/BaseEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/dto/DescriptiveResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/dto/DescriptiveResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/dto/ResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/error/ErrorCode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/error/Exception.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/error/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/event/Events.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/event/EventsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/file/BaseFilePath.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/file/ContractFileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/file/FileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/file/FileType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/file/ProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/CustomAccessDeniedHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/CustomAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/FilterExceptionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/JwtAuthenticationProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/JwtAuthenticationToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/JwtExceptionHanlder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/JwtFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/LoginMember.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/MemberFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/PasswordEncoderConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/RedisUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/SidePotProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/TokenIssuer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/global/security/TokenType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/app/LoginService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/app/OwnerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/app/StaffService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/Member.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/MemberFileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/Owner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/OwnerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/ProfileImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/Rank.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/Staff.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/StaffFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/domain/StaffRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/dto/AuthDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/dto/MemberReadDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/dto/MemberRegisterDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/dto/MemberUpdateDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/presentation/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/presentation/OwnerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/presentation/StaffController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/member/util/MemberValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/app/StoreService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/app/TodoListService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/Notice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/NoticeImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/NoticeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/NoticeNoticeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/NoticeWriter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/ScheduleManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/ScheduleManagerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/Store.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/StoreCalendar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/StoreClassification.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/StoreRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/TodoList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/TodoListDetail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/TodoListDetailRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/domain/TodoListRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/dto/StoreCreateRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/dto/StoreDetailResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/dto/StoreResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/dto/TodoListCreateDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/dto/TodoListResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/dto/WorkTimeDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/presentation/StoreController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/store/presentation/TodoListController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/app/EmploymentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/app/WorkTimeCommandService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/app/WorkTimeReadService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/dao/StaffWork.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/dao/StaffWorkOnDay.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/dao/WorkReedQuery.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/domain/CoverWorkTime.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/domain/CoverWorkType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/domain/Employment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/domain/EmploymentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/domain/WorkTime.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/dto/EmploymentReadDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/dto/EmploymentUpdateDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/dto/WorkTimeRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/presentation/EmploymentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/sidepot/work/presentation/WorkTimeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/daum_zip_code.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/sidepot/SidepotApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/attendance-check" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Mor68rwROfs54odLsS8zAB9F4T" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Algorithm/algorithm" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.sidepot.attendance.app" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.SidepotApplication">
+    <configuration name="SidepotApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="DB_URL" value="localhost" />
+        <env name="DB_PORT" value="33306" />
+        <env name="DB_NAME" value="ozik" />
+        <env name="DB_USER" value="root" />
+        <env name="DB_PASSWORD" value="root" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.example.sidepot.SidepotApplication" />
+      <module name="sidepot.main" />
+      <option name="PROGRAM_PARAMETERS" value="DB_URL=localhost; DB_PORT=3306; DB_NAME=ozik; DB_USER=root; DB_PASSWORD=Password!" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.sidepot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="api" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="api" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SidepotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="sidepot.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.sidepot.SidepotApplication" />
+      <option name="ACTIVE_PROFILES" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <envs>
+        <env name="DB_URL" value="localhost" />
+        <env name="DB_PORT" value="33306" />
+        <env name="DB_NAME" value="ozik" />
+        <env name="DB_USER" value="root" />
+        <env name="DB_PASSWORD" value="root" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.SidepotApplication" />
+      <item itemvalue="Spring Boot.SidepotApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SidepotApplication" />
+        <item itemvalue="Application.SidepotApplication" />
+        <item itemvalue="Application.SidepotApplication" />
+        <item itemvalue="Application.SidepotApplication" />
+        <item itemvalue="Application.SidepotApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eda6a151-9d5d-42ce-9c8c-9ada20555d9d" name="Changes" comment="" />
+      <created>1678444601687</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678444601687</updated>
+      <workItem from="1678444604262" duration="335000" />
+      <workItem from="1678497788598" duration="10943000" />
+      <workItem from="1678545020744" duration="2097000" />
+      <workItem from="1678587669561" duration="7490000" />
+      <workItem from="1678967047142" duration="3845000" />
+      <workItem from="1679737209628" duration="4215000" />
+      <workItem from="1681012168861" duration="2524000" />
+      <workItem from="1681014736221" duration="2300000" />
+      <workItem from="1681017182648" duration="894000" />
+      <workItem from="1681027256312" duration="46000" />
+      <workItem from="1681031364136" duration="1024000" />
+      <workItem from="1681117036179" duration="803000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: 출석 체크 기능&#10;1. 출석 체크, 출석된 직원 조회 API 설계&#10;2. 매장 내 관리하에 있는 직원이기에 '/store' api 하위로 설계(추후 변경 가능)">
+      <created>1678529688095</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678529688095</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: Jpa Audit 기능 추가&#10;1. 등록일자, 생성일자 추가">
+      <created>1678531348738</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1678531348738</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: 출석된 회원 조회 API &#10;1. 매장 출석된 회원 조회&#10;2. 예외처리, 유효성 처리 미완">
+      <created>1678534446915</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1678534446915</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: 출석된 회원 조회 API &#10;1. 출근 상태 추가&#10;2. 금일 기준으로 출근한 직원 조회로 수정 예정">
+      <created>1678546306466</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678546306466</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: 출석된 회원 조회 API &#10;1. 매장 시작 시간? 아니면 퇴근 안한 직원 모두?">
+      <created>1678547887749</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1678547887749</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: 출근, 퇴근 API 구현">
+      <created>1681011534610</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1681011534611</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: 이미 출석된 직원의 재요청시, 에러 메시지 반환">
+      <created>1681015183478</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681015183478</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: 이미 퇴근된 직원의 재요청시, 에러 메시지 반환">
+      <created>1681015738729</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1681015738729</updated>
+    </task>
+    <task id="LOCAL-00009" summary="refactor : 주석 추가">
+      <created>1681015932188</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1681015932188</updated>
+    </task>
+    <task id="LOCAL-00010" summary="refactor : 안쓰는 ipmort 제거">
+      <created>1681016027833</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681016027833</updated>
+    </task>
+    <task id="LOCAL-00011" summary="refactor : 퇴근 체크 url 변경">
+      <created>1681016377627</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1681016377627</updated>
+    </task>
+    <task id="LOCAL-00012" summary="refactor : 퇴근 검증 책임 분리">
+      <created>1681016572954</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1681016572954</updated>
+    </task>
+    <task id="LOCAL-00013" summary="refactor : 같은 직원이 여러 매장에 출석 체크할 수도 있기 때문에 코드 수정">
+      <created>1681016947504</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1681016947504</updated>
+    </task>
+    <task id="LOCAL-00014" summary="refactor : 출근, 퇴근 에러 로그 추가">
+      <created>1681017834704</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1681017834704</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: 출석 체크 기능&#10;1. 출석 체크, 출석된 직원 조회 API 설계&#10;2. 매장 내 관리하에 있는 직원이기에 '/store' api 하위로 설계(추후 변경 가능)" />
+    <MESSAGE value="feat: Jpa Audit 기능 추가&#10;1. 등록일자, 생성일자 추가" />
+    <MESSAGE value="feat: 출석된 회원 조회 API &#10;1. 매장 출석된 회원 조회&#10;2. 예외처리, 유효성 처리 미완" />
+    <MESSAGE value="feat: 출석된 회원 조회 API &#10;1. 출근 상태 추가&#10;2. 금일 기준으로 출근한 직원 조회로 수정 예정" />
+    <MESSAGE value="feat: 출석된 회원 조회 API &#10;1. 매장 시작 시간? 아니면 퇴근 안한 직원 모두?" />
+    <MESSAGE value="feat: 출근, 퇴근 API 구현" />
+    <MESSAGE value="feat: 이미 출석된 직원의 재요청시, 에러 메시지 반환" />
+    <MESSAGE value="feat: 이미 퇴근된 직원의 재요청시, 에러 메시지 반환" />
+    <MESSAGE value="refactor : 주석 추가" />
+    <MESSAGE value="refactor : 안쓰는 ipmort 제거" />
+    <MESSAGE value="refactor : 퇴근 체크 url 변경" />
+    <MESSAGE value="refactor : 퇴근 검증 책임 분리" />
+    <MESSAGE value="refactor : 같은 직원이 여러 매장에 출석 체크할 수도 있기 때문에 코드 수정" />
+    <MESSAGE value="refactor : 출근, 퇴근 에러 로그 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor : 출근, 퇴근 에러 로그 추가" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/sidepot/store/presentation/StoreController.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="storeRepository.findById(storeId)&#10;                .orElseThrow(() -&gt; new EntityNotFoundException(&quot;No matching store ID found.&quot;))" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
