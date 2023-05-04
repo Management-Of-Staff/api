@@ -71,3 +71,5 @@ gen
 
 /profile/
 /contract/
+!/.idea/
+/.idea/
