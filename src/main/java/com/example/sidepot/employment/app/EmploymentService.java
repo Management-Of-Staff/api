@@ -1,25 +1,18 @@
-package com.example.sidepot.work.app;
+package com.example.sidepot.employment.app;
 
+import com.example.sidepot.employment.domain.Employment;
+import com.example.sidepot.employment.domain.EmploymentRepository;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.member.domain.*;
-import com.example.sidepot.work.dao.StaffWork;
-import com.example.sidepot.work.dao.WorkReedQuery;
-import com.example.sidepot.work.domain.*;
-import com.example.sidepot.work.dto.EmploymentReadDto.*;
-import com.example.sidepot.work.dto.EmploymentUpdateDto.*;
+import com.example.sidepot.employment.dto.EmploymentReadDto.*;
+import com.example.sidepot.employment.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -62,5 +55,11 @@ public class EmploymentService {
             throw new Exception(ErrorCode.ALREADY_STAFF_REGISTRATION);
         }
         employmentRepository.save(Employment.createEmployment(store, staff));
+
+        /* TODO  초대 후 알림 서비스를 받기 위한 구독
+        *  구독 서비스
+        * */
+
+
     }
 }

@@ -1,16 +1,16 @@
-package com.example.sidepot.work.presentation;
+package com.example.sidepot.employment.presentation;
 
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.member.app.StaffService;
 import com.example.sidepot.member.dto.MemberReadDto.*;
-import com.example.sidepot.work.app.EmploymentService;
-import com.example.sidepot.work.app.WorkTimeReadService;
+import com.example.sidepot.employment.app.EmploymentService;
+import com.example.sidepot.work.app.WorkReadService;
 import com.example.sidepot.work.dao.StaffWork;
-import com.example.sidepot.work.dao.StaffWorkOnDay;
-import com.example.sidepot.work.dto.EmploymentReadDto.*;
-import com.example.sidepot.work.dto.EmploymentUpdateDto.*;
+import com.example.sidepot.work.dao.ReadStoreWorkerOnDay;
+import com.example.sidepot.employment.dto.EmploymentReadDto.*;
+import com.example.sidepot.employment.dto.EmploymentUpdateDto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ import java.util.Map;
 @RestController
 public class EmploymentController {
     private final EmploymentService employmentService;
-    private final WorkTimeReadService workTimeReadService;
+    private final WorkReadService workReadService;
     private final StaffService staffService;
 
     @ApiOperation(value = "[홈] 일별 근무 조회", notes = "매장 일별 일정을 보여주는 API")
@@ -44,13 +44,13 @@ public class EmploymentController {
                                                            @RequestParam("store_Id") Long storeId,
                                                            @RequestParam("on_day") String onDay,
                                                            @ApiIgnore HttpServletRequest httpServletRequest){
-        List<StaffWorkOnDay> staffWorkOnDays
-                = workTimeReadService.readAllEmploymentOnDay(member, storeId, LocalDate.parse(onDay));
+        List<ReadStoreWorkerOnDay.ReadWork> readStoreWorkerOnDays
+                = workReadService.readAllEmploymentOnDay(member, storeId, LocalDate.parse(onDay));
         return ResponseEntity.ok(ResponseDto.builder()
                 .statusCode(HttpStatus.OK.value())
                 .method(HttpMethod.GET.name())
                 .message("홈 근무 조회")
-                .data(staffWorkOnDays)
+                .data(readStoreWorkerOnDays)
                 .build());
     }
 
@@ -60,7 +60,7 @@ public class EmploymentController {
                                                              @PathVariable("storeId") Long storeId,
                                                              @ApiIgnore HttpServletRequest httpServletRequest){
         Map<List<Serializable>, List<StaffWork>> listListMap
-                = workTimeReadService.readAllEmployment(member.getMemberId(), storeId);
+                = workReadService.readAllEmployment(member.getMemberId(), storeId);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())

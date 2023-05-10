@@ -36,10 +36,13 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException, JwtException {
         Claims claims = issuer.parseAccessClaims(((JwtAuthenticationToken) authentication).getToken());
         Member member = memberFactory.loadMemberByJwtClaims(claims);
-        return new JwtAuthenticationToken(new LoginMember(member.getMemberId(),
-                                                          member.getMemberPhoneNum()),
-                                                " ",
-                                                          grantedAuthorities(member.getRole()));
+        return new JwtAuthenticationToken(
+                new LoginMember(
+                        member.getMemberId(),
+                        member.getMemberPhoneNum(),
+                        member.getMemberName()),
+                " ",
+                grantedAuthorities(member.getRole()));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.sidepot.attendance.domain;
 
 import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.work.domain.Employment;
+import com.example.sidepot.employment.domain.Employment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

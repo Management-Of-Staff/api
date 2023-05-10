@@ -24,7 +24,7 @@ public class WorkTimeDto {
 
     public static WorkTimeDto from(WorkTime workTime) {
         return WorkTimeDto.builder()
-                .workDays(workTime.getWorkDays())
+                //.workDays(workTime.getWorkDays())
                 .startTime(workTime.getStartTime())
                 .endTime(workTime.getEndTime())
                 .build();

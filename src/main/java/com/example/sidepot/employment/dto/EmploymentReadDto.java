@@ -1,7 +1,7 @@
-package com.example.sidepot.work.dto;
+package com.example.sidepot.employment.dto;
 
 import com.example.sidepot.global.file.BaseFilePath;
-import com.example.sidepot.work.domain.Employment;
+import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.member.domain.Rank;
 import com.example.sidepot.work.domain.WorkTime;
 import lombok.*;
@@ -104,7 +104,7 @@ public class EmploymentReadDto {
         }
 
         public static ReadWorkTime of(WorkTime workTime) {
-            return new ReadWorkTime(workTime.getWorkTimeId(), workTime.getDay(),
+            return new ReadWorkTime(workTime.getWorkTimeId(), workTime.getDayOfWeek(),
                                              workTime.getStartTime(), workTime.getEndTime());
         }
     }

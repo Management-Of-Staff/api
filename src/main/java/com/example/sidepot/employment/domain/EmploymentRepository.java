@@ -1,12 +1,9 @@
-package com.example.sidepot.work.domain;
+package com.example.sidepot.employment.domain;
 
-import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.store.domain.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface EmploymentRepository extends JpaRepository<Employment, Long> {

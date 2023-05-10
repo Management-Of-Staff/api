@@ -1,4 +1,4 @@
-package com.example.sidepot.work.dto;
+package com.example.sidepot.employment.dto;
 
 import com.example.sidepot.member.domain.Rank;
 import lombok.Getter;

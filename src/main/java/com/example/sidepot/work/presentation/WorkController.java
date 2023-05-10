@@ -3,8 +3,8 @@ package com.example.sidepot.work.presentation;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.work.app.WorkTimeCommandService;
-import com.example.sidepot.work.dto.WorkTimeRequest.*;
+import com.example.sidepot.work.app.WorkCommandService;
+import com.example.sidepot.work.dto.WorkRequestDto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +21,16 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
-public class WorkTimeController {
-    private final WorkTimeCommandService workTimeCommandService;
+public class WorkController {
+    private final WorkCommandService workCommandService;
 
     @ApiOperation(value =  "[직원 관리] 근무 추가", notes = "특정 직원의 근무를 추가하는 API")
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
-    @PostMapping(value = "/employments/{employmentId}/schedule")
+    @PostMapping(value = "/employments/schedule")
     public ResponseEntity<ResponseDto> updateEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
-                                                                    @PathVariable("employmentId") Long employmentId,
-                                                                    @RequestBody WorkAddRequest workAddRequest,
+                                                                    @RequestBody createWorkReqDto createWorkReqDto,
                                                                     @ApiIgnore HttpServletRequest httpServletRequest) {
-        workTimeCommandService.createEmploymentWorkSchedule(member, employmentId, workAddRequest);
+        workCommandService.createWorkSchedule(member, createWorkReqDto);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -43,12 +42,11 @@ public class WorkTimeController {
 
     @ApiOperation(value = "[직원 관리] 근무 삭제", notes = "직원의 근무를 추가하는 API")
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
-    @DeleteMapping(value = "/employments/{employmentId}/schedule")
+    @DeleteMapping(value = "/employments/schedule")
     public ResponseEntity<ResponseDto> deleteEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
-                                                                    @PathVariable("employmentId") Long employmentId,
-                                                                    @RequestBody WorkDeleteRequest workDeleteRequest,
+                                                                    @RequestBody deleteWorkReqDto deleteWorkReqDto,
                                                                     @ApiIgnore HttpServletRequest httpServletRequest){
-        workTimeCommandService.deleteEmploymentWorkSchedule(member,employmentId , workDeleteRequest);
+        workCommandService.deleteWorkSchedule(member, deleteWorkReqDto);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -60,12 +58,11 @@ public class WorkTimeController {
 
     @ApiOperation(value = "[직원 관리] 근무 수정", notes = "직원의 근무를 수정하는 API")
     @PreAuthorize("hasAnyAuthority('OWNER','ADMIN')")
-    @PutMapping(value = "/employments/{employmentId}/schedule")
+    @PutMapping(value = "/employments/schedule")
     public ResponseEntity<ResponseDto> updateEmploymentWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
-                                                                    @PathVariable("employmentId") Long employmentId,
-                                                                    @RequestBody WorkUpdateRequest workUpdateRequest,
+                                                                    @RequestBody updateWorkReqDto updateWorkReqDto,
                                                                     @ApiIgnore HttpServletRequest httpServletRequest){
-        workTimeCommandService.updateEmploymentWorkSchedule(member, employmentId, workUpdateRequest);
+        workCommandService.updateWorkSchedule(member, updateWorkReqDto);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())

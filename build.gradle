@@ -1,7 +1,7 @@
 plugins {
+    id 'java'
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id 'java'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
@@ -23,30 +23,28 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.7.0'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
-    implementation 'org.jetbrains:annotations:20.1.0'
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.7.3'
-    testImplementation 'org.springframework.security:spring-security-test'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.0'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.0'
 
+    implementation 'org.jetbrains:annotations:20.1.0'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.0'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: '3.1.3'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.4'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
-    //Junit5
-    testImplementation 'org.mockito:mockito-inline:4.6.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-    testCompileOnly 'org.junit.jupiter:junit-jupiter-params:5.9.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'io.swagger:swagger-annotations:1.6.8'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'io.swagger:swagger-annotations:1.6.8'
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.7.3'
 
     //redis
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.7.0'
@@ -66,6 +64,10 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:5.0.0"
     implementation "com.querydsl:querydsl-apt:5.0.0"
 
+    //AMQP
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+
 }
 
 test{
@@ -82,7 +84,6 @@ querydsl {
 sourceSets {
     main.java.srcDir querydslDir
 }
-
 
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl

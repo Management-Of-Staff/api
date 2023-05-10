@@ -1,9 +1,8 @@
 package com.example.sidepot.attendance.domain;
 
 import com.example.sidepot.global.domain.BaseEntity;
-import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.work.domain.Employment;
+import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.store.dto.WorkTimeDto;
 
 import io.jsonwebtoken.lang.Assert;

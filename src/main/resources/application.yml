@@ -7,7 +7,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   cache:
@@ -15,6 +15,11 @@ spring:
   redis:
     host: svc.gksl2.cloudtype.app
     port: 30134
+  rabbitmq:
+    host: localhost #svc.sel3.cloudtype.app
+    port: 5672 #30153
+    username: guest #root
+    password: guest #root
 
 
 springdoc:

@@ -1,7 +1,7 @@
 package com.example.sidepot.store.domain;
 
 
-import com.example.sidepot.work.domain.Employment;
+import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.store.dto.StoreCreateRequestDto;
 import com.sun.istack.NotNull;
@@ -46,7 +46,6 @@ public class Store {
     @Column(name = "detail_address")
     private String detailAddress;
 
-
     @NotNull
     @Column(name = "store_calssification")
 //    @Enumerated(EnumType.STRING)
@@ -69,7 +68,8 @@ public class Store {
     private List<TodoList> todoLists = new ArrayList<>();
 
     @Builder
-    public Store(Owner owner, String storeName, String detailAddress, String branchName, String earlyLeaveTime, String primaryAddress, String storeClassifiacation, String lateTime) {
+    public Store(Owner owner, String storeName, String detailAddress, String branchName,
+                 String earlyLeaveTime, String primaryAddress, String storeClassification, String lateTime) {
         this.owner = owner;
         this.storeName = storeName;
         this.branchName = branchName;
@@ -77,7 +77,7 @@ public class Store {
         this.earlyLeaveTime = earlyLeaveTime;
         this.lateTime = lateTime;
         this.primaryAddress = primaryAddress;
-        this.storeClassification = storeClassifiacation;
+        this.storeClassification = storeClassification;
     }
 
     public void update(StoreCreateRequestDto storeCreateRequestDto){
