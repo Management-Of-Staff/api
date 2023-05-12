@@ -2,6 +2,8 @@ package com.example.sidepot.work.domain;
 
 
 import com.example.sidepot.global.security.LoginMember;
+import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.work.dto.CoverWorkRequestDto.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,10 +33,20 @@ public class CoverWork {
     @JoinColumn(name = "cover_work_notification_id")
     private CoverWorkNotice coverWorkNotice;
 
-    @ManyToOne
+    @ManyToOne //영속성 미결
     @JoinColumn(name = "work_time_id")
     private WorkTime workTime;
 
+    @ManyToOne
+    private Staff requestedStaff;
+
+    @ManyToOne
+    private Staff acceptedStaff;
+
+    @ManyToOne
+    private Store store;
+
+///////////////삭제 대상///////////////////
     @Column(name = "working_store_name")
     private String workingStoreName;
 
@@ -47,7 +59,7 @@ public class CoverWork {
     private Long acceptedStaffId;
     @Column(name = "accepted_staff_Name")
     private String acceptedStaffName;
-
+////////////////////////////////////////////
     @Column(name = "cover_date")
     private LocalDate coverDate;
 
@@ -67,6 +79,30 @@ public class CoverWork {
     @Column(name = "is_accepted")
     private boolean isAccepted;
 
+
+    public CoverWork(Long coverWorkId, CoverWorkNotice coverWorkNotice,
+                     WorkTime workTime, Staff requestedStaff, Staff acceptedStaff, Store store,
+                     LocalDate coverDate, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime,
+                     boolean successCheck, boolean isAccepted) {
+        this.coverWorkId = coverWorkId;
+        this.coverWorkNotice = coverWorkNotice;
+        this.workTime = workTime;
+        this.requestedStaff = requestedStaff;
+        this.acceptedStaff = acceptedStaff;
+        this.store = store;
+        this.coverDate = coverDate;
+        this.dayOfWeek = dayOfWeek;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.successCheck = successCheck;
+        this.isAccepted = isAccepted;
+    }
+
+    public CoverWork(CreateCoverWorkReqDto createCoverWorkReqDto, WorkTime workTime){
+
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Builder
     public CoverWork(Long coverWorkId, Long workingStoreId, CoverWorkNotice coverWorkNotice, WorkTime workTime,
                      String workingStoreName, Long requestedStaffId, Long acceptedStaffId, LocalDate coverDate,
@@ -88,19 +124,17 @@ public class CoverWork {
     }
 
     @Builder
-
-
     public CoverWork(CreateCoverWorkReqDto createCoverWorkReqDto, WorkTime workTime, CoverWorkNotice coverWorkNotice, LoginMember member) {
         this.requestedStaffName = member.getMemberName();
-        this.requestedStaffId = createCoverWorkReqDto.getRequestedStaffId();
-        this.coverDate = createCoverWorkReqDto.getCoverDate();
-        this.dayOfWeek = createCoverWorkReqDto.getCoverDate().getDayOfWeek();
+        //this.requestedStaffId = createCoverWorkReqDto.getRequestedStaffId();
+        //this.coverDate = createCoverWorkReqDto.getCoverDate();
+        //this.dayOfWeek = createCoverWorkReqDto.getCoverDate().getDayOfWeek();
         this.startTime = workTime.getStartTime();
         this.endTime =  workTime.getEndTime();
         this.successCheck = false;
         this.isAccepted = false;
         this.workTime = workTime;
-        this.workingStoreId = createCoverWorkReqDto.getStoreId();
+        //this.workingStoreId = createCoverWorkReqDto.getStoreId();
         this.coverWorkNotice = coverWorkNotice;
     }
 

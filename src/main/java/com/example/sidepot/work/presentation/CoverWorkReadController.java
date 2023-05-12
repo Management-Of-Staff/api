@@ -27,7 +27,7 @@ public class CoverWorkReadController {
     private final CoverWorkReadQuery coverWorkReadQuery;
 
     @ApiOperation(value = "[대타] 요청 대타 조회", notes = "요청한 대타 목록 조회 API")
-    @GetMapping(value = "/cover-work/requested")
+    @GetMapping(value = "/cover-works/requests")
     public ResponseEntity<ResponseDto> readMyCoverWorkRequested(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                 @ApiIgnore HttpServletRequest httpServletRequest) {
         List<CoverWorkNotificationResDto> coverWorkNotificationResList
@@ -42,7 +42,7 @@ public class CoverWorkReadController {
     }
 
     @ApiOperation(value = "[대타] 수락 대타 조회", notes = "수락한 대타 목록 조회 API")
-    @GetMapping(value = "/cover-work/accepted")
+    @GetMapping(value = "/cover-works/requests/accept")
     public ResponseEntity<ResponseDto> createCoverWorkRequest(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                               @ApiIgnore HttpServletRequest httpServletRequest) {
         List<CoverWorkNotificationResDto> coverWorkNotificationResList

@@ -10,6 +10,9 @@ spring:
       ddl-auto: create-drop
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        format_sql: true
   cache:
     type: redis
   redis:

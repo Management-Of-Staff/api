@@ -3,13 +3,12 @@ package com.example.sidepot.work.dto;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class CoverWorkRequestDto {
 
     @Getter
     public static class CreateCoverWorkReqDto{
-
-        private Long requestedStaffId;
         private Long storeId;
         private Long workTimeId;
         private LocalDate coverDate;

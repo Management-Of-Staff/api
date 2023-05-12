@@ -3,9 +3,8 @@ package com.example.sidepot.work.presentation;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.work.app.CoverWorkNoticeService;
 
-import com.example.sidepot.work.dao.CoverWorkNoticeResDto.*;
+import com.example.sidepot.work.app.CoverWorkNoticeReadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -16,35 +15,33 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Api(tags = "대타 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
-public class CoverWorkNoticeController {
+public class CoverWorkNoticeReadController {
 
-    private final CoverWorkNoticeService coverWorkNoticeService;
-
+    private final CoverWorkNoticeReadService coverWorkNoticeReadService;
     @ApiOperation(value = "[대타] 대타 알림함", notes = "대타 관련 알림 보기 API")
-    @GetMapping(value = "/cover-work/notifications")
+    @GetMapping(value = "/cover-works/notice-box")
     public ResponseEntity<ResponseDto> readCoverWorkNotice(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                            @ApiIgnore HttpServletRequest httpServletRequest) {
-        List<CoverNoticeResDto> coverNoticeResDtoList = coverWorkNoticeService.readCoverWorkNotice(member);
+        coverWorkNoticeReadService.readCoverNoticeOfStaff(member);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
                 .method(httpServletRequest.getMethod())
                 .message("대타 알림 조회")
-                .data(coverNoticeResDtoList)
+                .data("")
                 .build());
     }
 
     @ApiOperation(value = "[대타] 대타 알림함 썸네일", notes = "대타 관련 알림 보기 API")
-    @GetMapping(value = "/cover-work/thumbnail")
+    @GetMapping(value = "/cover-works/notice-box/thumbnail")
     public ResponseEntity<ResponseDto> readCoverWorkNoticeThumbnail(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                     @ApiIgnore HttpServletRequest httpServletRequest) {
-
+        coverWorkNoticeReadService.readCoverNoticeOfStaff(member);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())

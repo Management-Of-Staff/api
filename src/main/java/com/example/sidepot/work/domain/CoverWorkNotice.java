@@ -20,9 +20,11 @@ public class CoverWorkNotice extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long coverWorkNoticeId;
 
+    //삭제 - 필요 없음
     @Column(name = "store_id")
     private Long storeId;
 
+    //삭제 - 중재 테이블로 옮김
     @Column(name = "staff_id")
     private Long staffId;
 
@@ -32,12 +34,15 @@ public class CoverWorkNotice extends BaseEntity {
     @Column(name = "details_url")
     private String detailsUrl;
 
+    //삭제 - 중재 테이블로 옮김
     @Column(name = "cover_notification_type")
     private CoverNoticeType coverNoticeType;
 
+    //삭제 - 중재 테이블로 옮김
     @Column(name = "read_status")
     private boolean readStatus;
 
+    //삭제 - 중재 테이블로 옮김
     @Column(name = "is_accepted")
     private boolean isAccepted;
 
@@ -58,7 +63,7 @@ public class CoverWorkNotice extends BaseEntity {
     }
 
     public CoverWorkNotice(CreateCoverWorkReqDto createCoverWorkReqDto){
-        this.staffId = createCoverWorkReqDto.getRequestedStaffId();
+        //this.staffId = createCoverWorkReqDto.getRequestedStaffId();
         this.storeId = createCoverWorkReqDto.getStoreId();
         this.coverNoticeType = CoverNoticeType.REQUESTED;
         this.readStatus = false;

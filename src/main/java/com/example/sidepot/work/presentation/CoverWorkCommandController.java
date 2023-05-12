@@ -4,6 +4,7 @@ import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.work.app.CoverWorkCommandService;
+import com.example.sidepot.work.app.CoverWorkNoticeCommandService;
 import com.example.sidepot.work.dto.CoverWorkRequestDto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,13 +28,14 @@ import java.util.List;
 public class CoverWorkCommandController {
 
     private final CoverWorkCommandService coverWorkCommandService;
+    private final CoverWorkNoticeCommandService coverWorkNoticeCommandService;
 
     @ApiOperation(value = "[대타] 대타 요청", notes = "대타 요청을 생성하는 API")
-    @PostMapping(value = "/cover-work/requested")
+    @PostMapping(value = "/cover-works/requests")
     public ResponseEntity<ResponseDto> createCoverWorkRequest(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                               @RequestBody List<CreateCoverWorkReqDto> createCoverWorkReqDtoList,
                                                               @ApiIgnore HttpServletRequest httpServletRequest) {
-        coverWorkCommandService.createCoverWorkRequest(member, createCoverWorkReqDtoList);
+        coverWorkNoticeCommandService.createCoverWorkRequestNotice(member, createCoverWorkReqDtoList);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -44,7 +46,7 @@ public class CoverWorkCommandController {
     }
 
     @ApiOperation(value = "[대타] 대타 수락", notes = "요청된 대타를 수락하는 API")
-    @PostMapping(value = "/cover-work/accepted")
+    @PostMapping(value = "/cover-works/requests/accept")
     public ResponseEntity<ResponseDto> acceptCoverWorkRequest(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                               @RequestBody List<AcceptCoverWorkReqDto> acceptCoverWorkReqDtoList,
                                                               @ApiIgnore HttpServletRequest httpServletRequest) {
@@ -59,7 +61,7 @@ public class CoverWorkCommandController {
     }
 
     @ApiOperation(value = "[대타] 수락한 대타 취소 ", notes = "수락한 대타를 취소하는 API")
-    @PostMapping(value = "/cover-revocation/accepted")
+    @PostMapping(value = "/cover-works/requests/accept/cancel")
     public ResponseEntity<ResponseDto> acceptedCoverWorkCancel(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                @ApiIgnore HttpServletRequest httpServletRequest) {
         //정책 없음
@@ -73,7 +75,7 @@ public class CoverWorkCommandController {
     }
 
     @ApiOperation(value = "[대타] 요청한 대타 취소", notes = "요청한 대타 취소하는 API")
-    @PostMapping(value = "/cover-revocation/requested")
+    @PostMapping(value = "/cover-works/requests/cancel")
     public ResponseEntity<ResponseDto> requestedCoverWorkCancel(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                @ApiIgnore HttpServletRequest httpServletRequest) {
         //정책 없음

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
-public class WorkController {
+public class WorkCommandController {
     private final WorkCommandService workCommandService;
 
     @ApiOperation(value =  "[직원 관리] 근무 추가", notes = "특정 직원의 근무를 추가하는 API")

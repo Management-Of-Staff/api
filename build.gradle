@@ -57,8 +57,8 @@ dependencies {
     //MariaDb
     runtimeOnly group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.5'
 
-    // H2
-    //runtimeOnly 'com.h2database:h2'
+    // H2 /테스트 코드 DB
+    runtimeOnly 'com.h2database:h2'
 
     //Querydsl
     implementation "com.querydsl:querydsl-jpa:5.0.0"

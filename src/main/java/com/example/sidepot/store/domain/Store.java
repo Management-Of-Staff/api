@@ -61,7 +61,7 @@ public class Store {
 
     @Column(name = "employment_id")
     @OneToMany(mappedBy = "store")
-    private List<Employment> employmentId;
+    private List<Employment> employmentList;
 
     @OneToMany(mappedBy = "store")
     @Column(name = "todo_lists")

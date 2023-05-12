@@ -3,8 +3,10 @@ package com.example.sidepot.work.domain;
 import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.global.domain.BaseEntity;
 import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.notification.work.domain.CoverNotice;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.work.app.WorkReadService;
+import com.example.sidepot.work.dto.CoverWorkRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,6 +65,12 @@ public class WorkTime extends BaseEntity {
         this.endTime = endTime;
         this.dayOfWeek = dayOfWeek;
     }
+
+    public WorkTime createCoverWorkRequested(CoverWorkRequestDto.CreateCoverWorkReqDto createCoverWorkReqDto){
+        this.coverWorkList.add(new CoverWork(createCoverWorkReqDto, this));
+        return this;
+    }
+
 
     public List<WorkReadService.CoveredWork> getCoverWorkBetween(LocalDate startDate, LocalDate endDate){
         List<WorkReadService.CoveredWork> coverWorkList = new ArrayList<>();

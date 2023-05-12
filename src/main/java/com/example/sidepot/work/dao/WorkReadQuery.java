@@ -71,13 +71,14 @@ public class WorkReadQuery {
                         ReadWorkByStoreResDto.class,
                         store.storeId,
                         store.branchName,
+                        store.storeName,
                         workTime.workTimeId,
                         workTime.startTime,
                         workTime.endTime,
                         workTime.dayOfWeek
                 ))
                 .from(workTime)
-                .leftJoin(workTime.store, store).fetchJoin()
+                .join(workTime.store, store)
                 .where(workTime.staff.memberId.eq(staffId))
                 .fetch();
     }

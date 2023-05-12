@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 public class WorkReadService {
     private final WorkReadQuery workReadQuery;
 
-    public Map<List<String>, List<ReadWorkByStoreResDto>> readAllWorkByStore(Long staffId){
+    public Map<List<Long>, List<ReadWorkByStoreResDto>> readAllWorkByStore(Long staffId){
         List<ReadWorkByStoreResDto> readWorkByStoreResDtoList = workReadQuery.readAllWorkOfStaff(staffId);
 
         return readWorkByStoreResDtoList.stream().collect(Collectors.groupingBy(
-                o -> Arrays.asList(o.getStoreName())));
+                o -> Arrays.asList(o.getStoreId())));
     }
 
     public Map<List<Serializable>, List<StaffWork>> readAllEmployment(Long memberId, Long storeId) {

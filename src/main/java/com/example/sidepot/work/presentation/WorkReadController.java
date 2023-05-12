@@ -5,10 +5,7 @@ import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.work.app.WorkReadService;
 import com.example.sidepot.work.dao.ReadStoreWorkerOnDay;
-import com.example.sidepot.work.domain.WorkTime;
-import com.example.sidepot.work.domain.WorkTimeRepository;
 import com.example.sidepot.work.dto.ReadWorkResponseDto;
-import com.example.sidepot.work.dto.WorkRequestDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -67,13 +64,13 @@ public class WorkReadController {
                 .build());
     }
 
-    @ApiOperation(value = "[대타] 직원 모든 고정 근무 조회", notes = "대타 요청을 위한 직원의 모든 근무 조회 API")
+    @ApiOperation(value = "[대타 홈] 직원 모든 고정 근무 조회", notes = "대타 요청을 위한 직원의 모든 근무 조회 API")
     @PreAuthorize("hasAnyAuthority('STAFF','ADMIN')")
-    @GetMapping(value = "/works")
+    @GetMapping(value = "/employments/schedule")
     public ResponseEntity<ResponseDto> readWorkSchedule(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                         @ApiIgnore HttpServletRequest httpServletRequest) {
 
-        Map<List<String>, List<ReadWorkResponseDto.ReadWorkByStoreResDto>> listListMap = workReadService.readAllWorkByStore(member.getMemberId());
+        Map<List<Long>, List<ReadWorkResponseDto.ReadWorkByStoreResDto>> listListMap = workReadService.readAllWorkByStore(member.getMemberId());
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
