@@ -23,7 +23,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long memberId;
-
+    @Column(name = "uuid")
+    private String uuid;
     @Column(name = "email")
     private String email;
     @Column(name = "member_name", nullable = false)

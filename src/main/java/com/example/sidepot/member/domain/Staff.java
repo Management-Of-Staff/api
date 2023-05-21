@@ -1,13 +1,14 @@
 package com.example.sidepot.member.domain;
 
 import com.example.sidepot.employment.domain.Employment;
+import com.example.sidepot.work.domain.WorkTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -18,7 +19,11 @@ import java.util.List;
 @Table(name = "staff")
 public class Staff extends Member {
     @OneToMany(mappedBy = "staff")
-    private List<Employment> employmentList = new ArrayList<>();
+    private Set<Employment> employmentList = new HashSet<>();
+
+    @OneToMany(mappedBy = "staff")
+    private Set<WorkTime> workTimeList = new HashSet<>();
+
 
     private Staff(String name, String password, String phoneNum, Role role, LocalDateTime createDate) {
         super(name, password, phoneNum, role, createDate);

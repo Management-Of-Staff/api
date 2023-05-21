@@ -9,6 +9,8 @@ import com.example.sidepot.member.domain.StaffRepository;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.work.domain.*;
+import com.example.sidepot.work.repository.CoverWorkRepository;
+import com.example.sidepot.work.repository.WorkTimeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +24,7 @@ public class AppDummyInit extends AppDummyObject {
     @Bean
     CommandLineRunner initDB(StaffRepository staffRepository, OwnerRepository ownerRepository,
                              StoreRepository storeRepository, WorkTimeRepository workTimeRepository,
-                             CoverWorkRepository coverWorkRepository, EmploymentRepository employmentRepository,
-                             CoverWorkNoticeRepository coverWorkNoticeRepository) {
+                             CoverWorkRepository coverWorkRepository, EmploymentRepository employmentRepository) {
         return (args -> {
             Staff staff1 = staffRepository.save(newStaff("이지윤", "01000000001"));
             Staff staff2 = staffRepository.save(newStaff("장수현", "01000000002"));
@@ -41,14 +42,18 @@ public class AppDummyInit extends AppDummyObject {
             // 알바 2개 이상 가진
             Employment employment1 = employmentRepository.save(newEmployment(store1, staff1));
             Employment employment2 = employmentRepository.save(newEmployment(store1, staff2));
+            Employment employment9 = employmentRepository.save(newEmployment(store1, staff4));
             Employment employment3 = employmentRepository.save(newEmployment(store2, staff1));
-            Employment employment4 = employmentRepository.save(newEmployment(store2, staff1));
+            Employment employment4 = employmentRepository.save(newEmployment(store2, staff2));
+            Employment employment10 = employmentRepository.save(newEmployment(store2, staff4));
+
 
             //그외
             Employment employment5 = employmentRepository.save(newEmployment(store1, staff3));
-            Employment employment6 = employmentRepository.save(newEmployment(store1, staff4));
             Employment employment7 = employmentRepository.save(newEmployment(store1, staff5));
             Employment employment8 = employmentRepository.save(newEmployment(store1, staff6));
+
+
 
             // 이지윤의 고정 근무 일정
             WorkTime workTime1 = workTimeRepository.save(
@@ -58,10 +63,10 @@ public class AppDummyInit extends AppDummyObject {
                     newWorkTime(store1, staff1, LocalTime.of(9, 0, 0),
                             LocalTime.of(15, 0, 0), DayOfWeek.WEDNESDAY));
             WorkTime workTime3 = workTimeRepository.save(
-                    newWorkTime(store2, staff1, LocalTime.of(17, 0, 0),
+                    newWorkTime(store2, staff1, LocalTime.of(11, 0, 0),
                             LocalTime.of(20, 0, 0), DayOfWeek.SUNDAY));
             WorkTime workTime4 = workTimeRepository.save(
-                    newWorkTime(store2, staff1, LocalTime.of(17, 0, 0),
+                    newWorkTime(store2, staff1, LocalTime.of(11, 0, 0),
                             LocalTime.of(20, 0, 0), DayOfWeek.SATURDAY));
 
             // 장수현의 고정 근무 일정
@@ -72,18 +77,29 @@ public class AppDummyInit extends AppDummyObject {
                     newWorkTime(store1, staff2, LocalTime.of(9, 0, 0),
                             LocalTime.of(15, 0, 0), DayOfWeek.SATURDAY));
             WorkTime workTime7 = workTimeRepository.save(
-                    newWorkTime(store2, staff2, LocalTime.of(17, 0, 0),
+                    newWorkTime(store2, staff2, LocalTime.of(11, 0, 0),
                             LocalTime.of(20, 0, 0), DayOfWeek.MONDAY));
             WorkTime workTime8 = workTimeRepository.save(
-                    newWorkTime(store2, staff2, LocalTime.of(17, 0, 0),
+                    newWorkTime(store2, staff2, LocalTime.of(11, 0, 0),
                             LocalTime.of(20, 0, 0), DayOfWeek.FRIDAY));
 
-//            CoverWorkNotice coverWorkNotice1 = coverWorkNoticeRepository.save(
-//                    newCoverWorkNotice(store1.getStoreId(), staff1.getMemberId())
-//            );
-//            CoverWorkNotice coverWorkNotice2 = coverWorkNoticeRepository.save(
-//                    newCoverWorkNotice(store2.getStoreId(), staff1.getMemberId())
-//            );
+//
+            //이호섭의 고정 근무 일정
+            WorkTime workTime9 = workTimeRepository.save(
+                    newWorkTime(store1, staff4, LocalTime.of(11, 0, 0),
+                            LocalTime.of(18, 0, 0), DayOfWeek.FRIDAY));
+
+            WorkTime workTime10 = workTimeRepository.save(
+                    newWorkTime(store1, staff4, LocalTime.of(11, 0, 0),
+                            LocalTime.of(18, 0, 0), DayOfWeek.SATURDAY));
+
+            WorkTime workTime11 = workTimeRepository.save(
+                    newWorkTime(store2, staff4, LocalTime.of(11, 0, 0),
+                            LocalTime.of(20, 0, 0), DayOfWeek.TUESDAY));
+
+            WorkTime workTime12 = workTimeRepository.save(
+                    newWorkTime(store2, staff4, LocalTime.of(11, 0, 0),
+                            LocalTime.of(20, 0, 0), DayOfWeek.THURSDAY));
         });
     }
 }

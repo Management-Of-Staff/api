@@ -4,25 +4,24 @@ import lombok.Getter;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
 
 public class WorkRequestDto {
     @Getter
-    public static class createWorkReqDto {
+    public static class CreateWorkReqDto {
         private Long storeId;
-        private Long staffId;
         private LocalTime startTime;
         private LocalTime endTime;
-        private Set<DayOfWeek> dayOfWeekList;
+        private List<DayOfWeek> dayOfWeekList;
     }
     @Getter
-    public static class deleteWorkReqDto {
-        private Set<Long> workTimeIds;
+    public static class DeleteWorkReqDto {
+        private List<Long> workTimeIds;
 
     }
     @Getter
-    public static class updateWorkReqDto {
-        private Set<Long> workTimeIds;
-        private createWorkReqDto createWorkReqDto;
+    public static class UpdateWorkReqDto {
+        private DeleteWorkReqDto deleteWorkReqDto;
+        private CreateWorkReqDto createWorkReqDto;
     }
 }
