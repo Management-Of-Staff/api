@@ -1,84 +1,90 @@
 package com.example.sidepot.work.domain;
 
+
 import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.global.domain.BaseEntity;
 import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.notification.work.domain.CoverNotice;
 import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.work.app.WorkReadService;
-import com.example.sidepot.work.dto.CoverWorkRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "work_time")
 @NoArgsConstructor
 public class WorkTime extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "work_time_id")
     private Long workTimeId;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "staff_id")
+    private Staff staff;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employment_id")
     private Employment employment;
 
-    @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private Staff staff;
-
-    @ManyToOne
-    @JoinColumn(name = "store_id")
-    private Store store;
-
-    @Column(name = "start_time", columnDefinition = "TIME")
+    @NotNull
+    @Column(name = "start_time")
     private LocalTime startTime;
 
-    @Column(name = "end_time", columnDefinition = "TIME")
+    @NotNull
+    @Column(name = "end_time")
     private LocalTime endTime;
 
+    @NotNull
     @Column(name = "day_of_week")
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
 
-    @OneToMany(mappedBy = "workTime", cascade = CascadeType.ALL)
-    private List<CoverWork> coverWorkList = new ArrayList<>();
+    @Column(name = "is_deleted")
+    private Boolean isDeleted; //삭제처리
 
-    @Builder
-    private WorkTime(Long workTimeId, Staff staff, Store store,
-                    LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
+    @Builder //mock 빌더
+    public WorkTime(Long workTimeId, Staff staff,Store store, boolean isDeleted,
+                   LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
         this.workTimeId = workTimeId;
         this.staff = staff;
         this.store = store;
         this.startTime = startTime;
         this.endTime = endTime;
         this.dayOfWeek = dayOfWeek;
+        this.isDeleted = isDeleted;
     }
 
-    public WorkTime createCoverWorkRequested(CoverWorkRequestDto.CreateCoverWorkReqDto createCoverWorkReqDto){
-        this.coverWorkList.add(new CoverWork(createCoverWorkReqDto, this));
-        return this;
+    public WorkTime(Staff staff, Store store, LocalTime startTime,
+                    LocalTime endTime, DayOfWeek dayOfWeek) {
+        this.staff = staff;
+        this.store = store;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.dayOfWeek = dayOfWeek;
+        this.isDeleted = false;
+    }
+
+    public boolean isOverlappedWithCover(CoverDateTime coverDateTime){
+        return (this.dayOfWeek.equals(coverDateTime.getCoverDate().getDayOfWeek()))
+                && (this.startTime.isBefore(coverDateTime.getEndTime()))
+                && ((this.endTime.isAfter(coverDateTime.getStartTime())));
     }
 
 
-    public List<WorkReadService.CoveredWork> getCoverWorkBetween(LocalDate startDate, LocalDate endDate){
-        List<WorkReadService.CoveredWork> coverWorkList = new ArrayList<>();
-        for(CoverWork coverWork : this.coverWorkList){
-            if(coverWork.getCoverDate().isAfter(startDate) && coverWork.getCoverDate().isBefore(endDate.plusDays(1))){
-                coverWorkList.add(new WorkReadService.CoveredWork(coverWork));
-            }
-        }
-        return coverWorkList;
+    public void delete(){
+        this.isDeleted = true;
     }
 }

@@ -4,14 +4,10 @@ import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.member.domain.Owner;
 import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.work.domain.CoverNoticeType;
-import com.example.sidepot.work.domain.CoverWork;
-import com.example.sidepot.work.domain.CoverWorkNotice;
 import com.example.sidepot.work.domain.WorkTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -43,34 +39,35 @@ public class AppDummyObject {
                 .store(store).staff(staff)
                 .startTime(startTime).endTime(endTime)
                 .dayOfWeek(dayOfWeek)
+                .isDeleted(false)
                 .build();
     }
-
-    protected CoverWork newCoverWork(Long storeId, String storeName, Long acceptedStaffId, Long requestedStaffId,
-                                     CoverWorkNotice coverWorkNotice, LocalDate coverDate,
-                                     LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek, boolean isAccepted){
-        return CoverWork.builder()
-                .workingStoreId(storeId)
-                .workingStoreName(storeName)
-                .acceptedStaffId(acceptedStaffId)
-                .requestedStaffId(requestedStaffId)
-                .coverWorkNotice(coverWorkNotice)
-                .coverDate(coverDate)
-                .startTime(startTime)
-                .endTime(endTime)
-                .dayOfWeek(dayOfWeek)
-                .isAccepted(isAccepted)
-                .successCheck(false)
-                .build();
-    }
-
-    protected CoverWorkNotice newCoverWorkNotice(Long storeId, Long staffId){
-        return CoverWorkNotice.builder()
-                .storeId(storeId)
-                .staffId(staffId)
-                .coverNoticeType(CoverNoticeType.REQUESTED)
-                .readStatus(false)
-                .isAccepted(false)
-                .build();
-    }
+//
+//    protected CoverWork newCoverWork(Long storeId, String storeName, Long acceptedStaffId, Long requestedStaffId,
+//                                     CoverWorkNotice coverWorkNotice, LocalDate coverDate,
+//                                     LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek, boolean isAccepted){
+//        return CoverWork.builder()
+//                .workingStoreId(storeId)
+//                .workingStoreName(storeName)
+//                .acceptedStaffId(acceptedStaffId)
+//                .requestedStaffId(requestedStaffId)
+//                .coverWorkNotice(coverWorkNotice)
+//                .coverDate(coverDate)
+//                .startTime(startTime)
+//                .endTime(endTime)
+//                .dayOfWeek(dayOfWeek)
+//                .isAccepted(isAccepted)
+//                .successCheck(false)
+//                .build();
+//    }
+//
+//    protected CoverWorkNotice newCoverWorkNotice(Long storeId, Long staffId){
+//        return CoverWorkNotice.builder()
+//                .storeId(storeId)
+//                .staffId(staffId)
+//                .coverNoticeType(CoverNoticeType.REQUESTED)
+//                .readStatus(false)
+//                .isAccepted(false)
+//                .build();
+//    }
 }

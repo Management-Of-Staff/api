@@ -1,10 +1,10 @@
 package com.example.sidepot.attendance.domain;
 
+
+import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.global.domain.BaseEntity;
 import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.store.dto.WorkTimeDto;
-
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,8 +19,7 @@ import java.util.List;
 @Table(name = "attendance")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Attendance extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,7 +52,7 @@ public class Attendance extends BaseEntity {
 
     @Builder
     private Attendance(Employment employment, Store store, LocalDateTime checkInTime, LocalDateTime checkOutTime,
-        AttendanceStatus attendanceStatus) {
+                       AttendanceStatus attendanceStatus) {
         this.employment = employment;
         this.store = store;
         this.checkInTime = checkInTime;
