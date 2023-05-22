@@ -29,8 +29,8 @@ public class CoverAcceptService {
 
     @Transactional
     public void acceptCoverWork(LoginMember loginMember, Long coverManagerId){
-        Optional<CoverManager> coverNoticeOp = coverManagerRepository.findById(coverManagerId);
-        CoverManager coverManagerPs = coverNoticeOp.orElseThrow();
+        Optional<CoverManager> coverManagerOp = coverManagerRepository.findById(coverManagerId);
+        CoverManager coverManagerPs = coverManagerOp.orElseThrow();
 
         //workPossibleCheckService.coverWorkabilityScheduleCheck();
 

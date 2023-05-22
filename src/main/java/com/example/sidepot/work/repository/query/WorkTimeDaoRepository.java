@@ -2,6 +2,8 @@ package com.example.sidepot.work.repository.query;
 
 
 import com.example.sidepot.work.domain.WorkTime;
+import com.example.sidepot.work.dto.StoreWorkerResDto;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import java.util.List;
 
 import static com.example.sidepot.work.domain.QWorkTime.workTime;
 import static com.example.sidepot.work.domain.QCoverWork.coverWork;
+import static com.example.sidepot.member.domain.QStaff.staff;
+import static com.querydsl.core.types.Projections.list;
 
 @RequiredArgsConstructor
 @Repository
@@ -42,10 +46,39 @@ public class WorkTimeDaoRepository {
                 .fetch();
     }
 
+    /**
+     * 매장의 전체 근무를 성사된 대타와 함께 조회한다.
+     * 특정 날짜에 대해 근무와 대타는 1:1 관계가 기대되기 때문에 JPA 즉시로딩 방식과 비슷하다.
+     * 다만 특정 날짜에 대해 근무와 대타가 1:N 관계가 아니면 수정해야한다.
+     */
+    public List<StoreWorkerResDto> getStoreWorkToday(Long storeId, LocalDate today) {
+        return jpaQueryFactory
+                .select(Projections.constructor(StoreWorkerResDto.class,
+                        workTime.staff.memberId,
+                        workTime.staff.memberName,
+                        workTime.startTime,
+                        workTime.endTime,
+                        list(Projections.constructor(StoreWorkerResDto.RequestedCoverStaff.class,
+                                coverWork.acceptedStaff.acceptedStaffId,
+                                coverWork.acceptedStaff.acceptedStaffName,
+                                coverWork.coverDateTime.startTime,
+                                coverWork.coverDateTime.endTime))))
+                .from(workTime)
+                .leftJoin(workTime.staff, staff) //쩔수 조인
+                .leftJoin(coverWork).on(workTime.workTimeId.eq(coverWork.workTIme.workTimeId)
+                        .and(coverWork.coverDateTime.coverDate.eq(today))
+                        .and(coverWork.isAccepted.eq(true)))
+                .where(eqIsDeleted(false), eqStoreId(storeId), eqDayOfWeek(today.getDayOfWeek()))
+                .fetch();
+    }
+
     private BooleanExpression eqStaffId(final Long staffId) {
         return staffId != null ? workTime.staff.memberId.eq(staffId) : null;
     }
 
+    private BooleanExpression eqStoreId(final Long storeId) {
+        return storeId != null ? workTime.store.storeId.eq(storeId) : null;
+    }
 
     private BooleanExpression eqDayOfWeek(final DayOfWeek day) {
         if (day != null) {

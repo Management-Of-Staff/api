@@ -5,6 +5,7 @@ import com.example.sidepot.global.DomainService;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.work.domain.CoverWork;
 import com.example.sidepot.work.domain.WorkTime;
+import com.example.sidepot.work.dto.AttendanceTodayResDto;
 import com.example.sidepot.work.repository.query.CoverWorkDaoRepository;
 import com.example.sidepot.work.repository.query.WorkTimeDaoRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.sidepot.work.app;
+package com.example.sidepot.work.dto;
 
 import com.example.sidepot.work.domain.CoverWork;
 import com.example.sidepot.work.domain.WorkTime;

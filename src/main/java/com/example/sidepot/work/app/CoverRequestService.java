@@ -30,6 +30,7 @@ public class CoverRequestService {
     private final StoreRepository storeRepository;
     private final StaffRepository staffRepository;
     private final CoverManagerRepository coverManagerRepository;
+    private final CoverRequestDuplicateCheckService coverRequestDuplicateCheckService;
 
     /**
      * 대타 요청 생성
@@ -40,6 +41,8 @@ public class CoverRequestService {
     @Transactional
     public void requestCoverWork(LoginMember loginMember,
                                  List<CreateCoverWorkReqDto> createCwReqDtoList) {
+
+        checkRequest(createCwReqDtoList);
 
         Optional<Staff> staffOp = staffRepository.findById(loginMember.getMemberId());
         Staff requestedStaff = staffOp.orElseThrow();
@@ -61,6 +64,14 @@ public class CoverRequestService {
 
         Events.raise(new CoverWorkRequestedEvent(coverManagerList, byStore.keySet()));
         coverManagerRepository.saveAll(coverManagerList);
+    }
+
+    private void checkRequest(List<CreateCoverWorkReqDto> createCoverWorkReqDtoList){
+        List<CoverWork> coverWorkList = coverRequestDuplicateCheckService.checkRequestDuplicate(createCoverWorkReqDtoList);
+        if(!coverWorkList.isEmpty() || coverWorkList != null){
+            throw new IllegalStateException("겹치는 날짜의 요청이 있습니다.");
+        }
+        //겹치는 날짜를 보여줄 코드, 필요하면
     }
 
     private List<CoverWork> createCoverWorkList(List<CreateCoverWorkReqDto> createCwReqDtoList,

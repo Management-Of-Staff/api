@@ -6,7 +6,7 @@ import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.work.app.AttendanceExtractService;
 
-import com.example.sidepot.work.app.AttendanceTodayResDto;
+import com.example.sidepot.work.dto.AttendanceTodayResDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-@Api(tags = "출근 APIs")
+@Api(tags = "출퇴근 APIs")
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
@@ -39,7 +39,7 @@ public class AttendanceTodayController {
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
                 .method(httpServletRequest.getMethod())
-                .message("대타 요청 생성")
+                .message("오늘 출근 정보")
                 .data(attendanceTodayResDto)
                 .build());
     }

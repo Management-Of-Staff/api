@@ -5,6 +5,7 @@ import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.global.domain.BaseEntity;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.dto.WorkTimeDto;
+import com.example.sidepot.work.domain.StoreId;
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity @Getter
@@ -22,13 +24,11 @@ public class Attendance extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employment_id")
-    private Employment employment;
+    @Embedded
+    private StoreId storeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
-    private Store store;
+    @Embedded
+    private WorkerId workerId;
 
     @Column(name = "check_in_time", nullable = false)
     private LocalDateTime checkInTime;
@@ -40,43 +40,20 @@ public class Attendance extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AttendanceStatus attendanceStatus;
 
-    public String getStaffName() {
-        Assert.notNull(employment, "Employment must not be null");
-        return employment.getStaff().getMemberName();
-    }
+    @Column(name = "real_work_time")
+    private LocalTime real_work_time;
 
-    public String getPhoneNumber() {
-        Assert.notNull(employment, "Employment must not be null");
-        return employment.getPhoneNumber();
-    }
 
-    @Builder
-    private Attendance(Employment employment, Store store, LocalDateTime checkInTime, LocalDateTime checkOutTime,
-                       AttendanceStatus attendanceStatus) {
-        this.employment = employment;
-        this.store = store;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
-        this.attendanceStatus = attendanceStatus;
-    }
-
-    /**
-     * 등록된 근무 시간 조회
-     */
-    public List<WorkTimeDto> getRegisteredWorkingTime() {
-        return WorkTimeDto.fromList(employment.getWorkTimeList());
-    }
-
-    public static Attendance ofCheckIn(Store store, Employment employment) {
-        Assert.notNull(store, "Store must not be null");
-        Assert.notNull(employment, "Employment must not be null");
-        return Attendance.builder()
-            .store(store)
-            .employment(employment)
-            .attendanceStatus(AttendanceStatus.CHECK_IN)
-            .checkInTime(LocalDateTime.now())
-            .build();
-    }
+//    public static Attendance ofCheckIn(Store store, Employment employment) {
+//        Assert.notNull(store, "Store must not be null");
+//        Assert.notNull(employment, "Employment must not be null");
+//        return Attendance.builder()
+//            .store(store)
+//            .employment(employment)
+//            .attendanceStatus(AttendanceStatus.CHECK_IN)
+//            .checkInTime(LocalDateTime.now())
+//            .build();
+//    }
 
     public void setCheckOutTime() {
         this.attendanceStatus = AttendanceStatus.CHECK_OUT;
