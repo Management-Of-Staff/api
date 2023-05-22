@@ -68,7 +68,7 @@ public class CoverRequestService {
 
     private void checkRequest(List<CreateCoverWorkReqDto> createCoverWorkReqDtoList){
         List<CoverWork> coverWorkList = coverRequestDuplicateCheckService.checkRequestDuplicate(createCoverWorkReqDtoList);
-        if(!coverWorkList.isEmpty() || coverWorkList != null){
+        if(!coverWorkList.isEmpty()){
             throw new IllegalStateException("겹치는 날짜의 요청이 있습니다.");
         }
         //겹치는 날짜를 보여줄 코드, 필요하면
@@ -83,7 +83,7 @@ public class CoverRequestService {
             WorkTime wtPs = wtOp.orElseThrow();
             coverWorkList.add(new CoverWork(
                     new CoverDateTime(createCwReqDto.getCoverDate(), wtPs.getStartTime(), wtPs.getEndTime()),
-                    new OriginWorkId(wtPs.getWorkTimeId()),
+                    new WorkTimeId(wtPs.getWorkTimeId()),
                     new RequestedStaffId(requestedStaff.getMemberId(), requestedStaff.getMemberName(), requestedStaff.getUuid())));
         }
         return coverWorkList;

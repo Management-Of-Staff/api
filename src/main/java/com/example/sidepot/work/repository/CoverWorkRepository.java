@@ -1,6 +1,5 @@
 package com.example.sidepot.work.repository;
 
-import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.work.domain.CoverWork;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,6 +12,6 @@ import java.util.Optional;
 public interface CoverWorkRepository extends JpaRepository<CoverWork, Long> {
 
     List<CoverWork> findAllByAcceptedStaff_AcceptedStaffId(Long staffId);
-    List<CoverWork> findByWorkTIme_WorkTimeIdAndCoverDateTime_CoverDateAfter(Long workTimeId, LocalDate now);
+    List<CoverWork> findByWorkTime_WorkTimeIdAndCoverDateTime_CoverDateAfter(Long workTimeId, LocalDate now);
     Optional<CoverWork> findByWorkTime_WorkTimeIdAndCoverDateTime_CoverDate(Long workTimeId, LocalDate now);
 }

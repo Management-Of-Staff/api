@@ -17,6 +17,10 @@ public class CoverRequestDuplicateCheckService {
 
     private final CoverWorkRepository coverWorkRepository;
 
+    /**
+     * 해당 날짜(들)에 이미 요청이 생성되어 있으면 리스트에 담아서 반환한다.
+     * 1 고정근무 : N 변동근무면 복잡해짐 현재는 1:1관계
+     */
     @Transactional(readOnly = true)
     public List<CoverWork> checkRequestDuplicate(List<CreateCoverWorkReqDto> createCoverWorkReqDtoList){
 

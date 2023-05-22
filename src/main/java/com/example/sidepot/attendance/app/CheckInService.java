@@ -6,11 +6,9 @@ import com.example.sidepot.attendance.domain.WorkerId;
 import com.example.sidepot.attendance.repository.CoverAttendanceRepository;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.work.domain.CoverWork;
-import com.example.sidepot.work.domain.StoreId;
 import com.example.sidepot.work.repository.CoverWorkRepository;
 import com.example.sidepot.work.repository.WorkTimeRepository;
 
-import jdk.jfr.Timestamp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

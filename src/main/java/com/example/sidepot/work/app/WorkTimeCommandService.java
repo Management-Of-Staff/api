@@ -66,7 +66,7 @@ public class WorkTimeCommandService {
         LocalDate nowDate = LocalDate.now();
         for(WorkTime workTime : workTimePsList){
             List<CoverWork> coverWorkList = coverWorkRepository
-                    .findByWorkTIme_WorkTimeIdAndCoverDateTime_CoverDateAfter(workTime.getWorkTimeId(), nowDate);
+                    .findByWorkTime_WorkTimeIdAndCoverDateTime_CoverDateAfter(workTime.getWorkTimeId(), nowDate);
 
             if(!coverWorkList.isEmpty()) throw new IllegalArgumentException("삭제할 근무와 관련된 대타 근무가 있습니다.");
         }

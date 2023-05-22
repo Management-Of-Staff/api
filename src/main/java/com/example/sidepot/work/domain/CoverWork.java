@@ -24,16 +24,16 @@ public class CoverWork {
     @Embedded
     private CoverDateTime coverDateTime;
     @Embedded
-    private OriginWorkId workTIme;
+    private WorkTimeId workTime;
     @Column(name = "is_accepted")
     private Boolean isAccepted;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_manager_id")
     private CoverManager coverManager;
 
-    public CoverWork(CoverDateTime coverDateTime, OriginWorkId originWorkId, RequestedStaffId requestedStaff) {
+    public CoverWork(CoverDateTime coverDateTime, WorkTimeId workTimeId, RequestedStaffId requestedStaff) {
         this.coverDateTime = coverDateTime;
-        this.workTIme = originWorkId;
+        this.workTime = workTimeId;
         this.requestedStaff = requestedStaff;
         this.isAccepted = false;
     }
