@@ -5,14 +5,12 @@ import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.domain.StaffRepository;
 import com.example.sidepot.notification.work.domain.CoverManagerId;
-import com.example.sidepot.notification.work.domain.NoticeType;
-import com.example.sidepot.notification.work.domain.ReceiverId;
-import com.example.sidepot.work.domain.AcceptedStaffId;
+import com.example.sidepot.notification.work.domain.Receiver;
+import com.example.sidepot.work.domain.AcceptedStaff;
 import com.example.sidepot.work.domain.CoverManager;
-import com.example.sidepot.work.domain.RequestedStaffId;
+import com.example.sidepot.notification.work.domain.Sender;
 import com.example.sidepot.work.event.CoverWorkAcceptedEvent;
 import com.example.sidepot.work.repository.CoverManagerRepository;
-import com.example.sidepot.work.domain.SenderId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,25 +27,34 @@ public class CoverAcceptService {
 
     @Transactional
     public void acceptCoverWork(LoginMember loginMember, Long coverManagerId){
-        Optional<CoverManager> coverManagerOp = coverManagerRepository.findById(coverManagerId);
-        CoverManager coverManagerPs = coverManagerOp.orElseThrow();
+        CoverManager coverManagerPs = findCoverManager(coverManagerId);
 
         //workPossibleCheckService.coverWorkabilityScheduleCheck();
 
-        Optional<Staff> staffOp = staffRepository.findById(loginMember.getMemberId());
-        Staff acceptedStaff = staffOp.orElseThrow();
+        Staff acceptedStaff = findStaff(loginMember.getMemberId());
+        //대타 수락 처리
+        coverManagerPs.accepted(new AcceptedStaff(acceptedStaff.getMemberId(), acceptedStaff.getMemberName()));
 
-        RequestedStaffId receiver = coverManagerPs.getCoverWorkList().get(0).getRequestedStaff();
-        coverManagerPs.accepted(new AcceptedStaffId(acceptedStaff.getMemberId(), acceptedStaff.getMemberName()));
-        CoverManager coverManager = new CoverManager(
-                NoticeType.ACCEPTED.getMessage(),
-                coverManagerPs.getStoreId(),
-                new SenderId(acceptedStaff.getMemberId(), acceptedStaff.getMemberName()));
+        //알림을 전달받을 대타 요청자정보
+        Staff receiver = findStaff(coverManagerPs.getRequestedStaff().getId());
 
-        CoverManager coverManagerPS = coverManagerRepository.save(coverManager);
         Events.raise(new CoverWorkAcceptedEvent(
-                new CoverManagerId(coverManagerPS.getId(), coverManagerPS.getSenderId()),
-                new ReceiverId(receiver.getRequestedStaffId(), receiver.getUuid())));
+                new CoverManagerId(coverManagerPs.getId()),
+                new Sender(acceptedStaff.getMemberId(), acceptedStaff.getMemberName()),
+                new Receiver(receiver.getMemberId(), receiver.getMemberName(), receiver.getUuid())));
 
+    }
+
+
+    private CoverManager findCoverManager(Long coverManagerId) {
+        Optional<CoverManager> coverManagerOp = coverManagerRepository.findById(coverManagerId);
+        CoverManager coverManagerPs = coverManagerOp.orElseThrow();
+        return coverManagerPs;
+    }
+
+    private Staff findStaff(Long staffId) {
+        Optional<Staff> staffOp = staffRepository.findById(staffId);
+        Staff acceptedStaff = staffOp.orElseThrow();
+        return acceptedStaff;
     }
 }

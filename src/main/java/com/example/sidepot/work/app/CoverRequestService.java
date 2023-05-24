@@ -4,12 +4,9 @@ import com.example.sidepot.global.event.Events;
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.member.domain.Staff;
 import com.example.sidepot.member.domain.StaffRepository;
-import com.example.sidepot.notification.work.domain.NoticeType;
 import com.example.sidepot.store.domain.Store;
 import com.example.sidepot.store.domain.StoreRepository;
 import com.example.sidepot.work.domain.*;
-import com.example.sidepot.work.domain.SenderId;
-import com.example.sidepot.work.domain.StoreId;
 import com.example.sidepot.work.dto.CoverWorkRequestDto.CreateCoverWorkReqDto;
 import com.example.sidepot.work.event.CoverWorkRequestedEvent;
 
@@ -34,44 +31,31 @@ public class CoverRequestService {
 
     /**
      * 대타 요청 생성
-     * @param loginMember
-     * @param createCwReqDtoList
-     *
      */
     @Transactional
     public void requestCoverWork(LoginMember loginMember,
                                  List<CreateCoverWorkReqDto> createCwReqDtoList) {
 
-        checkRequest(createCwReqDtoList);
+        //중복된 요청이 여부
+        validRequests(createCwReqDtoList);
 
-        Optional<Staff> staffOp = staffRepository.findById(loginMember.getMemberId());
-        Staff requestedStaff = staffOp.orElseThrow();
+        //요청자 조회
+        Staff requestedStaff = findStaff(loginMember);
 
+        //매장 마다 요청 매핑 변수 생성
         Map<Long, List<CreateCoverWorkReqDto>> byStore
                 = createCwReqDtoList.stream().collect(Collectors.groupingBy(dto -> dto.getStoreId()));
 
+        //매장 마다 요청 매핑
         List<CoverManager> coverManagerList = new ArrayList<>();
         for (Map.Entry<Long, List<CreateCoverWorkReqDto>> entry : byStore.entrySet()) {
             List<CoverWork> coverWorkList = createCoverWorkList(entry.getValue(), requestedStaff);
-            Optional<Store> storeOp = storeRepository.findById(entry.getKey());
-            Store storePs = storeOp.orElseThrow();
-            coverManagerList.add(new CoverManager(
-                    NoticeType.REQUESTED.getMessage(),
-                    new StoreId(storePs.getStoreId(), storePs.getBranchName(), storePs.getStoreName()),
-                    new SenderId(requestedStaff.getMemberId(), requestedStaff.getMemberName()),
-                    coverWorkList));
+            Store storePs = findStore(entry);
+            coverManagerList.add(CoverManager.newCoverManager(requestedStaff, coverWorkList, storePs));
         }
-
+        //알림 생성 위임
         Events.raise(new CoverWorkRequestedEvent(coverManagerList, byStore.keySet()));
         coverManagerRepository.saveAll(coverManagerList);
-    }
-
-    private void checkRequest(List<CreateCoverWorkReqDto> createCoverWorkReqDtoList){
-        List<CoverWork> coverWorkList = coverRequestDuplicateCheckService.checkRequestDuplicate(createCoverWorkReqDtoList);
-        if(!coverWorkList.isEmpty()){
-            throw new IllegalStateException("겹치는 날짜의 요청이 있습니다.");
-        }
-        //겹치는 날짜를 보여줄 코드, 필요하면
     }
 
     private List<CoverWork> createCoverWorkList(List<CreateCoverWorkReqDto> createCwReqDtoList,
@@ -79,13 +63,35 @@ public class CoverRequestService {
 
         List<CoverWork> coverWorkList = new ArrayList<>();
         for (CreateCoverWorkReqDto createCwReqDto : createCwReqDtoList) {
-            Optional<WorkTime> wtOp = workTimeRepository.findById(createCwReqDto.getWorkTimeId());
-            WorkTime wtPs = wtOp.orElseThrow();
-            coverWorkList.add(new CoverWork(
-                    new CoverDateTime(createCwReqDto.getCoverDate(), wtPs.getStartTime(), wtPs.getEndTime()),
-                    new WorkTimeId(wtPs.getWorkTimeId()),
-                    new RequestedStaffId(requestedStaff.getMemberId(), requestedStaff.getMemberName(), requestedStaff.getUuid())));
+            WorkTime wtPs = findWorkTime(createCwReqDto);
+            coverWorkList.add(CoverWork.newCoverWork(requestedStaff, createCwReqDto, wtPs));
         }
         return coverWorkList;
+    }
+
+    private void validRequests(List<CreateCoverWorkReqDto> createCoverWorkReqDtoList){
+        List<CoverWork> coverWorkList = coverRequestDuplicateCheckService.checkRequestDuplicate(createCoverWorkReqDtoList);
+        if(!coverWorkList.isEmpty()){
+            throw new IllegalStateException("겹치는 날짜의 요청이 있습니다.");
+        }
+        //겹치는 날짜를 보여줄 코드, 필요하면
+    }
+
+    private WorkTime findWorkTime(CreateCoverWorkReqDto createCwReqDto) {
+        Optional<WorkTime> wtOp = workTimeRepository.findById(createCwReqDto.getWorkTimeId());
+        WorkTime wtPs = wtOp.orElseThrow();
+        return wtPs;
+    }
+
+    private Staff findStaff(LoginMember loginMember) {
+        Optional<Staff> staffOp = staffRepository.findById(loginMember.getMemberId());
+        Staff requestedStaff = staffOp.orElseThrow();
+        return requestedStaff;
+    }
+
+    private Store findStore(Map.Entry<Long, List<CreateCoverWorkReqDto>> entry) {
+        Optional<Store> storeOp = storeRepository.findById(entry.getKey());
+        Store storePs = storeOp.orElseThrow();
+        return storePs;
     }
 }

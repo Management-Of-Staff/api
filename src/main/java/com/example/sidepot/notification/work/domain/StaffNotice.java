@@ -1,6 +1,8 @@
 package com.example.sidepot.notification.work.domain;
 
+import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.global.domain.BaseEntity;
+import com.example.sidepot.work.domain.CoverManager;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,22 +15,19 @@ import javax.persistence.*;
 @Entity
 public class StaffNotice extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "staff_notice_id")
-    private Long staffNoticeId;
+    private Long id;
     @Embedded
     private CoverManagerId coverManagerId;
-
-    @Column(name = "receiver_id")
-    private ReceiverId receiverId;
+    @Embedded
+    private Sender sender;
+    @Embedded
+    private Receiver receiver;
 
     @Column(name = "is_read") // 읽음 표시
     private Boolean isRead;
 
     @Column(name = "is_deleted") // 삭제 표시
     private Boolean isDeleted;
-
-    @Column(name = "is_request_canceled") //해당 알림이 수락되었다가 취소 된 것을 표시
-    private Boolean isRequestCanceled;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "notice_type")
@@ -41,13 +40,29 @@ public class StaffNotice extends BaseEntity {
     @Column(name = "reject_message")
     private RejectMessage rejectMessage;
 
-    public StaffNotice(CoverManagerId coverManagerId, ReceiverId receiverId, NoticeType noticeType) {
+    @Column(name = "details_url")
+    private String detailsUrl;
+
+    public StaffNotice(CoverManagerId coverManagerId, Sender sender, Receiver receiver, NoticeType noticeType) {
         this.coverManagerId = coverManagerId;
-        this.receiverId = receiverId;
+        this.sender = sender;
+        this.receiver = receiver;
         this.isRead = false;
         this.isRejected = false;
         this.isDeleted = false;
         this.noticeType = noticeType;
+        this.detailsUrl = "/rest/v1/cover-works/notice-box/" + coverManagerId.getCoverManagerId();  //DNS 풀네임 넣어야됨
+    }
+
+    public static StaffNotice newStaffNotice(CoverManager coverManager, Employment employment, NoticeType noticeType){
+        return new StaffNotice(
+                new CoverManagerId(coverManager.getId()),
+                new Sender(coverManager.getRequestedStaff().getId(), coverManager.getRequestedStaff().getName()),
+                new Receiver(employment.getStaff().getMemberId(), employment.getStaff().getUuid()),
+                noticeType);
+    }
+
+    private void setDetailsUrl(){
     }
 
     public void rejected(RejectMessage rejectMessage){

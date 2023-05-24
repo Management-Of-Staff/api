@@ -20,7 +20,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Api(tags = "대타 APIs")
+@Api(tags = "대타 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController

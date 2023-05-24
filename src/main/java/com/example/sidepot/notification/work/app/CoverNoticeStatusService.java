@@ -2,7 +2,7 @@ package com.example.sidepot.notification.work.app;
 
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.notification.work.domain.StaffNotice;
-import com.example.sidepot.notification.work.domain.StaffNoticeRepository;
+import com.example.sidepot.notification.work.repository.StaffNoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

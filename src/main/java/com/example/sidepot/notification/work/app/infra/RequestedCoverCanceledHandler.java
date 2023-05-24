@@ -1,7 +1,7 @@
 package com.example.sidepot.notification.work.app.infra;
 
 import com.example.sidepot.notification.work.domain.StaffNotice;
-import com.example.sidepot.notification.work.domain.StaffNoticeRepository;
+import com.example.sidepot.notification.work.repository.StaffNoticeRepository;
 import com.example.sidepot.work.event.AcceptedCoverCanceledEvent;
 import com.example.sidepot.work.event.RequestedCoverCanceledEvent;
 import lombok.RequiredArgsConstructor;

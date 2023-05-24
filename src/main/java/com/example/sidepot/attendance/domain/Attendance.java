@@ -1,21 +1,15 @@
 package com.example.sidepot.attendance.domain;
 
 
-import com.example.sidepot.employment.domain.Employment;
 import com.example.sidepot.global.domain.BaseEntity;
-import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.store.dto.WorkTimeDto;
-import com.example.sidepot.work.domain.StoreId;
-import io.jsonwebtoken.lang.Assert;
+import com.example.sidepot.work.domain.StoreInfo;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity @Getter
 @Table(name = "attendance")
@@ -25,7 +19,7 @@ public class Attendance extends BaseEntity {
     private Long id;
 
     @Embedded
-    private StoreId storeId;
+    private StoreInfo storeInfo;
 
     @Embedded
     private WorkerId workerId;

@@ -10,13 +10,13 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class StoreId {
+public class StoreInfo {
 
     private Long storeId;
     private String branchName;
     private String storeName;
 
-    public StoreId(Long storeId, String branchName, String storeName) {
+    public StoreInfo(Long storeId, String branchName, String storeName) {
         this.storeId = storeId;
         this.branchName = branchName;
         this.storeName = storeName;
@@ -26,8 +26,8 @@ public class StoreId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StoreId storeId1 = (StoreId) o;
-        return Objects.equals(storeId, storeId1.storeId) && Objects.equals(branchName, storeId1.branchName) && Objects.equals(storeName, storeId1.storeName);
+        StoreInfo storeInfo1 = (StoreInfo) o;
+        return Objects.equals(storeId, storeInfo1.storeId) && Objects.equals(branchName, storeInfo1.branchName) && Objects.equals(storeName, storeInfo1.storeName);
     }
 
     @Override

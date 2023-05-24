@@ -17,11 +17,11 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Api(tags = "직원 근무 관리 APIs")
+@Api(tags = "근무 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
-public class WorkCommandTimeController {
+public class WorkTimeCommandController {
     private final WorkTimeCommandService workTimeCommandService;
 
     @ApiOperation(value =  "[직원 관리] 근무 추가", notes = "특정 직원의 근무를 추가하는 API")

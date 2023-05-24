@@ -3,7 +3,7 @@ package com.example.sidepot.notification.work.app.infra;
 import com.example.sidepot.notification.firebase.FirebaseMessageService;
 import com.example.sidepot.notification.work.app.CoverNoticeCreationService;
 import com.example.sidepot.notification.work.domain.StaffNotice;
-import com.example.sidepot.notification.work.domain.StaffNoticeRepository;
+import com.example.sidepot.notification.work.repository.StaffNoticeRepository;
 import com.example.sidepot.work.event.CoverWorkRequestedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class CoverWorkRequestedHandler {
                 = coverNoticeCreationService.createRequestedNotice(event.getCoverManagerList());
 
         List<String> tokens = requestedNotice.stream()
-                .map(rn -> rn.getReceiverId().getReceiverToken())
+                .map(rn -> rn.getReceiver().getReceiverToken())
                 .collect(Collectors.toList());
         staffNoticeRepository.saveAll(requestedNotice);
         firebaseMessageService.sendMessageTo("tokens.get(0)","아오", "시발");

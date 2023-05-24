@@ -1,6 +1,5 @@
 package com.example.sidepot.notification.work.domain;
 
-import com.example.sidepot.work.domain.SenderId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +11,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class CoverManagerId {
     private Long coverManagerId;
-    private SenderId senderId;
-    public CoverManagerId(Long coverManagerId, SenderId senderId) {
+
+    public CoverManagerId(Long coverManagerId) {
         this.coverManagerId = coverManagerId;
-        this.senderId = senderId;
     }
 }

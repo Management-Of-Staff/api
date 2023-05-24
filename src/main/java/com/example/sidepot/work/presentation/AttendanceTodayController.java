@@ -19,7 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-@Api(tags = "출퇴근 APIs")
+@Api(tags = "출퇴근 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
@@ -27,7 +27,7 @@ public class AttendanceTodayController {
 
     private final AttendanceExtractService attendanceExtractService;
 
-    @ApiOperation(value = "[출/퇴근] 오늘 출근 정보", notes = "오늘 출근 정보를 보는 API")
+    @ApiOperation(value = "[직원(출퇴근)] 오늘 근무 정보", notes = "오늘 출근 정보를 보는 API")
     @GetMapping (value = "/attendances/today")
     public ResponseEntity<ResponseDto> createCoverWorkRequest(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                               @RequestParam(value = "today")

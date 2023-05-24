@@ -1,7 +1,6 @@
 package com.example.sidepot.attendance.domain;
 
-import com.example.sidepot.global.event.Events;
-import com.example.sidepot.work.domain.StoreId;
+import com.example.sidepot.work.domain.StoreInfo;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ public class CoverAttendance {
     private Long id;
 
     @Embedded
-    private StoreId storeId;
+    private StoreInfo storeInfo;
 
     @Embedded
     private WorkerId workerId;
@@ -37,8 +36,8 @@ public class CoverAttendance {
     @Column(name = "realWorkTime")
     private LocalTime realWorkTime;
 
-    public CoverAttendance(StoreId storeId, WorkerId workerId, LocalDateTime checkInTime, AttendanceStatus attendanceStatus) {
-        this.storeId = storeId;
+    public CoverAttendance(StoreInfo storeInfo, WorkerId workerId, LocalDateTime checkInTime, AttendanceStatus attendanceStatus) {
+        this.storeInfo = storeInfo;
         this.workerId = workerId;
         this.checkInTime = checkInTime;
         this.attendanceStatus = attendanceStatus;

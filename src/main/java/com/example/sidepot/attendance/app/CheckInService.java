@@ -31,7 +31,7 @@ public class CheckInService {
         AttendanceStatus attendanceStatus = coverWorkPs.checkIn(now, 10L);
 
         CoverAttendance coverAttendance = new CoverAttendance(
-                coverWorkPs.getCoverManager().getStoreId(),
+                coverWorkPs.getCoverManager().getStoreInfo(),
                 new WorkerId(member.getMemberId(), member.getMemberName()),
                 now,
                 attendanceStatus);

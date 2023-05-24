@@ -1,7 +1,8 @@
 package com.example.sidepot.work.event;
 
 import com.example.sidepot.notification.work.domain.CoverManagerId;
-import com.example.sidepot.notification.work.domain.ReceiverId;
+import com.example.sidepot.notification.work.domain.Receiver;
+import com.example.sidepot.notification.work.domain.Sender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +11,12 @@ import lombok.NoArgsConstructor;
 public class CoverWorkAcceptedEvent {
 
    private CoverManagerId coverNoticeId;
-   private ReceiverId receiverId;
+   private Sender sender;
+   private Receiver receiver;
 
-    public CoverWorkAcceptedEvent(CoverManagerId coverNoticeId, ReceiverId receiverId) {
+    public CoverWorkAcceptedEvent(CoverManagerId coverNoticeId, Sender sender, Receiver receiver) {
         this.coverNoticeId = coverNoticeId;
-        this.receiverId = receiverId;
+        this.sender = sender;
+        this.receiver = receiver;
     }
 }

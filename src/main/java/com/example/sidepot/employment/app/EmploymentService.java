@@ -55,11 +55,5 @@ public class EmploymentService {
             throw new Exception(ErrorCode.ALREADY_STAFF_REGISTRATION);
         }
         employmentRepository.save(Employment.createEmployment(store, staff));
-
-        /* TODO  초대 후 알림 서비스를 받기 위한 구독
-        *  구독 서비스
-        * */
-
-
     }
 }

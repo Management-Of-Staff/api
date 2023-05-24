@@ -64,8 +64,8 @@ public class WorkTimeDaoRepository {
                         workTime.startTime,
                         workTime.endTime,
                         list(Projections.constructor(StoreWorkerResDto.RequestedCoverStaff.class,
-                                coverWork.acceptedStaff.acceptedStaffId,
-                                coverWork.acceptedStaff.acceptedStaffName,
+                                coverWork.acceptedStaff.id,
+                                coverWork.acceptedStaff.name,
                                 coverWork.coverDateTime.startTime,
                                 coverWork.coverDateTime.endTime))))
                 .from(workTime)
@@ -92,8 +92,8 @@ public class WorkTimeDaoRepository {
                         workTime.endTime,
                         list(Projections.constructor(StaffWorkScheduleResDto.CoverSchedule.class,
                                 coverWork.coverWorkId,
-                                coverWork.acceptedStaff.acceptedStaffId,
-                                coverWork.acceptedStaff.acceptedStaffName,
+                                coverWork.acceptedStaff.id,
+                                coverWork.acceptedStaff.name,
                                 coverWork.coverDateTime.coverDate,
                                 coverWork.coverDateTime.startTime,
                                 coverWork.coverDateTime.endTime))))

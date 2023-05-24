@@ -1,6 +1,8 @@
 package com.example.sidepot.work.domain;
 
 import com.example.sidepot.attendance.domain.AttendanceStatus;
+import com.example.sidepot.member.domain.Staff;
+import com.example.sidepot.work.dto.CoverWorkRequestDto.CreateCoverWorkReqDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +20,9 @@ public class CoverWork {
     @Column(name = "cover_work_id")
     private Long coverWorkId;
     @Embedded
-    private RequestedStaffId requestedStaff;
+    private RequestedStaff requestedStaff;
     @Embedded
-    private AcceptedStaffId acceptedStaff;
+    private AcceptedStaff acceptedStaff;
     @Embedded
     private CoverDateTime coverDateTime;
     @Embedded
@@ -31,11 +33,18 @@ public class CoverWork {
     @JoinColumn(name = "cover_manager_id")
     private CoverManager coverManager;
 
-    public CoverWork(CoverDateTime coverDateTime, WorkTimeId workTimeId, RequestedStaffId requestedStaff) {
+    public CoverWork(CoverDateTime coverDateTime, WorkTimeId workTimeId, RequestedStaff requestedStaff) {
         this.coverDateTime = coverDateTime;
         this.workTime = workTimeId;
         this.requestedStaff = requestedStaff;
         this.isAccepted = false;
+    }
+
+    public static CoverWork newCoverWork(Staff requestedStaff, CreateCoverWorkReqDto createCwReqDto, WorkTime wtPs){
+        return new CoverWork(
+                new CoverDateTime(createCwReqDto.getCoverDate(), wtPs.getStartTime(), wtPs.getEndTime()),
+                new WorkTimeId(wtPs.getWorkTimeId()),
+                new RequestedStaff(requestedStaff.getMemberId(), requestedStaff.getMemberName()));
     }
 
     public CoverWork setCoverManager(CoverManager coverManager){
@@ -48,7 +57,7 @@ public class CoverWork {
         this.acceptedStaff = null;
     }
 
-    public void acceptCover(AcceptedStaffId acceptedStaff) {
+    public void acceptCover(AcceptedStaff acceptedStaff) {
         this.acceptedStaff = acceptedStaff;
         this.isAccepted = true;
     }
@@ -60,17 +69,6 @@ public class CoverWork {
 
     }
 
-    public void isMyRequest(Long memberId){
-        if(!(this.getRequestedStaff().getRequestedStaffId().equals(memberId))){
-            throw new IllegalStateException("유효하지 않은 접근입니다.");
-        }
-    }
-
-    public void didMyAccept(Long memberId){
-        if(!(this.getAcceptedStaff().getAcceptedStaffId().equals(memberId))){
-            throw new IllegalStateException("유효하지 않은 접근입니다.");
-        }
-    }
 
     public void isNotWorkStartTime(LocalDateTime now){
         isWorkingDay(now);

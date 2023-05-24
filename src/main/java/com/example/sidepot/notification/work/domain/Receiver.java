@@ -1,6 +1,5 @@
 package com.example.sidepot.notification.work.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,13 +8,20 @@ import javax.persistence.Embeddable;
 @Getter
 @NoArgsConstructor
 @Embeddable
-public class ReceiverId {
+public class Receiver {
 
     private Long receiverId;
+    private String receiverName;
     private String receiverToken;
 
-    public ReceiverId(Long receiverId, String receiverToken) {
+    public Receiver(Long receiverId, String receiverToken) {
         this.receiverId = receiverId;
+        this.receiverToken = receiverToken;
+    }
+
+    public Receiver(Long receiverId, String receiverName, String receiverToken) {
+        this.receiverId = receiverId;
+        this.receiverName = receiverName;
         this.receiverToken = receiverToken;
     }
 }

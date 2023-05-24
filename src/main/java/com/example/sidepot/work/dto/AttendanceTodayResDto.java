@@ -64,9 +64,9 @@ public class AttendanceTodayResDto {
 
         public ToDaysCover(CoverWork coverWork) {
             this.coverWorkId = coverWork.getCoverWorkId();
-            this.storeId = coverWork.getCoverManager().getStoreId().getStoreId();
-            this.branchName = coverWork.getCoverManager().getStoreId().getBranchName();
-            this.storeName = coverWork.getCoverManager().getStoreId().getStoreName();
+            this.storeId = coverWork.getCoverManager().getStoreInfo().getStoreId();
+            this.branchName = coverWork.getCoverManager().getStoreInfo().getBranchName();
+            this.storeName = coverWork.getCoverManager().getStoreInfo().getStoreName();
             this.coverDate = coverWork.getCoverDateTime().getCoverDate();
             this.startTime = coverWork.getCoverDateTime().getStartTime();
             this.endTime = coverWork.getCoverDateTime().getEndTime();

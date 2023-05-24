@@ -26,7 +26,6 @@ public class WorkTimeCommandService {
 
     private final WorkTimeRepository workTimeRepository;
     private final CoverWorkRepository coverWorkRepository;
-    private final WorkPossibleCheckService workPossibleCheckService;
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     @Transactional
@@ -48,7 +47,7 @@ public class WorkTimeCommandService {
 
         //비교할 모든 근무
         List<WorkTime> workTimePsList = workTimeRepository.findAllByStaff(staffPS); // 직접참조
-        List<CoverWork> coverWorkPsList = coverWorkRepository.findAllByAcceptedStaff_AcceptedStaffId(member.getMemberId());// 간접참조
+        List<CoverWork> coverWorkPsList = coverWorkRepository.findAllByAcceptedStaff_Id(member.getMemberId());// 간접참조
 
         //생성할 근무와 모든 근무 비교
         //workPossibleCheckService.workabilityScheduleCheck(newWorkTimeList, workTimePsList, coverWorkPsList);
@@ -60,7 +59,6 @@ public class WorkTimeCommandService {
     @Transactional
     public void deleteWorkTime(LoginMember member, DeleteWorkReqDto deleteWorkReqDto){
         List<WorkTime> workTimePsList = workTimeRepository.findAllById(deleteWorkReqDto.getWorkTimeIds());
-
 
         //삭제 가능한 근무인가? -> 수락한 대타가 있다던가
         LocalDate nowDate = LocalDate.now();

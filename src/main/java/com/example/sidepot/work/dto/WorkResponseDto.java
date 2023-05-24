@@ -61,8 +61,8 @@ public class WorkResponseDto {
 
         public CoveredWork(CoverWork coverWork) {
             this.coverWorkTimeId = coverWork.getCoverWorkId();
-            this.acceptedStaffId = coverWork.getAcceptedStaff().getAcceptedStaffId();
-            this.acceptedStaffName = coverWork.getAcceptedStaff().getAcceptedStaffName();
+            this.acceptedStaffId = coverWork.getAcceptedStaff().getId();
+            this.acceptedStaffName = coverWork.getAcceptedStaff().getName();
             this.coverDate = coverWork.getCoverDateTime().getCoverDate();
         }
     }
