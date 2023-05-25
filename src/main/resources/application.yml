@@ -1,4 +1,9 @@
 spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}?allowMultiQueries=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8

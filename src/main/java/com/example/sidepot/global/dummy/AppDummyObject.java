@@ -1,10 +1,10 @@
 package com.example.sidepot.global.dummy;
 
-import com.example.sidepot.employment.domain.Employment;
-import com.example.sidepot.member.domain.Owner;
-import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.work.domain.WorkTime;
+import com.example.sidepot.command.employment.domain.Employment;
+import com.example.sidepot.command.member.domain.Owner;
+import com.example.sidepot.command.member.domain.Staff;
+import com.example.sidepot.command.store.domain.Store;
+import com.example.sidepot.command.work.domain.WorkTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.DayOfWeek;

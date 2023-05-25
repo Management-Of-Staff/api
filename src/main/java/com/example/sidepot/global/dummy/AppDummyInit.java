@@ -1,22 +1,24 @@
 package com.example.sidepot.global.dummy;
 
-import com.example.sidepot.employment.domain.Employment;
-import com.example.sidepot.employment.domain.EmploymentRepository;
-import com.example.sidepot.member.domain.Owner;
-import com.example.sidepot.member.domain.OwnerRepository;
-import com.example.sidepot.member.domain.Staff;
-import com.example.sidepot.member.domain.StaffRepository;
-import com.example.sidepot.store.domain.Store;
-import com.example.sidepot.store.domain.StoreRepository;
-import com.example.sidepot.work.domain.*;
-import com.example.sidepot.work.repository.CoverWorkRepository;
-import com.example.sidepot.work.repository.WorkTimeRepository;
+import com.example.sidepot.command.employment.domain.Employment;
+import com.example.sidepot.command.employment.domain.EmploymentRepository;
+import com.example.sidepot.command.member.domain.Owner;
+import com.example.sidepot.command.member.domain.OwnerRepository;
+import com.example.sidepot.command.member.domain.Staff;
+import com.example.sidepot.command.member.domain.StaffRepository;
+import com.example.sidepot.command.store.domain.Store;
+import com.example.sidepot.command.store.domain.StoreRepository;
+import com.example.sidepot.command.work.domain.WorkTime;
+import com.example.sidepot.command.work.repository.CoverWorkRepository;
+import com.example.sidepot.command.work.repository.WorkTimeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class AppDummyInit extends AppDummyObject {
@@ -100,7 +102,15 @@ public class AppDummyInit extends AppDummyObject {
             WorkTime workTime12 = workTimeRepository.save(
                     newWorkTime(store2, staff4, LocalTime.of(11, 0, 0),
                             LocalTime.of(20, 0, 0), DayOfWeek.THURSDAY));
+
+            List<WorkTime> batchWorktimeList = new ArrayList<>();
+            for(int i = 0 ; i<100 ; i++){
+                batchWorktimeList.add(newWorkTime(store1, staff1, null,null , DayOfWeek.WEDNESDAY));
+            }
+            workTimeRepository.saveAll(batchWorktimeList);
         });
+
+
     }
 }
 

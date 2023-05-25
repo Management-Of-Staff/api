@@ -1,7 +1,7 @@
 package com.example.sidepot.global.security;
 
 
-import com.example.sidepot.member.domain.Member;
+import com.example.sidepot.command.member.domain.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
