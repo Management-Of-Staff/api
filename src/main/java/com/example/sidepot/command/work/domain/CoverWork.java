@@ -39,6 +39,14 @@ public class CoverWork {
         this.requestedStaff = requestedStaff;
         this.isAccepted = false;
     }
+    //테스트 셋
+    public CoverWork(RequestedStaff requestedStaff, AcceptedStaff acceptedStaff, CoverDateTime coverDateTime, WorkTimeId workTime) {
+        this.requestedStaff = requestedStaff;
+        this.acceptedStaff = acceptedStaff;
+        this.coverDateTime = coverDateTime;
+        this.workTime = workTime;
+        this.isAccepted = true;
+    }
 
     public static CoverWork newCoverWork(Staff requestedStaff, CreateCoverWorkReqDto createCwReqDto, WorkTime wtPs){
         return new CoverWork(
@@ -46,6 +54,7 @@ public class CoverWork {
                 new WorkTimeId(wtPs.getWorkTimeId()),
                 new RequestedStaff(requestedStaff.getMemberId(), requestedStaff.getMemberName()));
     }
+
 
     public CoverWork setCoverManager(CoverManager coverManager){
         this.coverManager = coverManager;

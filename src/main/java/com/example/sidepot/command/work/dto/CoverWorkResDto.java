@@ -1,4 +1,4 @@
-package com.example.sidepot.command.work.repository.query;
+package com.example.sidepot.command.work.dto;
 
 import com.example.sidepot.command.work.domain.CoverDateTime;
 import com.example.sidepot.command.work.domain.CoverManager;

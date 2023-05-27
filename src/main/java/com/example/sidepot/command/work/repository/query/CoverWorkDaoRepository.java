@@ -2,6 +2,7 @@ package com.example.sidepot.command.work.repository.query;
 
 import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.command.work.domain.CoverWork;
+import com.example.sidepot.command.work.dto.CoverWorkResDto;
 import com.example.sidepot.command.work.dto.StaffCoverSchedule;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -26,9 +27,10 @@ public class CoverWorkDaoRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
 
-    /**
-     * 수락한 대타가 있는지 판단한다.
+    /** 안쓰는 메서드
+     * 날짜로 수락한 대타가 있는지 판단한다.
      */
+    @Deprecated
     @Transactional(readOnly = true)
     public List<CoverWork> getStaffAcceptedCoversByOnDay(Long staffId, LocalDate today) {
         return jpaQueryFactory
@@ -39,6 +41,7 @@ public class CoverWorkDaoRepository {
                         eqCoverDate(today))
                 .fetch();
     }
+
 
 
     /**
@@ -89,6 +92,15 @@ public class CoverWorkDaoRepository {
         return fetch.stream()
                 .map(cm -> new CoverWorkResDto.RequestedCoverWorkResDto(cm, cm.getCoverWorkList()))
                 .collect(Collectors.toList());
+    }
+
+
+    public List<CoverWork> findCoverAfterDayWithWorkId(Long workId, LocalDate onDay){
+        return jpaQueryFactory
+                .selectFrom(coverWork)
+                .where(coverWork.workTime.workTimeId.eq(workId)
+                        .and(coverWork.coverDateTime.coverDate.after(onDay)))
+                .fetch();
     }
 
     private BooleanExpression eqCoverDate(final LocalDate coverDate) {

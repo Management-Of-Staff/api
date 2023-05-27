@@ -36,8 +36,8 @@ public class WorkTime extends BaseEntity {
     private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employment_id")
-    private Employment employment;
+    @JoinColumn(name = "work_manager_id")
+    private WorkManager workManager;
 
     @NotNull
     @Column(name = "start_time")
@@ -56,8 +56,8 @@ public class WorkTime extends BaseEntity {
     private Boolean isDeleted; //삭제처리
 
     @Builder //mock 빌더
-    public WorkTime(Long workTimeId, Staff staff,Store store, boolean isDeleted,
-                   LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
+    public WorkTime(Long workTimeId, Staff staff, Store store, boolean isDeleted,
+                    LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
         this.workTimeId = workTimeId;
         this.staff = staff;
         this.store = store;
@@ -77,14 +77,24 @@ public class WorkTime extends BaseEntity {
         this.isDeleted = false;
     }
 
-    public boolean isOverlappedWithCover(CoverDateTime coverDateTime){
+    public boolean isOverlappedWithCover(CoverDateTime coverDateTime) {
         return (this.dayOfWeek.equals(coverDateTime.getCoverDate().getDayOfWeek()))
                 && (this.startTime.isBefore(coverDateTime.getEndTime()))
                 && ((this.endTime.isAfter(coverDateTime.getStartTime())));
     }
 
+    public boolean isOverlapped(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek) {
+        return (this.dayOfWeek.equals(dayOfWeek)
+                && this.startTime.isBefore(endTime)
+                && this.endTime.isAfter(startTime));
+    }
 
-    public void delete(){
+    public WorkTime setWorkManager(WorkManager workManager) {
+        this.workManager = workManager;
+        return this;
+    }
+
+    public void delete() {
         this.isDeleted = true;
     }
 }

@@ -11,8 +11,14 @@ import java.util.Optional;
 @Repository
 public interface CoverWorkRepository extends JpaRepository<CoverWork, Long> {
 
+    /**
+     * 직원관련 모든 대타 조회
+     * use) 근무 겹침 체크
+     */
     List<CoverWork> findAllByAcceptedStaff_Id(Long staffId);
-    List<CoverWork> findByWorkTime_WorkTimeIdAndCoverDateTime_CoverDateAfter(Long workTimeId, LocalDate now);
+
+
+    // #DAO
     Optional<CoverWork> findByWorkTime_WorkTimeIdAndCoverDateTime_CoverDate(Long workTimeId, LocalDate now);
 
 }

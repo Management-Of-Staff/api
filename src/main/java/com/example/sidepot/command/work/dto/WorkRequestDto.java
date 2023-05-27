@@ -10,14 +10,14 @@ public class WorkRequestDto {
     @Getter
     public static class CreateWorkReqDto {
         private Long storeId;
+        private Long staffId;
         private LocalTime startTime;
         private LocalTime endTime;
         private List<DayOfWeek> dayOfWeekList;
     }
     @Getter
     public static class DeleteWorkReqDto {
-        private List<Long> workTimeIds;
-
+        private Long workManagerId;
     }
     @Getter
     public static class UpdateWorkReqDto {

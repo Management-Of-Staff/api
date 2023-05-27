@@ -1,6 +1,6 @@
 package com.example.sidepot.command.employment.presentation;
 
-import com.example.sidepot.command.employment.app.EmploymentService;
+import com.example.sidepot.command.employment.app.EmploymentCommandService;
 import com.example.sidepot.command.employment.dto.EmploymentReadDto;
 import com.example.sidepot.command.employment.dto.EmploymentUpdateDto;
 import com.example.sidepot.global.Path;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
 public class EmploymentCommandController {
-    private final EmploymentService employmentService;
+    private final EmploymentCommandService employmentCommandService;
 
 
     @ApiOperation(value = "[직원 관리] [보류] 직원 삭제", notes = "매장에서 직원 삭제하는 API")
@@ -32,7 +32,7 @@ public class EmploymentCommandController {
     public ResponseEntity withdrawStaffAtStore(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                @PathVariable Long employmentId,
                                                @ApiIgnore HttpServletRequest httpServletRequest){
-        employmentService.withdrawEmployment(member, employmentId);
+        employmentCommandService.withdrawEmployment(member, employmentId);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -48,7 +48,7 @@ public class EmploymentCommandController {
                                                                 @RequestParam(value = "storeId", required = true) Long storeId,
                                                                 @RequestParam(value = "staffId", required = true) Long staffId,
                                                                 @ApiIgnore HttpServletRequest httpServletRequest){
-        employmentService.createEmployment(storeId, staffId);
+        employmentCommandService.createEmployment(storeId, staffId);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -64,7 +64,7 @@ public class EmploymentCommandController {
                                                                    @PathVariable("employmentId") Long employmentId,
                                                                    @RequestBody EmploymentUpdateDto.UpdateRankAndWageRequest updateRankAndWageRequest,
                                                                    @ApiIgnore HttpServletRequest httpServletRequest){
-        employmentService.updateEmploymentRankAndWage(member, employmentId, updateRankAndWageRequest);
+        employmentCommandService.updateEmploymentRankAndWage(member, employmentId, updateRankAndWageRequest);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -74,19 +74,19 @@ public class EmploymentCommandController {
                 .build());
     }
 
-    @ApiOperation(value = "[직원 관리] 매장 직원 정보 조회", notes ="특정 매장 직원의 상세 정보를 보는 API")
-    @GetMapping(value = "/stores/employments/{employmentId}")
-    public ResponseEntity<ResponseDto> readStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal LoginMember member,
-                                                               @PathVariable("employmentId") Long employmentId,
-                                                               @ApiIgnore HttpServletRequest httpServletRequest){
-        EmploymentReadDto.ReadOneEmploymentResponse readOneEmploymentResponse
-                = employmentService.readEmploymentDetail(member, employmentId);
-        return ResponseEntity.ok(ResponseDto.builder()
-                .path(httpServletRequest.getServletPath())
-                .statusCode(HttpStatus.OK.value())
-                .method(httpServletRequest.getMethod())
-                .message("매장 직원 조회")
-                .data(readOneEmploymentResponse)
-                .build());
-    }
+//    @ApiOperation(value = "[직원 관리] 매장 직원 정보 조회", notes ="특정 매장 직원의 상세 정보를 보는 API")
+//    @GetMapping(value = "/stores/employments/{employmentId}")
+//    public ResponseEntity<ResponseDto> readStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal LoginMember member,
+//                                                               @PathVariable("employmentId") Long employmentId,
+//                                                               @ApiIgnore HttpServletRequest httpServletRequest){
+//        EmploymentReadDto.ReadOneEmploymentResponse readOneEmploymentResponse
+//                = employmentCommandService.readEmploymentDetail(member, employmentId);
+//        return ResponseEntity.ok(ResponseDto.builder()
+//                .path(httpServletRequest.getServletPath())
+//                .statusCode(HttpStatus.OK.value())
+//                .method(httpServletRequest.getMethod())
+//                .message("매장 직원 조회")
+//                .data(readOneEmploymentResponse)
+//                .build());
+//    }
 }

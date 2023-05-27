@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -20,10 +19,10 @@ public class WorkDateTime {
     private DayOfWeek dayOfWeek;
     private LocalDate workDate;
 
-    public WorkDateTime(LocalTime startTime, LocalTime endTime, DayOfWeek dayOfWeek, LocalDate workDate) {
+    public WorkDateTime(LocalTime startTime, LocalTime endTime, LocalDate workDate) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.dayOfWeek = dayOfWeek;
+        this.dayOfWeek = workDate.getDayOfWeek();
         this.workDate = workDate;
     }
 

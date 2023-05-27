@@ -35,10 +35,6 @@ public class Employment extends BaseEntity {
     @JoinColumn(name = "staff_id")
     private Staff staff;
 
-    @OneToMany(mappedBy = "employment",
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<WorkTime> workTimeList = new ArrayList<>();
-
     @Column(name = "hourly_wage")
     private Long hourlyWage;
 

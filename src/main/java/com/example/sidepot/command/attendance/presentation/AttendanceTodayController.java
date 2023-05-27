@@ -1,11 +1,12 @@
-package com.example.sidepot.command.work.presentation;
+package com.example.sidepot.command.attendance.presentation;
 
 
-import com.example.sidepot.command.work.dto.AttendanceTodayResDto;
+import com.example.sidepot.command.attendance.dto.AttendanceTodayResDto;
+import com.example.sidepot.command.attendance.repository.AttendanceDaoRepository;
+import com.example.sidepot.command.attendance.repository.CoverAttendanceDaoRepository;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.command.work.app.AttendanceExtractService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,13 +20,14 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-@Api(tags = "출퇴근 관련 APIs")
+@Api(tags = "근무 출퇴근 관련 APIs")
 @RequiredArgsConstructor
 @RequestMapping(value = Path.REST_BASE_PATH)
 @RestController
 public class AttendanceTodayController {
 
-    private final AttendanceExtractService attendanceExtractService;
+    private final AttendanceDaoRepository attendanceDaoRepository;
+    private final CoverAttendanceDaoRepository coverAttendanceDaoRepository;
 
     @ApiOperation(value = "[직원(출퇴근)] 오늘 근무 정보", notes = "오늘 출근 정보를 보는 API")
     @GetMapping (value = "/attendances/today")
@@ -34,7 +36,7 @@ public class AttendanceTodayController {
                                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate today,
                                                               @ApiIgnore HttpServletRequest httpServletRequest) {
 
-        AttendanceTodayResDto attendanceTodayResDto = attendanceExtractService.extractWorkScheduleOnDay(member, today);
+        AttendanceTodayResDto attendanceTodayResDto = attendanceDaoRepository.readAttendanceToday(member.getMemberId(), today);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())

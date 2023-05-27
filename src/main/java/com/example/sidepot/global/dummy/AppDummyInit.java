@@ -8,16 +8,21 @@ import com.example.sidepot.command.member.domain.Staff;
 import com.example.sidepot.command.member.domain.StaffRepository;
 import com.example.sidepot.command.store.domain.Store;
 import com.example.sidepot.command.store.domain.StoreRepository;
+import com.example.sidepot.command.work.domain.CoverWork;
 import com.example.sidepot.command.work.domain.WorkTime;
+import com.example.sidepot.command.work.repository.CoverManagerRepository;
 import com.example.sidepot.command.work.repository.CoverWorkRepository;
+import com.example.sidepot.command.work.repository.WorkManagerRepository;
 import com.example.sidepot.command.work.repository.WorkTimeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -25,9 +30,9 @@ public class AppDummyInit extends AppDummyObject {
 
     @Bean
     CommandLineRunner initDB(StaffRepository staffRepository, OwnerRepository ownerRepository,
-                             StoreRepository storeRepository, WorkTimeRepository workTimeRepository,
-                             CoverWorkRepository coverWorkRepository, EmploymentRepository employmentRepository) {
-        return (args -> {
+                             StoreRepository storeRepository, WorkManagerRepository workManagerRepository,
+                             CoverManagerRepository coverManagerRepository, EmploymentRepository employmentRepository) {
+        return args -> {
             Staff staff1 = staffRepository.save(newStaff("이지윤", "01000000001"));
             Staff staff2 = staffRepository.save(newStaff("장수현", "01000000002"));
             Staff staff3 = staffRepository.save(newStaff("김주현", "01000000003"));
@@ -58,57 +63,49 @@ public class AppDummyInit extends AppDummyObject {
 
 
             // 이지윤의 고정 근무 일정
-            WorkTime workTime1 = workTimeRepository.save(
-                    newWorkTime(store1, staff1, LocalTime.of(9, 0, 0),
-                            LocalTime.of(15, 0, 0), DayOfWeek.MONDAY));
-            WorkTime workTime2 = workTimeRepository.save(
-                    newWorkTime(store1, staff1, LocalTime.of(9, 0, 0),
-                            LocalTime.of(15, 0, 0), DayOfWeek.WEDNESDAY));
-            WorkTime workTime3 = workTimeRepository.save(
-                    newWorkTime(store2, staff1, LocalTime.of(11, 0, 0),
-                            LocalTime.of(20, 0, 0), DayOfWeek.SUNDAY));
-            WorkTime workTime4 = workTimeRepository.save(
-                    newWorkTime(store2, staff1, LocalTime.of(11, 0, 0),
-                            LocalTime.of(20, 0, 0), DayOfWeek.SATURDAY));
+            //1번
+            WorkTime workTime1 = newWorkTime(store1, staff1, LocalTime.of(9, 0, 0),
+                    LocalTime.of(15, 0, 0), DayOfWeek.MONDAY);
+            WorkTime workTime2 = newWorkTime(store1, staff1, LocalTime.of(9, 0, 0),
+                    LocalTime.of(15, 0, 0), DayOfWeek.TUESDAY);
+
+            workManagerRepository.save(newWorkManager(store1, staff1, Arrays.asList(workTime1, workTime2)));
+
+            //2번
+            WorkTime workTime3= newWorkTime(store1, staff1, LocalTime.of(11, 0, 0),
+                    LocalTime.of(20, 0, 0), DayOfWeek.SATURDAY);
+            WorkTime workTime4= newWorkTime(store1, staff1, LocalTime.of(11, 0, 0),
+                    LocalTime.of(20, 0, 0), DayOfWeek.SUNDAY);
+
+            workManagerRepository.save(newWorkManager(store1, staff1, Arrays.asList(workTime3, workTime4)));
+
 
             // 장수현의 고정 근무 일정
-            WorkTime workTime5 = workTimeRepository.save(
-                    newWorkTime(store1, staff2, LocalTime.of(9, 0, 0),
-                            LocalTime.of(15, 0, 0), DayOfWeek.SUNDAY));
-            WorkTime workTime6 = workTimeRepository.save(
-                    newWorkTime(store1, staff2, LocalTime.of(9, 0, 0),
-                            LocalTime.of(15, 0, 0), DayOfWeek.SATURDAY));
-            WorkTime workTime7 = workTimeRepository.save(
-                    newWorkTime(store2, staff2, LocalTime.of(11, 0, 0),
-                            LocalTime.of(20, 0, 0), DayOfWeek.MONDAY));
-            WorkTime workTime8 = workTimeRepository.save(
-                    newWorkTime(store2, staff2, LocalTime.of(11, 0, 0),
-                            LocalTime.of(20, 0, 0), DayOfWeek.FRIDAY));
+            //3번
+            WorkTime workTime5 = newWorkTime(store1, staff2, LocalTime.of(9, 0, 0),
+                    LocalTime.of(15, 0, 0), DayOfWeek.TUESDAY);
 
-//
-            //이호섭의 고정 근무 일정
-            WorkTime workTime9 = workTimeRepository.save(
-                    newWorkTime(store1, staff4, LocalTime.of(11, 0, 0),
-                            LocalTime.of(18, 0, 0), DayOfWeek.FRIDAY));
+            WorkTime workTime6 = newWorkTime(store1, staff2, LocalTime.of(9, 0, 0),
+                    LocalTime.of(15, 0, 0), DayOfWeek.WEDNESDAY);
 
-            WorkTime workTime10 = workTimeRepository.save(
-                    newWorkTime(store1, staff4, LocalTime.of(11, 0, 0),
-                            LocalTime.of(18, 0, 0), DayOfWeek.SATURDAY));
+            workManagerRepository.save(newWorkManager(store1, staff2, Arrays.asList(workTime5, workTime6)));
 
-            WorkTime workTime11 = workTimeRepository.save(
-                    newWorkTime(store2, staff4, LocalTime.of(11, 0, 0),
-                            LocalTime.of(20, 0, 0), DayOfWeek.TUESDAY));
+            //4번
+            WorkTime workTime7 = newWorkTime(store1, staff2, LocalTime.of(11, 0, 0),
+                    LocalTime.of(20, 0, 0), DayOfWeek.SATURDAY);
 
-            WorkTime workTime12 = workTimeRepository.save(
-                    newWorkTime(store2, staff4, LocalTime.of(11, 0, 0),
-                            LocalTime.of(20, 0, 0), DayOfWeek.THURSDAY));
+            WorkTime workTime8 = newWorkTime(store1, staff2, LocalTime.of(11, 0, 0),
+                    LocalTime.of(20, 0, 0), DayOfWeek.SUNDAY);
 
-            List<WorkTime> batchWorktimeList = new ArrayList<>();
-            for(int i = 0 ; i<100 ; i++){
-                batchWorktimeList.add(newWorkTime(store1, staff1, null,null , DayOfWeek.WEDNESDAY));
-            }
-            workTimeRepository.saveAll(batchWorktimeList);
-        });
+            workManagerRepository.save(newWorkManager(store1, staff2, Arrays.asList(workTime7, workTime8)));
+
+            //장수현 staff2이 workTime1번 근무에 대한 5월 22일 대타 근무를 이지윤staff1에게 요청하고 수락하였음
+            //알림은 생략
+            CoverWork coverWork1 = newCoverWork(staff2, staff2, LocalDate.of(2023, 05, 22), workTime1);
+            coverManagerRepository.save(newCoverManager(store1, staff2, staff1, List.of(coverWork1)));
+
+        };
+
 
 
     }

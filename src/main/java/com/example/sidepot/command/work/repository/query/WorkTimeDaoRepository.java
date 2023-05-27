@@ -13,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.example.sidepot.command.work.domain.QWorkTime.workTime;
 import static com.example.sidepot.command.work.domain.QCoverWork.coverWork;
@@ -27,7 +30,7 @@ public class WorkTimeDaoRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    /**
+    /**  안쓰는 클래스
      * SELECT *
      * FROM work_time wt
      * LEFT JOIN cover_work cw ON wt.work_time_id = cw.work_time_id AND cw.cover_date = '2023.05.22'
@@ -36,6 +39,7 @@ public class WorkTimeDaoRepository {
      * 특정 요일(날짜)에 근무와 대타를 조회한다.
      * 만족하는 대타가 있으면 해당 근무는 출/퇴근에서 없는 근무라고 판단한다.
      */
+    @Deprecated
     @Transactional(readOnly = true)
     public List<WorkTime> getStaffWorksByOnDay(Long staffId, LocalDate onDay) {
         return jpaQueryFactory
@@ -106,6 +110,27 @@ public class WorkTimeDaoRepository {
                 .where(eqStaffId(staffId), eqIsDeleted(false))
                 .fetch();
 
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Object[], List<WorkTime>> getAllWorkTimeByStoreId(Long storeId, LocalDate onDay){
+        List<WorkTime> fetch = jpaQueryFactory
+                .select(workTime)
+                .from(workTime)
+                .join(workTime.store, store)
+                .where(store.storeId.eq(storeId), workTime.dayOfWeek.eq(onDay.getDayOfWeek()))
+
+                .fetch();
+
+        return fetch.stream()
+                .collect(Collectors.groupingBy(wt -> Arrays.asList(wt.getStaff(), wt.getStartTime(), wt.getEndTime()).toArray()));
+    }
+
+    public List<WorkTime> findWtByStaff(Long staffId){
+        return jpaQueryFactory.selectFrom(workTime)
+                .where(workTime.staff.memberId.eq(staffId)
+                        .and(workTime.isDeleted.eq(false)))
+                .fetch();
     }
 
 

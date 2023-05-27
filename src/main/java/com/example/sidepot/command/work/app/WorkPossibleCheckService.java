@@ -38,46 +38,43 @@ public class WorkPossibleCheckService {
 
                     } else {
                         isEmptyWork = false;
-                           isOverLapped = true;
-                       }
-                   }
-               }
-               //이전에 수락한 대타 근무가 겹치는가?
-               if(isEmptyWork){
-                   for(CoverWork aCoverWork : staffAcceptedCoverWorkPs){
-                       if(aCoverWork.isOverlapped(coverWork.getCoverDateTime())){
-                           isOverLapped = true;
-                       }
-                   }
-               }
-               if(isOverLapped){
-                   throw  new IllegalStateException("겹치는 근무가 있긴 있는데,,,");
-               }
-           }
+                        isOverLapped = true;
+                    }
+                }
+            }
+            //이전에 수락한 대타 근무가 겹치는가?
+            if (isEmptyWork) {
+                for (CoverWork aCoverWork : staffAcceptedCoverWorkPs) {
+                    if (aCoverWork.isOverlapped(coverWork.getCoverDateTime())) {
+                        isOverLapped = true;
+                    }
+                }
+            }
+            if (isOverLapped) {
+                throw new IllegalStateException("겹치는 근무가 있긴 있는데,,,");
+            }
         }
+    }
 
-
-    public void workabilityScheduleCheck(List<WorkTime> workTimeList, //추가할 고정 근무
-                                         List<WorkTime> staffWorkTimeListPs, //기존에 있던 모든 고정 근무
-                                         List<CoverWork> staffAcceptedCoverWorkPs) { //수락할 직원의 대타 일정
-
-
-        //추가할 대타 근무가
-        for(WorkTime req : workTimeList){
-
-            //기존 모든 근무와 겹치는가?
-            for(WorkTime ori : staffWorkTimeListPs){
-
+    // 겹치는 근무를 요구할 경우 리스트에 담아서
+    public void workabilityScheduleCheck(List<WorkTime> newWtList,
+                                         List<WorkTime> prevWtList,
+                                         List<CoverWork> cwList) {
+        //추가할 근무가
+        for (WorkTime newWt : newWtList) {
+            for (WorkTime preWt : prevWtList) {
+                if (newWt.isOverlapped(preWt.getStartTime(), preWt.getEndTime(), preWt.getDayOfWeek())) {
+                    throw new IllegalStateException("겹치는 근무가 있습니다.");
+                }
             }
 
-            //겹치지 않는 다면
-            if(true){
-
-                //겹치는 대타 근무가 있는가?
-                for(CoverWork coverWork : staffAcceptedCoverWorkPs){
-
+            //겹치는 대타 근무가 있는가?
+            for (CoverWork coverWork : cwList) {
+                if (newWt.isOverlappedWithCover(coverWork.getCoverDateTime())) {
+                    throw new IllegalStateException("겹치는 대타 근무가 있습니다.");
                 }
             }
         }
     }
 }
+

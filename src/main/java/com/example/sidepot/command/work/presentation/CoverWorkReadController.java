@@ -1,6 +1,6 @@
 package com.example.sidepot.command.work.presentation;
 
-import com.example.sidepot.command.work.repository.query.CoverWorkResDto.RequestedCoverWorkResDto;
+import com.example.sidepot.command.work.dto.CoverWorkResDto.RequestedCoverWorkResDto;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;

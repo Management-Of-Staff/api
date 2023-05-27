@@ -23,6 +23,7 @@ public class CoverManager extends BaseEntity {
     private Long id;
     @Column(name = "is_deleted") // 수락되지 않은 요청을 취소 -> 삭제 처리
     private Boolean isDeleted;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "cover_notice_status")
     private CoverManagerStatus coverManagerStatus;
@@ -40,6 +41,16 @@ public class CoverManager extends BaseEntity {
         this.coverManagerStatus = CoverManagerStatus.WAITING;
         this.storeInfo = storeInfo;
         this.requestedStaff = requestedStaff;
+        setCoverWorkList(coverWorkList);
+        this.isDeleted = false;
+    }
+    //테스트셋
+    public CoverManager(StoreInfo storeInfo, RequestedStaff requestedStaff,
+                        AcceptedStaff acceptedStaff, List<CoverWork> coverWorkList) {
+        this.coverManagerStatus = CoverManagerStatus.ACCEPTED;
+        this.storeInfo = storeInfo;
+        this.requestedStaff = requestedStaff;
+        this.acceptedStaff = acceptedStaff;
         setCoverWorkList(coverWorkList);
         this.isDeleted = false;
     }

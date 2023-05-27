@@ -9,8 +9,8 @@ public enum AttendanceStatus {
     LATE("지각"),
     EARLY_LEAVE("조퇴"),
     ABSENCE("결근"),
-
     EXPECT("출근 예정"),
+    REST("휴무"),
     INITIAL("초기 등록");
 
     private final String name;

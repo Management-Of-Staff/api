@@ -1,8 +1,7 @@
 package com.example.sidepot.command.employment.app;
 
 import com.example.sidepot.command.employment.domain.Employment;
-import com.example.sidepot.command.employment.dto.EmploymentReadDto;
-import com.example.sidepot.command.employment.dto.EmploymentUpdateDto;
+import com.example.sidepot.command.employment.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.command.employment.domain.EmploymentRepository;
 import com.example.sidepot.command.member.domain.Staff;
 import com.example.sidepot.command.member.domain.StaffRepository;
@@ -17,17 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class EmploymentService {
+public class EmploymentCommandService {
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     private final EmploymentRepository employmentRepository;
-
-    @Transactional(readOnly = true)
-    public EmploymentReadDto.ReadOneEmploymentResponse readEmploymentDetail(LoginMember member, Long employmentId){
-        Employment employment = employmentRepository.findById(employmentId)
-                .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_STAFF_IN_STORE));
-        return EmploymentReadDto.ReadOneEmploymentResponse.of(employment);
-    }
 
     @Transactional
     public void withdrawEmployment(LoginMember member, Long employmentId){
@@ -39,7 +31,7 @@ public class EmploymentService {
 
     @Transactional
     public void updateEmploymentRankAndWage(LoginMember member, Long employmentId,
-                                            EmploymentUpdateDto.UpdateRankAndWageRequest updateRankAndWageRequest) {
+                                            UpdateRankAndWageRequest updateRankAndWageRequest) {
         Employment employment = employmentRepository.findById(employmentId)
                 .orElseThrow(() -> new Exception(ErrorCode.NOT_FOUND_EMPLOYMENT));
         employment.updateRankAndWage(updateRankAndWageRequest);
@@ -52,6 +44,7 @@ public class EmploymentService {
                 .orElseThrow(()-> new Exception(ErrorCode.NOT_FOUND_YOUR_STORE));
         Staff staff = staffRepository.findById(staffId)
                 .orElseThrow(()-> new Exception(ErrorCode.MEMBER_NOT_FOUND));
+        // #DAO
         if(employmentRepository.existsByStaff_MemberIdAndStore_StoreId(storeId, staffId)){
             throw new Exception(ErrorCode.ALREADY_STAFF_REGISTRATION);
         }

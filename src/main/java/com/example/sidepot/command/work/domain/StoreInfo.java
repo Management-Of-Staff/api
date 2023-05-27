@@ -1,5 +1,6 @@
 package com.example.sidepot.command.work.domain;
 
+import com.example.sidepot.command.store.domain.Store;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,11 @@ public class StoreInfo {
         this.storeId = storeId;
         this.branchName = branchName;
         this.storeName = storeName;
+    }
+    public StoreInfo(StoreInfo storeInfo){
+        this.storeId = storeInfo.getStoreId();
+        this.branchName = storeInfo.getBranchName();
+        this.storeName = storeInfo.getStoreName();
     }
 
     @Override

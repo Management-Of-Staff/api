@@ -32,10 +32,9 @@ public class CoverAcceptService {
         //workPossibleCheckService.coverWorkabilityScheduleCheck();
 
         Staff acceptedStaff = findStaff(loginMember.getMemberId());
-        //대타 수락 처리
+
         coverManagerPs.accepted(new AcceptedStaff(acceptedStaff.getMemberId(), acceptedStaff.getMemberName()));
 
-        //알림을 전달받을 대타 요청자정보
         Staff receiver = findStaff(coverManagerPs.getRequestedStaff().getId());
 
         Events.raise(new CoverWorkAcceptedEvent(

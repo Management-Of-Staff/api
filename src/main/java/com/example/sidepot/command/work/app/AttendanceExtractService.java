@@ -15,23 +15,23 @@ import java.time.LocalDate;
 import java.util.List;
 
 
+/**
+ *  안쓰는 클래스
+ */
+@Deprecated
 @RequiredArgsConstructor
 @DomainService
 public class AttendanceExtractService {
 
     private final WorkTimeDaoRepository workTimeDaoRepository;
     private final CoverWorkDaoRepository coverWorkDaoRepository;
-    /**
-     * 로그인 한 직원과 오늘 날짜로 출/퇴근 정보를 계산하는 서비스
-     */
+
     @Transactional(readOnly = true)
     public AttendanceTodayResDto extractWorkScheduleOnDay(LoginMember member, LocalDate onDay){
-        //대타가 없는 고정근무를 조회힌다.
+
         List<WorkTime> staffWorksByOnDay = getStaffWorksByOnDay(member, onDay);
-        //수락한 대타를 조회한다.
         List<CoverWork> staffAcceptedCoversByOnDay = getStaffAcceptedCoversByOnDay(member, onDay);
 
-        //출근 정보 유무
         isEmptyWork(staffWorksByOnDay, staffAcceptedCoversByOnDay);
 
         return new AttendanceTodayResDto(staffWorksByOnDay, staffAcceptedCoversByOnDay);
