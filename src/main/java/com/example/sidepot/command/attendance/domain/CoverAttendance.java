@@ -2,7 +2,6 @@ package com.example.sidepot.command.attendance.domain;
 
 import com.example.sidepot.command.work.domain.CoverWork;
 import com.example.sidepot.command.work.domain.StoreInfo;
-import com.example.sidepot.command.work.domain.WorkTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -74,33 +73,36 @@ public class CoverAttendance {
                 AttendanceStatus.EXPECT);
     }
 
-    private void isNotWorkStartTime(LocalDateTime now) {
-        if (checkInTime.isBefore(now.minusMinutes(10))) {
+    private void isNotWorkStartTime(LocalTime now) {
+        if (now.isBefore(workDateTime.getStartTime().minusMinutes(10))) {
             throw new IllegalStateException("아직 출근 시간이 아닙니다.");
         }
     }
 
-    public void isNotWorkOffTime(LocalDateTime now, Long allowedLeaveTime) {
-        if (checkOutTime.isBefore(now.minusMinutes(allowedLeaveTime))) {
+    public void isNotWorkOffTime(LocalTime now, Long allowedLeaveTime) {
+        if (now.isBefore(workDateTime.getEndTime().minusMinutes(allowedLeaveTime))) {
             throw new IllegalStateException("아칙 퇴근 시간이 아닙니다.");
         }
     }
 
     public void checkInCoverWork(LocalDateTime now, Long allowedLateTime) {
-        isNotWorkStartTime(now);
-        if (now.isAfter(this.checkInTime.minusMinutes(10)) && now.isBefore(this.checkInTime.plusMinutes(10))) {
+        LocalTime nowTime = now.toLocalTime();
+        isNotWorkStartTime(now.toLocalTime());
+        if (nowTime.isAfter(this.workDateTime.getStartTime().minusMinutes(10))
+                && nowTime.isBefore(this.workDateTime.getEndTime().plusMinutes(10))) {
             this.checkInTime = now;
             this.attendanceStatus = AttendanceStatus.CHECK_IN;
             //Events.raise(정상 출근 알림);
         }
 
-        if (now.isAfter(this.checkInTime) && now.isBefore(this.checkInTime.plusMinutes(allowedLateTime))) {
+        if (nowTime.isAfter(this.workDateTime.getStartTime().plusMinutes(10))
+                && nowTime.isBefore(this.workDateTime.getStartTime().plusMinutes(allowedLateTime))) {
             this.checkInTime = now;
             this.attendanceStatus = AttendanceStatus.LATE;
             //Events.raise(지각 알림);
         }
 
-        if (now.isAfter(this.checkInTime.plusMinutes(allowedLateTime))) {
+        if (nowTime.isAfter(this.workDateTime.getStartTime().plusMinutes(allowedLateTime))) {
             this.checkInTime = now;
             this.attendanceStatus = AttendanceStatus.ABSENCE;
             //Events.raise(결근 알림);
@@ -108,7 +110,7 @@ public class CoverAttendance {
     }
 
     public void checkOutCoverWork(LocalDateTime now, Long allowedLeaveTime){
-        isNotWorkOffTime(now, allowedLeaveTime);
+        isNotWorkOffTime(now.toLocalTime(), allowedLeaveTime);
         this.checkOutTime = now;
         this.attendanceStatus = AttendanceStatus.CHECK_OUT;
     }
