@@ -15,10 +15,10 @@ public class EmploymentReadDto {
         private BaseFilePath profileImage;
         private Rank rank;
         private Long hourlyWage;
-        private boolean healthCertificate;
+        private Boolean healthCertificate;
 
         public ReadOneEmploymentResponse(Long employmentId, Long staffId, String name, String phone,
-                                         BaseFilePath profileImage, Rank rank, Long hourlyWage, boolean healthCertificate) {
+                                         BaseFilePath profileImage, Rank rank, Long hourlyWage, Boolean healthCertificate) {
             this.employmentId = employmentId;
             this.staffId = staffId;
             this.name = name;

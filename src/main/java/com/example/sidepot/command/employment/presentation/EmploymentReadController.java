@@ -2,7 +2,8 @@ package com.example.sidepot.command.employment.presentation;
 
 import com.example.sidepot.command.employment.dto.EmploymentListResDto;
 import com.example.sidepot.command.employment.app.EmploymentReadService;
-import com.example.sidepot.command.employment.query.EmploymentDaoRepository;
+import com.example.sidepot.command.employment.dto.EmploymentReadDto.ReadOneEmploymentResponse;
+import com.example.sidepot.command.employment.repository.EmploymentDaoRepository;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
@@ -37,7 +38,7 @@ public class EmploymentReadController {
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
                 .method(httpServletRequest.getServletPath())
-                .message("근무 정보 수정")
+                .message("근무 정보 조회")
                 .data(직원목록조회)
                 .build());
     }
@@ -47,13 +48,13 @@ public class EmploymentReadController {
     public ResponseEntity<ResponseDto> readStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                @PathVariable("employmentId") Long employmentId,
                                                                @ApiIgnore HttpServletRequest httpServletRequest){
-        employmentDaoRepository.findById(employmentId);
+        ReadOneEmploymentResponse employmentResponse = employmentDaoRepository.findById(employmentId).orElseThrow();// #error
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
                 .method(httpServletRequest.getMethod())
                 .message("매장 직원 조회")
-                .data("")
+                .data(employmentResponse)
                 .build());
     }
 }

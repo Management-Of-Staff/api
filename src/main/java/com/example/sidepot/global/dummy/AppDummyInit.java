@@ -1,7 +1,7 @@
 package com.example.sidepot.global.dummy;
 
 import com.example.sidepot.command.employment.domain.Employment;
-import com.example.sidepot.command.employment.domain.EmploymentRepository;
+import com.example.sidepot.command.employment.repository.EmploymentRepository;
 import com.example.sidepot.command.member.domain.Owner;
 import com.example.sidepot.command.member.domain.OwnerRepository;
 import com.example.sidepot.command.member.domain.Staff;
@@ -11,9 +11,7 @@ import com.example.sidepot.command.store.domain.StoreRepository;
 import com.example.sidepot.command.work.domain.CoverWork;
 import com.example.sidepot.command.work.domain.WorkTime;
 import com.example.sidepot.command.work.repository.CoverManagerRepository;
-import com.example.sidepot.command.work.repository.CoverWorkRepository;
 import com.example.sidepot.command.work.repository.WorkManagerRepository;
-import com.example.sidepot.command.work.repository.WorkTimeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

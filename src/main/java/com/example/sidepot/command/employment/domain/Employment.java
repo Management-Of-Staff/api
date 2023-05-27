@@ -1,19 +1,16 @@
 package com.example.sidepot.command.employment.domain;
 
-import com.example.sidepot.command.attendance.domain.AttendanceStatus;
 import com.example.sidepot.global.domain.BaseEntity;
 import com.example.sidepot.command.member.domain.Rank;
 import com.example.sidepot.command.member.domain.Staff;
 import com.example.sidepot.command.employment.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.command.store.domain.Store;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
+
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -41,10 +38,6 @@ public class Employment extends BaseEntity {
     @Column(name ="health_certificate")
     private boolean healthCertificate;
 
-    @Column(name = "attendance_status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private AttendanceStatus attendanceStatus;
-
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
@@ -52,7 +45,6 @@ public class Employment extends BaseEntity {
         this.store = store;
         this.staff = staff;
         this.healthCertificate = false;
-        this.attendanceStatus = AttendanceStatus.INITIAL;
         this.isDeleted = false;
     }
 

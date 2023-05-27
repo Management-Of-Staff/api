@@ -73,6 +73,4 @@ public class EmploymentCommandController {
                 .data("")
                 .build());
     }
-
-
 }

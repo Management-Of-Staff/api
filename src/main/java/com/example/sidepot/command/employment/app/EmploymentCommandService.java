@@ -2,7 +2,8 @@ package com.example.sidepot.command.employment.app;
 
 import com.example.sidepot.command.employment.domain.Employment;
 import com.example.sidepot.command.employment.dto.EmploymentUpdateDto.*;
-import com.example.sidepot.command.employment.domain.EmploymentRepository;
+import com.example.sidepot.command.employment.repository.EmploymentDaoRepository;
+import com.example.sidepot.command.employment.repository.EmploymentRepository;
 import com.example.sidepot.command.member.domain.Staff;
 import com.example.sidepot.command.member.domain.StaffRepository;
 import com.example.sidepot.global.error.ErrorCode;
@@ -20,6 +21,7 @@ public class EmploymentCommandService {
     private final StaffRepository staffRepository;
     private final StoreRepository storeRepository;
     private final EmploymentRepository employmentRepository;
+    private final EmploymentDaoRepository employmentDaoRepository;
 
     @Transactional
     public void withdrawEmployment(LoginMember member, Long employmentId){
@@ -45,8 +47,9 @@ public class EmploymentCommandService {
         Staff staff = staffRepository.findById(staffId)
                 .orElseThrow(()-> new Exception(ErrorCode.MEMBER_NOT_FOUND));
         // #DAO
-        if(employmentRepository.existsByStaff_MemberIdAndStore_StoreId(storeId, staffId)){
+        if(employmentDaoRepository.existsByStaffAndStore(staffId, storeId)){
             throw new Exception(ErrorCode.ALREADY_STAFF_REGISTRATION);
+            //직원을 삭제했으면? 등록되어있다고 알려주고 삭제된 직원 목록?
         }
         employmentRepository.save(Employment.createEmployment(store, staff));
     }

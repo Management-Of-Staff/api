@@ -1,5 +1,6 @@
-package com.example.sidepot.command.employment.domain;
+package com.example.sidepot.command.employment.repository;
 
+import com.example.sidepot.command.employment.domain.Employment;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

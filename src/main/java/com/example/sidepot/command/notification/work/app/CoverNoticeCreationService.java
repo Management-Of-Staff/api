@@ -2,7 +2,7 @@ package com.example.sidepot.command.notification.work.app;
 
 import com.example.sidepot.command.employment.domain.Employment;
 import com.example.sidepot.command.notification.work.domain.Receiver;
-import com.example.sidepot.command.employment.domain.EmploymentRepository;
+import com.example.sidepot.command.employment.repository.EmploymentRepository;
 import com.example.sidepot.command.notification.work.domain.CoverManagerId;
 import com.example.sidepot.command.notification.work.domain.NoticeType;
 import com.example.sidepot.command.notification.work.domain.StaffNotice;
