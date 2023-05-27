@@ -4,6 +4,7 @@ package com.example.sidepot.command.work.app;
 import com.example.sidepot.command.work.domain.CoverWork;
 import com.example.sidepot.command.work.dto.CoverWorkRequestDto.CreateCoverWorkReqDto;
 import com.example.sidepot.command.work.repository.CoverWorkRepository;
+import com.example.sidepot.command.work.repository.query.CoverWorkDaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ import java.util.List;
 @Service
 public class CoverRequestDuplicateCheckService {
 
-    private final CoverWorkRepository coverWorkRepository;
+    private final CoverWorkDaoRepository coverWorkDaoRepository;
 
     /**
      * 해당 날짜(들)에 이미 요청이 생성되어 있으면 리스트에 담아서 반환한다.
@@ -26,8 +27,7 @@ public class CoverRequestDuplicateCheckService {
 
         List<CoverWork> coverWorkList = new ArrayList<>();
         for(CreateCoverWorkReqDto dto : createCoverWorkReqDtoList){
-            coverWorkRepository.
-                    findByWorkTime_WorkTimeIdAndCoverDateTime_CoverDate(dto.getWorkTimeId(), dto.getCoverDate())
+            coverWorkDaoRepository.findCwByWtIdOnDay(dto.getWorkTimeId(), dto.getCoverDate())
                     .ifPresent(cw -> coverWorkList.add(cw));
         }
         return coverWorkList;

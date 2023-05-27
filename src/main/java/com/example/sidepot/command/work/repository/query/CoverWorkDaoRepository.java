@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -95,12 +96,27 @@ public class CoverWorkDaoRepository {
     }
 
 
-    public List<CoverWork> findCoverAfterDayWithWorkId(Long workId, LocalDate onDay){
+    public List<CoverWork> findCoverAfterDayWithWorkId(Long wtId, LocalDate onDay){
         return jpaQueryFactory
                 .selectFrom(coverWork)
-                .where(coverWork.workTime.workTimeId.eq(workId)
-                        .and(coverWork.coverDateTime.coverDate.after(onDay)))
+                .where(coverWork.workTime.workTimeId.eq(wtId)
+                        .and(coverWork.coverDateTime.coverDate.after(onDay)),
+                        eqIsAccepted(true))
                 .fetch();
+    }
+
+    /**
+     * 현재는 wt에 대해 cw 는 1:N 관계이다. 하지만, 특정 날짜로 조회하면 1:1 관계를 기대한다.
+     * 추후 특정 날짜도 1:N 관계가 될 수 있다. 그때는 시간까지 포함해야한다.
+     */
+    public Optional<CoverWork> findCwByWtIdOnDay(Long wtId, LocalDate onDay){
+        CoverWork coverWorkPs = jpaQueryFactory
+                .selectFrom(coverWork)
+                .where(coverWork.workTime.workTimeId.eq(wtId)
+                                .and(coverWork.coverDateTime.coverDate.eq(onDay)),
+                        eqIsAccepted(true))
+                .fetchOne();
+        return Optional.ofNullable(coverWorkPs);
     }
 
     private BooleanExpression eqCoverDate(final LocalDate coverDate) {

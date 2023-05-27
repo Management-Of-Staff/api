@@ -12,7 +12,6 @@ import com.example.sidepot.command.work.domain.WorkTime;
 import com.example.sidepot.command.work.dto.WorkRequestDto.*;
 import com.example.sidepot.command.work.repository.CoverWorkRepository;
 import com.example.sidepot.command.work.repository.WorkManagerRepository;
-import com.example.sidepot.command.work.repository.WorkTimeRepository;
 import com.example.sidepot.command.work.repository.query.CoverWorkDaoRepository;
 import com.example.sidepot.command.work.repository.query.WorkTimeDaoRepository;
 import com.example.sidepot.global.security.LoginMember;
@@ -44,7 +43,7 @@ public class WorkTimeCommandService {
      */
     @Transactional
     public void createWorkTime(LoginMember member, CreateWorkReqDto createWorkReqDto) {
-        //매장내에 있는 직원인지 검증
+        //매장 내 있는 직원인지 검증
 
         //직접참조 필드 조회
         Staff staffPS = findStaffById(createWorkReqDto.getStaffId());
@@ -77,7 +76,7 @@ public class WorkTimeCommandService {
         canBeDelete(workManagerPs);
         workManagerPs.delete();
     }
-   /**
+     /**
      * 근무 수정 -> 삭제 + 재생성
      * @param member
      * @param updateWorkReqDto

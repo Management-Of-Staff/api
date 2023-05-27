@@ -18,7 +18,4 @@ public interface CoverWorkRepository extends JpaRepository<CoverWork, Long> {
     List<CoverWork> findAllByAcceptedStaff_Id(Long staffId);
 
 
-    // #DAO
-    Optional<CoverWork> findByWorkTime_WorkTimeIdAndCoverDateTime_CoverDate(Long workTimeId, LocalDate now);
-
 }

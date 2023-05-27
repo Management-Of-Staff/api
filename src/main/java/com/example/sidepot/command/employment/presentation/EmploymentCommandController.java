@@ -74,19 +74,5 @@ public class EmploymentCommandController {
                 .build());
     }
 
-//    @ApiOperation(value = "[직원 관리] 매장 직원 정보 조회", notes ="특정 매장 직원의 상세 정보를 보는 API")
-//    @GetMapping(value = "/stores/employments/{employmentId}")
-//    public ResponseEntity<ResponseDto> readStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal LoginMember member,
-//                                                               @PathVariable("employmentId") Long employmentId,
-//                                                               @ApiIgnore HttpServletRequest httpServletRequest){
-//        EmploymentReadDto.ReadOneEmploymentResponse readOneEmploymentResponse
-//                = employmentCommandService.readEmploymentDetail(member, employmentId);
-//        return ResponseEntity.ok(ResponseDto.builder()
-//                .path(httpServletRequest.getServletPath())
-//                .statusCode(HttpStatus.OK.value())
-//                .method(httpServletRequest.getMethod())
-//                .message("매장 직원 조회")
-//                .data(readOneEmploymentResponse)
-//                .build());
-//    }
+
 }

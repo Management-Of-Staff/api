@@ -1,10 +1,13 @@
 package com.example.sidepot.command.employment.presentation;
 
+import com.example.sidepot.command.employment.dto.EmploymentListResDto;
 import com.example.sidepot.command.employment.app.EmploymentReadService;
+import com.example.sidepot.command.employment.query.EmploymentDaoRepository;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +26,34 @@ import java.util.List;
 public class EmploymentReadController {
 
     private final EmploymentReadService employmentReadService;
+    private final EmploymentDaoRepository employmentDaoRepository;
+    @ApiOperation(value = "[직원 관리] 매장 직원 목록 조회", notes = "특정 매장 직원 목록을 조회하는 API")
     @GetMapping(value = "/stores/{storeId}/employments")
     public ResponseEntity<ResponseDto> updateStoreStaffRankAndWage(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                    @PathVariable("storeId") Long storeId,
                                                                    @ApiIgnore HttpServletRequest httpServletRequest) {
-        List<EmploymentReadService.EmploymentListResDto> 직원목록조회 = employmentReadService.직원목록조회(storeId, LocalDate.of(2023, 05, 22));
+        List<EmploymentListResDto> 직원목록조회 = employmentReadService.readEmploymentsByStore(storeId, LocalDate.of(2023, 05, 22));
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
                 .method(httpServletRequest.getServletPath())
                 .message("근무 정보 수정")
                 .data(직원목록조회)
+                .build());
+    }
+
+    @ApiOperation(value = "[직원 관리] 매장 직원 정보 조회", notes ="특정 매장 직원의 상세 정보를 보는 API")
+    @GetMapping(value = "/stores/employments/{employmentId}")
+    public ResponseEntity<ResponseDto> readStoreStaffByStaffId(@ApiIgnore @AuthenticationPrincipal LoginMember member,
+                                                               @PathVariable("employmentId") Long employmentId,
+                                                               @ApiIgnore HttpServletRequest httpServletRequest){
+        employmentDaoRepository.findById(employmentId);
+        return ResponseEntity.ok(ResponseDto.builder()
+                .path(httpServletRequest.getServletPath())
+                .statusCode(HttpStatus.OK.value())
+                .method(httpServletRequest.getMethod())
+                .message("매장 직원 조회")
+                .data("")
                 .build());
     }
 }

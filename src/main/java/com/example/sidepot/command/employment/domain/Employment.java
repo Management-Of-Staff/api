@@ -4,7 +4,6 @@ import com.example.sidepot.command.attendance.domain.AttendanceStatus;
 import com.example.sidepot.global.domain.BaseEntity;
 import com.example.sidepot.command.member.domain.Rank;
 import com.example.sidepot.command.member.domain.Staff;
-import com.example.sidepot.command.work.domain.WorkTime;
 import com.example.sidepot.command.employment.dto.EmploymentUpdateDto.*;
 import com.example.sidepot.command.store.domain.Store;
 import lombok.AllArgsConstructor;
@@ -15,8 +14,6 @@ import org.springframework.util.StringUtils;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -48,15 +45,15 @@ public class Employment extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AttendanceStatus attendanceStatus;
 
-    @Column(name = "withdrawal_status", nullable = false)
-    private Boolean withdrawal_status;
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
 
     private Employment(Store store, Staff staff) {
         this.store = store;
         this.staff = staff;
         this.healthCertificate = false;
         this.attendanceStatus = AttendanceStatus.INITIAL;
-        this.withdrawal_status = false;
+        this.isDeleted = false;
     }
 
     public static Employment createEmployment(Store store, Staff staff){
@@ -68,55 +65,6 @@ public class Employment extends BaseEntity {
         this.hourlyWage = updateRankAndWageRequest.getHourlyWage();
     }
     public void withdrawEmployment(){
-        this.withdrawal_status = true;
-    }
-
-
-    /**
-     * 폰 번호 조회
-     */
-    public String getPhoneNumber() {
-        if (staff == null) {
-            return "";
-        }
-        String phoneNumber = staff.getMemberPhoneNum();
-        if (!StringUtils.hasText(phoneNumber)) {
-            return "전화번호가 등록되어 있지 않습니다.";
-        }
-        return phoneNumber;
-    }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    private static class AddAcceptPinchWorkTimeDto {
-        private Long workTimeId;
-        private Long requestStaffId;
-        private Long acceptedStaffId;
-        private Long acceptedTime;
-        private LocalDate pinchDate;
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
-    }
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    public static class addPinchTimeReqDto{
-        private Long workTimeId;
-        private Long requestStaffId;
-        private LocalDate pinchDate;
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
-    }
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    public static class AcceptPinchWorkReqDto{
-        private Long workTimeId;
-        private Long requestStaffId;
-        private Long acceptedStaffId;
-        private Long acceptedTime;
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
+        this.isDeleted = true;
     }
 }

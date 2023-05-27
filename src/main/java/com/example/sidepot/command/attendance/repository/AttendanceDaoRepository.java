@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static  com.example.sidepot.command.attendance.domain.QAttendance.attendance;
 import static com.example.sidepot.command.attendance.domain.QCoverAttendance.coverAttendance;
@@ -31,6 +32,15 @@ public class AttendanceDaoRepository {
                 .fetch();
 
         return new AttendanceTodayResDto(attendanceList, coverAttendanceList);
+    }
+
+    public Optional<Attendance> findAttByWtIDAndOnDay(Long wtId, LocalDate onDay){
+        Attendance attendancePs = jpaQueryFactory.selectFrom(attendance)
+                .where(attendance.workTimeId.eq(wtId)
+                        .and(attendance.workDateTime.workDate.eq(onDay)))
+                .fetchOne();//이 관계는 1:1 관계가 될 수 밖에 없음
+
+        return Optional.ofNullable(attendancePs);
     }
 
     public List<Tuple> readAllAttendanceTodayByWorkId(List<Long> workTimeId){

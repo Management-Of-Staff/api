@@ -9,7 +9,6 @@ import com.example.sidepot.command.attendance.repository.CoverAttendanceReposito
 import com.example.sidepot.global.security.LoginMember;
 import com.example.sidepot.command.work.domain.CoverWork;
 import com.example.sidepot.command.work.repository.CoverWorkRepository;
-import com.example.sidepot.command.work.repository.WorkTimeRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,6 @@ import java.util.Optional;
 @Service
 public class CheckInService {
 
-    private final WorkTimeRepository workTimeRepository;
     private final CoverWorkRepository coverWorkRepository;
     private final CoverAttendanceRepository coverAttendanceRepository;
     private final AttendanceRepository attendanceRepository;
