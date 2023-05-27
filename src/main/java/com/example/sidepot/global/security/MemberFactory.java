@@ -1,8 +1,8 @@
 package com.example.sidepot.global.security;
 
+import com.example.sidepot.command.member.domain.*;
 import com.example.sidepot.global.error.ErrorCode;
 import com.example.sidepot.global.error.Exception;
-import com.example.sidepot.member.domain.*;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
