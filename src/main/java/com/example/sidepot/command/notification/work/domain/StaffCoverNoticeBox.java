@@ -1,6 +1,7 @@
 package com.example.sidepot.command.notification.work.domain;
 
 import com.example.sidepot.command.employment.domain.Employment;
+import com.example.sidepot.command.notification.common.NoticeType;
 import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.global.domain.BaseEntity;
 import lombok.AccessLevel;
@@ -11,9 +12,9 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "staff_notice")
+@Table(name = "staff_cover_notice_box")
 @Entity
-public class StaffNotice extends BaseEntity {
+public class StaffCoverNoticeBox extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Embedded
@@ -43,7 +44,7 @@ public class StaffNotice extends BaseEntity {
     @Column(name = "details_url")
     private String detailsUrl;
 
-    public StaffNotice(CoverManagerId coverManagerId, Sender sender, Receiver receiver, NoticeType noticeType) {
+    public StaffCoverNoticeBox(CoverManagerId coverManagerId, Sender sender, Receiver receiver, NoticeType noticeType) {
         this.coverManagerId = coverManagerId;
         this.sender = sender;
         this.receiver = receiver;
@@ -54,8 +55,8 @@ public class StaffNotice extends BaseEntity {
         this.detailsUrl = "/rest/v1/cover-works/notice-box/" + coverManagerId.getCoverManagerId();  //DNS 풀네임 넣어야됨
     }
 
-    public static StaffNotice newStaffNotice(CoverManager coverManager, Employment employment, NoticeType noticeType){
-        return new StaffNotice(
+    public static StaffCoverNoticeBox newStaffNotice(CoverManager coverManager, Employment employment, NoticeType noticeType){
+        return new StaffCoverNoticeBox(
                 new CoverManagerId(coverManager.getId()),
                 new Sender(coverManager.getRequestedStaff().getId(), coverManager.getRequestedStaff().getName()),
                 new Receiver(employment.getStaff().getMemberId(), employment.getStaff().getUuid()),

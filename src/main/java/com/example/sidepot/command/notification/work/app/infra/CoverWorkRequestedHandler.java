@@ -3,7 +3,7 @@ package com.example.sidepot.command.notification.work.app.infra;
 import com.example.sidepot.command.notification.work.repository.StaffNoticeRepository;
 import com.example.sidepot.command.notification.firebase.FirebaseMessageService;
 import com.example.sidepot.command.notification.work.app.CoverNoticeCreationService;
-import com.example.sidepot.command.notification.work.domain.StaffNotice;
+import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
 import com.example.sidepot.command.work.event.CoverWorkRequestedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class CoverWorkRequestedHandler {
             value = CoverWorkRequestedEvent.class,
             phase = TransactionPhase.BEFORE_COMMIT)
     public void coverNoticeCreateHandler(CoverWorkRequestedEvent event) throws IOException {
-        List<StaffNotice> requestedNotice
+        List<StaffCoverNoticeBox> requestedNotice
                 = coverNoticeCreationService.createRequestedNotice(event.getCoverManagerList());
 
         List<String> tokens = requestedNotice.stream()

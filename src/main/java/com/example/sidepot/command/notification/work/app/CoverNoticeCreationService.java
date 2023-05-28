@@ -4,8 +4,8 @@ import com.example.sidepot.command.employment.domain.Employment;
 import com.example.sidepot.command.notification.work.domain.Receiver;
 import com.example.sidepot.command.employment.repository.EmploymentRepository;
 import com.example.sidepot.command.notification.work.domain.CoverManagerId;
-import com.example.sidepot.command.notification.work.domain.NoticeType;
-import com.example.sidepot.command.notification.work.domain.StaffNotice;
+import com.example.sidepot.command.notification.common.NoticeType;
+import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
 import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.command.notification.work.domain.Sender;
 import lombok.RequiredArgsConstructor;
@@ -25,28 +25,28 @@ public class CoverNoticeCreationService {
     /**
      * 요청한 대타 알림 생성
      */
-    public List<StaffNotice> createRequestedNotice(List<CoverManager> coverManagerList) {
-        List<StaffNotice> staffNoticeList = new ArrayList<>();
+    public List<StaffCoverNoticeBox> createRequestedNotice(List<CoverManager> coverManagerList) {
+        List<StaffCoverNoticeBox> staffCoverNoticeBoxList = new ArrayList<>();
         for (CoverManager coverManager : coverManagerList) {
             List<Employment> employmentList = findAllEmploymentByStore(coverManager);
             for (Employment employment : employmentList) {
-                addNewStaffNotice(staffNoticeList, coverManager, employment);
+                addNewStaffNotice(staffCoverNoticeBoxList, coverManager, employment);
             }
         }
-        return staffNoticeList;
+        return staffCoverNoticeBoxList;
     }
 
     /**
      * 수락한 대타 알림 생성
      */
 
-    public StaffNotice createAcceptedNotice(CoverManagerId coverManagerId, Sender sender, Receiver receiver) {
-        return new StaffNotice(coverManagerId, sender, receiver, NoticeType.ACCEPTED);
+    public StaffCoverNoticeBox createAcceptedNotice(CoverManagerId coverManagerId, Sender sender, Receiver receiver) {
+        return new StaffCoverNoticeBox(coverManagerId, sender, receiver, NoticeType.ACCEPTED);
     }
 
-    private void addNewStaffNotice(List<StaffNotice> staffNoticeList, CoverManager coverManager, Employment employment) {
+    private void addNewStaffNotice(List<StaffCoverNoticeBox> staffCoverNoticeBoxList, CoverManager coverManager, Employment employment) {
         if(!(coverManager.getRequestedStaff().getId().equals(employment.getStaff().getMemberId())))
-        staffNoticeList.add(StaffNotice.newStaffNotice(coverManager, employment, NoticeType.REQUESTED));
+        staffCoverNoticeBoxList.add(StaffCoverNoticeBox.newStaffNotice(coverManager, employment, NoticeType.REQUESTED));
     }
 
     private List<Employment> findAllEmploymentByStore(CoverManager coverManager) {

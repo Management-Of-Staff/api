@@ -1,6 +1,6 @@
 package com.example.sidepot.command.notification.work.app;
 
-import com.example.sidepot.command.notification.work.domain.StaffNotice;
+import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
 import com.example.sidepot.command.notification.work.repository.StaffNoticeRepository;
 import com.example.sidepot.global.security.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,8 @@ public class CoverNoticeStatusService {
      */
     @Transactional
     public void checkNotice(LoginMember loginMember, Long staffNoticeId){
-        StaffNotice staffNoticePs = staffNoticeRepository.findById(staffNoticeId).orElseThrow();
-        staffNoticePs.checkNotice();
+        StaffCoverNoticeBox staffCoverNoticeBoxPs = staffNoticeRepository.findById(staffNoticeId).orElseThrow();
+        staffCoverNoticeBoxPs.checkNotice();
     }
 
     /**
@@ -29,8 +29,8 @@ public class CoverNoticeStatusService {
      */
     @Transactional
     public void hideNotice(Long staffNoticeId){
-        StaffNotice staffNoticePs = staffNoticeRepository.findById(staffNoticeId).orElseThrow();
-        staffNoticePs.delete();
+        StaffCoverNoticeBox staffCoverNoticeBoxPs = staffNoticeRepository.findById(staffNoticeId).orElseThrow();
+        staffCoverNoticeBoxPs.delete();
     }
 
 

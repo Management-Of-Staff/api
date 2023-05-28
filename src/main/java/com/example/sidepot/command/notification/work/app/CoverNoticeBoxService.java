@@ -1,7 +1,7 @@
 package com.example.sidepot.command.notification.work.app;
 
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.command.notification.work.domain.StaffNotice;
+import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
 import com.example.sidepot.command.notification.work.dto.CoverNoticeResDto.*;
 import com.example.sidepot.command.notification.work.repository.StaffNoticeSpecRepository;
 
@@ -20,9 +20,9 @@ public class CoverNoticeBoxService {
     @Transactional(readOnly = true)
     public CoverNoticeThumbnailResDto readCoverNoticeThumbnail(LoginMember member){
         Long notReadCoverNotice = staffNoticeSpecRepository.getNotReadCoverNotice(member.getMemberId());
-        StaffNotice oneStaffNotice = staffNoticeSpecRepository.getOneStaffNotice(member.getMemberId());
+        StaffCoverNoticeBox oneStaffCoverNoticeBox = staffNoticeSpecRepository.getOneStaffNotice(member.getMemberId());
 
-        return new CoverNoticeThumbnailResDto(notReadCoverNotice, oneStaffNotice);
+        return new CoverNoticeThumbnailResDto(notReadCoverNotice, oneStaffCoverNoticeBox);
     }
 
     @Transactional(readOnly = true)
