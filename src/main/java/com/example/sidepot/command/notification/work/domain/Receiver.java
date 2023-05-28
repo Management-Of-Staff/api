@@ -1,5 +1,6 @@
 package com.example.sidepot.command.notification.work.domain;
 
+import com.example.sidepot.command.member.domain.Staff;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,11 @@ public class Receiver {
         this.receiverName = receiverName;
         this.receiverToken = receiverToken;
     }
+
+    public Receiver(Staff staff) {
+        this.receiverId = staff.getMemberId();
+        this.receiverName = staff.getMemberName();
+        this.receiverToken = staff.getUuid();
+    }
+
 }

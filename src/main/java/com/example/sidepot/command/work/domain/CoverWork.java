@@ -3,6 +3,7 @@ package com.example.sidepot.command.work.domain;
 import com.example.sidepot.command.attendance.domain.AttendanceStatus;
 import com.example.sidepot.command.member.domain.Staff;
 import com.example.sidepot.command.work.dto.CoverWorkRequestDto.CreateCoverWorkReqDto;
+import com.example.sidepot.global.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "cover_work")
 @Entity
-public class CoverWork {
+public class CoverWork extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cover_work_id")

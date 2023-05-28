@@ -1,6 +1,7 @@
 package com.example.sidepot.command.work.domain;
 
 import com.example.sidepot.command.attendance.domain.WorkerId;
+import com.example.sidepot.global.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "work_manager")
 @Entity
-public class WorkManager {
+public class WorkManager extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

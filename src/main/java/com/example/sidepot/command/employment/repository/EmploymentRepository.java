@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface EmploymentRepository extends JpaRepository<Employment, Long> {
 
-    @EntityGraph(attributePaths = {"workTimeList", "staff"})
+    @EntityGraph(attributePaths = "staff")
     List<Employment> findAllByStore_StoreId(Long storeId);
 
     // #DAO

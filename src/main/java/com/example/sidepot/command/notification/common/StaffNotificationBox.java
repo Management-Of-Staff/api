@@ -1,5 +1,6 @@
 package com.example.sidepot.command.notification.common;
 
+import com.example.sidepot.command.notification.work.domain.Receiver;
 import com.example.sidepot.global.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,5 +21,12 @@ public class StaffNotificationBox extends BaseEntity {
     private Notification notification;
     @Column(name = "is_read")
     private Boolean isRead;
+    @Embedded
+    private Receiver receiver;
 
+    public StaffNotificationBox(Notification notification, Receiver receiver) {
+        this.notification = notification;
+        this.isRead = false;
+        this.receiver = receiver;
+    }
 }

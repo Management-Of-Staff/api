@@ -55,11 +55,11 @@ public class StaffCoverNoticeBox extends BaseEntity {
         this.detailsUrl = "/rest/v1/cover-works/notice-box/" + coverManagerId.getCoverManagerId();  //DNS 풀네임 넣어야됨
     }
 
-    public static StaffCoverNoticeBox newStaffNotice(CoverManager coverManager, Employment employment, NoticeType noticeType){
+    public static StaffCoverNoticeBox newStaffNotice(CoverManager coverManager, Receiver receiver, NoticeType noticeType){
         return new StaffCoverNoticeBox(
                 new CoverManagerId(coverManager.getId()),
                 new Sender(coverManager.getRequestedStaff().getId(), coverManager.getRequestedStaff().getName()),
-                new Receiver(employment.getStaff().getMemberId(), employment.getStaff().getUuid()),
+                receiver,
                 noticeType);
     }
 

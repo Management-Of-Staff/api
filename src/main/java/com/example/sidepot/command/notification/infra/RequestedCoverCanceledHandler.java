@@ -1,4 +1,4 @@
-package com.example.sidepot.command.notification.work.app.infra;
+package com.example.sidepot.command.notification.infra;
 
 import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
 import com.example.sidepot.command.notification.work.repository.StaffNoticeRepository;

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,7 +19,21 @@ public class Notification {
 
     @Column(name = "related_url")
     private String relatedUrl;
-
+    @Column(name = "sub_title")
+    private String subTitle;
     @Enumerated(EnumType.STRING)
     private NoticeType noticeType;
+
+    @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL)
+    private List<StaffNotificationBox> staffNotificationBoxList = new ArrayList<>();
+
+    public Notification(String subTitle, NoticeType noticeType) {
+        this.relatedUrl = noticeType.getRelatedUrl();
+        this.subTitle = subTitle;
+        this.noticeType = noticeType;
+    }
+
+    public void setStaffNotificationBoxList(StaffNotificationBox staffNotificationBoxList){
+        this.staffNotificationBoxList.add(staffNotificationBoxList);
+    }
 }

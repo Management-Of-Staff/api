@@ -11,12 +11,9 @@ import com.example.sidepot.command.notification.work.domain.Sender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-
+@Deprecated
 @RequiredArgsConstructor
 @Service
 public class CoverNoticeCreationService {
@@ -30,7 +27,7 @@ public class CoverNoticeCreationService {
         for (CoverManager coverManager : coverManagerList) {
             List<Employment> employmentList = findAllEmploymentByStore(coverManager);
             for (Employment employment : employmentList) {
-                addNewStaffNotice(staffCoverNoticeBoxList, coverManager, employment);
+                //addNewStaffNotice(staffCoverNoticeBoxList, coverManager, employment);
             }
         }
         return staffCoverNoticeBoxList;
@@ -44,10 +41,10 @@ public class CoverNoticeCreationService {
         return new StaffCoverNoticeBox(coverManagerId, sender, receiver, NoticeType.ACCEPTED);
     }
 
-    private void addNewStaffNotice(List<StaffCoverNoticeBox> staffCoverNoticeBoxList, CoverManager coverManager, Employment employment) {
-        if(!(coverManager.getRequestedStaff().getId().equals(employment.getStaff().getMemberId())))
-        staffCoverNoticeBoxList.add(StaffCoverNoticeBox.newStaffNotice(coverManager, employment, NoticeType.REQUESTED));
-    }
+//    private void addNewStaffNotice(List<StaffCoverNoticeBox> staffCoverNoticeBoxList, CoverManager coverManager, Employment employment) {
+//        if(!(coverManager.getRequestedStaff().getId().equals(employment.getStaff().getMemberId())))
+//        staffCoverNoticeBoxList.add(StaffCoverNoticeBox.newStaffNotice(coverManager, employment, NoticeType.REQUESTED));
+//    }
 
     private List<Employment> findAllEmploymentByStore(CoverManager coverManager) {
         Optional<List<Employment>> employmentList
