@@ -1,8 +1,6 @@
-package com.example.sidepot.command.notification.work.domain;
+package com.example.sidepot.command.work.domain;
 
-import com.example.sidepot.command.employment.domain.Employment;
 import com.example.sidepot.command.notification.common.NoticeType;
-import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.global.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;

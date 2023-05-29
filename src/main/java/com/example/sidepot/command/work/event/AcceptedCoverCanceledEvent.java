@@ -1,8 +1,8 @@
 package com.example.sidepot.command.work.event;
 
-import com.example.sidepot.command.notification.work.domain.Sender;
-import com.example.sidepot.command.notification.work.domain.CoverManagerId;
-import com.example.sidepot.command.notification.work.domain.RejectMessage;
+import com.example.sidepot.command.work.domain.Sender;
+import com.example.sidepot.command.work.domain.CoverManagerId;
+import com.example.sidepot.command.work.domain.RejectMessage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

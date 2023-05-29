@@ -1,13 +1,13 @@
-package com.example.sidepot.command.notification.work.app;
+package com.example.sidepot.command.work.app;
 
 import com.example.sidepot.command.employment.domain.Employment;
-import com.example.sidepot.command.notification.work.domain.Receiver;
+import com.example.sidepot.command.work.domain.Receiver;
 import com.example.sidepot.command.employment.repository.EmploymentRepository;
-import com.example.sidepot.command.notification.work.domain.CoverManagerId;
+import com.example.sidepot.command.work.domain.CoverManagerId;
 import com.example.sidepot.command.notification.common.NoticeType;
-import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
+import com.example.sidepot.command.work.domain.StaffCoverNoticeBox;
 import com.example.sidepot.command.work.domain.CoverManager;
-import com.example.sidepot.command.notification.work.domain.Sender;
+import com.example.sidepot.command.work.domain.Sender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

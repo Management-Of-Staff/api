@@ -1,6 +1,6 @@
 package com.example.sidepot.command.work.presentation;
 
-import com.example.sidepot.command.notification.work.domain.RejectMessage;
+import com.example.sidepot.command.work.domain.RejectMessage;
 import com.example.sidepot.command.work.app.CoverAcceptService;
 import com.example.sidepot.command.work.app.CoverCancelService;
 import com.example.sidepot.command.work.app.CoverRequestService;

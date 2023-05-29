@@ -1,4 +1,4 @@
-package com.example.sidepot.command.notification.work.domain;
+package com.example.sidepot.command.work.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

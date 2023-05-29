@@ -1,6 +1,6 @@
 package com.example.sidepot.command.work.event;
 
-import com.example.sidepot.command.notification.work.domain.CoverManagerId;
+import com.example.sidepot.command.work.domain.CoverManagerId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

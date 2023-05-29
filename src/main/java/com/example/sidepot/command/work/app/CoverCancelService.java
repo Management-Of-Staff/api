@@ -1,11 +1,11 @@
 package com.example.sidepot.command.work.app;
 
-import com.example.sidepot.command.notification.work.domain.Sender;
+import com.example.sidepot.command.work.domain.Sender;
 import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.global.event.Events;
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.command.notification.work.domain.CoverManagerId;
-import com.example.sidepot.command.notification.work.domain.RejectMessage;
+import com.example.sidepot.command.work.domain.CoverManagerId;
+import com.example.sidepot.command.work.domain.RejectMessage;
 import com.example.sidepot.command.work.repository.CoverManagerRepository;
 import com.example.sidepot.command.work.event.AcceptedCoverCanceledEvent;
 import com.example.sidepot.command.work.event.RequestedCoverCanceledEvent;

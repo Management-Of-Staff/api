@@ -2,9 +2,9 @@ package com.example.sidepot.command.work.app;
 
 import com.example.sidepot.command.member.domain.Staff;
 import com.example.sidepot.command.member.domain.StaffRepository;
-import com.example.sidepot.command.notification.work.domain.CoverManagerId;
-import com.example.sidepot.command.notification.work.domain.Receiver;
-import com.example.sidepot.command.notification.work.domain.Sender;
+import com.example.sidepot.command.work.domain.CoverManagerId;
+import com.example.sidepot.command.work.domain.Receiver;
+import com.example.sidepot.command.work.domain.Sender;
 import com.example.sidepot.command.work.domain.AcceptedStaff;
 import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.command.work.event.CoverWorkAcceptedEvent;

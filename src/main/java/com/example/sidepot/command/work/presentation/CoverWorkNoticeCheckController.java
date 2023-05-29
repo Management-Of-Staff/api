@@ -1,12 +1,12 @@
-package com.example.sidepot.command.notification.work.presentaition;
+package com.example.sidepot.command.work.presentation;
 
-import com.example.sidepot.command.notification.work.app.CoverNoticeBoxService;
-import com.example.sidepot.command.notification.work.dto.CoverNoticeResDto;
+import com.example.sidepot.command.work.app.CoverNoticeBoxService;
+import com.example.sidepot.command.work.dto.CoverNoticeResDto;
 import com.example.sidepot.global.Path;
 import com.example.sidepot.global.dto.ResponseDto;
 import com.example.sidepot.global.security.LoginMember;
 
-import com.example.sidepot.command.notification.work.app.CoverNoticeStatusService;
+import com.example.sidepot.command.work.app.CoverNoticeStatusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -6,21 +6,16 @@ import com.example.sidepot.command.notification.common.NoticeType;
 import com.example.sidepot.command.notification.common.Notification;
 import com.example.sidepot.command.notification.common.NotificationRepository;
 import com.example.sidepot.command.notification.common.StaffNotificationBox;
-import com.example.sidepot.command.notification.work.domain.CoverManagerId;
-import com.example.sidepot.command.notification.work.domain.Receiver;
-import com.example.sidepot.command.notification.work.domain.Sender;
-import com.example.sidepot.command.notification.work.repository.StaffNoticeRepository;
+import com.example.sidepot.command.work.domain.Receiver;
+import com.example.sidepot.command.work.presentation.StaffCoverNoticeRepository;
 import com.example.sidepot.command.notification.firebase.FirebaseMessageService;
-import com.example.sidepot.command.notification.work.app.CoverNoticeCreationService;
-import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
+import com.example.sidepot.command.work.domain.StaffCoverNoticeBox;
 import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.command.work.event.CoverWorkRequestedEvent;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.io.IOException;
@@ -32,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class CoverWorkRequestedHandler {
 
-    private final StaffNoticeRepository staffNoticeRepository;
+    private final StaffCoverNoticeRepository staffCoverNoticeRepository;
     private final NotificationRepository notificationRepository;
     private final EmploymentRepository employmentRepository;
     private final FirebaseMessageService firebaseMessageService;
@@ -47,7 +42,7 @@ public class CoverWorkRequestedHandler {
         List<StaffCoverNoticeBox> requestedNotice
                 = createRequestedNotice(cmMapByStore);
 
-        staffNoticeRepository.saveAll(requestedNotice);
+        staffCoverNoticeRepository.saveAll(requestedNotice);
     }
 
     @TransactionalEventListener(

@@ -1,7 +1,7 @@
-package com.example.sidepot.command.notification.work.dto;
+package com.example.sidepot.command.work.dto;
 
 import com.example.sidepot.command.notification.common.NoticeType;
-import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
+import com.example.sidepot.command.work.domain.StaffCoverNoticeBox;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

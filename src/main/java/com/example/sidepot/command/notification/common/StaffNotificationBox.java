@@ -1,6 +1,6 @@
 package com.example.sidepot.command.notification.common;
 
-import com.example.sidepot.command.notification.work.domain.Receiver;
+import com.example.sidepot.command.work.domain.Receiver;
 import com.example.sidepot.global.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;

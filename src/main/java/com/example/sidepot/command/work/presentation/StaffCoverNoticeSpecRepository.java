@@ -1,7 +1,7 @@
-package com.example.sidepot.command.notification.work.repository;
+package com.example.sidepot.command.work.presentation;
 
-import com.example.sidepot.command.notification.work.domain.StaffCoverNoticeBox;
-import com.example.sidepot.command.notification.work.dto.CoverNoticeResDto.CoverNoticeBoxResDto;
+import com.example.sidepot.command.work.domain.StaffCoverNoticeBox;
+import com.example.sidepot.command.work.dto.CoverNoticeResDto.CoverNoticeBoxResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import static com.example.sidepot.command.notification.work.domain.QStaffCoverNo
 
 @RequiredArgsConstructor
 @Repository
-public class StaffNoticeSpecRepository {
+public class StaffCoverNoticeSpecRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
