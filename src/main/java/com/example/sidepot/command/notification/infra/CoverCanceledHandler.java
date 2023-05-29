@@ -3,7 +3,7 @@ package com.example.sidepot.command.notification.infra;
 
 import com.example.sidepot.command.member.domain.StaffRepository;
 import com.example.sidepot.command.notification.domain.*;
-import com.example.sidepot.command.notification.firebase.FirebaseMessageService;
+import com.example.sidepot.command.notification.app.FirebaseMessageService;
 import com.example.sidepot.command.store.domain.StoreRepository;
 import com.example.sidepot.command.work.domain.CoverManager;
 import com.example.sidepot.command.work.event.AcceptorCanceledEvent;

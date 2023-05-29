@@ -1,4 +1,4 @@
-package com.example.sidepot.command.work.presentation;
+package com.example.sidepot.command.work.repository;
 
 
 import com.example.sidepot.command.work.domain.CoverNotice;

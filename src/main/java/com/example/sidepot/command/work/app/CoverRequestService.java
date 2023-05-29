@@ -114,7 +114,7 @@ public class CoverRequestService {
     private void setCoverNoticeList(CoverManager coverManager, List<Employment> employmentList, Sender sender) {
         for (Employment employment : employmentList) {
             if(!(employment.getStaff().getMemberId().equals(coverManager.getRequestedStaff().getId()))) {
-                Receiver receiver = new Receiver(employment.getStaff().getMemberId(), employment.getStaff().getMemberName());
+                Receiver receiver = new Receiver(employment.getStaff());
                 CoverNotice coverNotice = CoverNotice.newCoverNotice(sender, receiver, NoticeType.REQUESTED);
                 coverManager.addCoverNotice(coverNotice);
             }

@@ -4,7 +4,7 @@ import com.example.sidepot.command.notification.domain.NoticeType;
 import com.example.sidepot.command.notification.domain.Notification;
 import com.example.sidepot.command.notification.domain.NotificationRepository;
 import com.example.sidepot.command.notification.domain.SNotification;
-import com.example.sidepot.command.notification.firebase.FirebaseMessageService;
+import com.example.sidepot.command.notification.app.FirebaseMessageService;
 
 import com.example.sidepot.command.work.domain.CoverManager;
 

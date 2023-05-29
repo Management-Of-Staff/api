@@ -1,8 +1,7 @@
 package com.example.sidepot.command.work.app;
 
 import com.example.sidepot.command.work.domain.CoverNotice;
-import com.example.sidepot.command.work.domain.RejectMessage;
-import com.example.sidepot.command.work.presentation.CoverNoticeRepository;
+import com.example.sidepot.command.work.repository.CoverNoticeRepository;
 import com.example.sidepot.global.security.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

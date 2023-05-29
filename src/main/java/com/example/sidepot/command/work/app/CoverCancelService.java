@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -28,10 +29,10 @@ public class CoverCancelService {
      *
      */
     @Transactional
-    public void cancelCoverByRequestedStaff(LoginMember member, Long coverManagerId) {
+    public void cancelCoverByRequestedStaff(LoginMember member, Long coverManagerId, LocalDate now) {
         CoverManager coverManagerPs = coverManagerRepository.findById(coverManagerId).orElseThrow();
         coverManagerPs.isRequestedByMe(member.getMemberId());
-        coverManagerPs.delete(); //취소 처리 // 및 알림 이벤트 발행
+        coverManagerPs.delete(now); //취소 처리 // 및 알림 이벤트 발행
     }
 
     /**
@@ -39,12 +40,12 @@ public class CoverCancelService {
      * 다시 대타 알림이 유효하기 바뀌는지 아예 삭제되는지 등등등
      */
     @Transactional
-    public void cancelAcceptedCover(LoginMember member, Long coverNoticeId, RejectMessage rejectMessage) {
+    public void cancelAcceptedCover(LoginMember member, Long coverNoticeId, RejectMessage rejectMessage, LocalDate now) {
         Optional<CoverManager> coverNoticeOp = coverManagerRepository.findById(coverNoticeId);
         CoverManager coverManagerPs = coverNoticeOp.orElseThrow();
 
         coverManagerPs.isAcceptedByMe(member.getMemberId());
-        coverManagerPs.cancel(rejectMessage); //취소 처리 // 및 알림 이벤트 발행
+        coverManagerPs.cancel(rejectMessage, now); //취소 처리 // 및 알림 이벤트 발행
     }
 
     /**

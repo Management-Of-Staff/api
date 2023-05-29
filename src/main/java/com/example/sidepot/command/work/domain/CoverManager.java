@@ -1,5 +1,6 @@
 package com.example.sidepot.command.work.domain;
 
+import com.example.sidepot.command.attendance.domain.WorkDateTime;
 import com.example.sidepot.command.notification.domain.NoticeType;
 import com.example.sidepot.command.work.event.AcceptorCanceledEvent;
 import com.example.sidepot.command.work.event.CoverNoticeAllRejectedEvent;
@@ -14,7 +15,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,7 +100,8 @@ public class CoverManager extends BaseEntity {
     }
 
     // 수락 이후 대타를 수락자가 취소
-    public void cancel(RejectMessage rejectMessage) {
+    public void cancel(RejectMessage rejectMessage, LocalDate now) {
+        isCancelOverByRes(now);
         //취소 되었을 때 정책이 없음
         //this.coverNoticeStatus = CoverNoticeStatus.WAITING
         this.coverManagerStatus = CoverManagerStatus.CANCEL;
@@ -110,7 +114,8 @@ public class CoverManager extends BaseEntity {
     }
 
     // 수락 이후 대타를 요청자가 취소
-    public void delete(){
+    public void delete(LocalDate now){
+        isCancelOverByRes(now);
         this.isDeleted = true;
         this.coverManagerStatus = CoverManagerStatus.CANCEL;
         this.coverWorkList.stream().forEach(cw -> cw.delete());
@@ -169,4 +174,25 @@ public class CoverManager extends BaseEntity {
         }
         return true;
     }
+
+    //요청자가 취소
+    private void isCancelOverByRes(LocalDate now){
+        CoverWork coverWork = coverWorkList.stream()
+                .min(Comparator.comparing(cw -> cw.getCoverDateTime().getCoverDate()))
+                .orElseThrow(() -> new IllegalStateException("이런 경우는 없음 도메인이 무결하기 때문에"));
+        if(now.isAfter(coverWork.getCoverDateTime().getCoverDate().minusDays(1))){
+            throw new IllegalStateException("요청 취소 기한을 넘겼습니다~");
+        }
+    }
+
+    //요청자가 취소
+    private void isCancelOverByAcc(LocalDate now){
+        CoverWork coverWork = coverWorkList.stream()
+                .min(Comparator.comparing(cw -> cw.getCoverDateTime().getCoverDate()))
+                .orElseThrow(() -> new IllegalStateException("이런 경우는 없음 도메인이 무결하기 때문에"));
+        if(now.isAfter(coverWork.getCoverDateTime().getCoverDate().minusDays(7))){
+            throw new IllegalStateException("요청 취소 기한을 넘겼습니다~");
+        }
+    }
+
 }

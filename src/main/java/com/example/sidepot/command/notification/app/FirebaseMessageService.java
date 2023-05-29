@@ -1,5 +1,6 @@
-package com.example.sidepot.command.notification.firebase;
+package com.example.sidepot.command.notification.app;
 
+import com.example.sidepot.command.notification.dto.FCMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;

@@ -1,4 +1,4 @@
-package com.example.sidepot.command.notification.firebase;
+package com.example.sidepot.command.notification.dto;
 
 
 import lombok.AllArgsConstructor;

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.List;
 
 @Api(tags = "대타 관련 APIs")
@@ -67,7 +68,8 @@ public class CoverWorkCommandController {
                                                                @ApiIgnore HttpServletRequest httpServletRequest,
                                                                @PathVariable Long coverManagerId,
                                                                @RequestParam(value = "reason") String messageType) {
-        coverCancelService.cancelAcceptedCover(member, coverManagerId, RejectMessage.valueOf(messageType));
+
+        coverCancelService.cancelAcceptedCover(member, coverManagerId, RejectMessage.valueOf(messageType) ,LocalDate.now());
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -82,7 +84,7 @@ public class CoverWorkCommandController {
     public ResponseEntity<ResponseDto> requestedCoverWorkCancel(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                 @ApiIgnore HttpServletRequest httpServletRequest,
                                                                 @PathVariable Long coverManagerId) {
-        coverCancelService.cancelCoverByRequestedStaff(member, coverManagerId);
+        coverCancelService.cancelCoverByRequestedStaff(member, coverManagerId, LocalDate.now());
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
