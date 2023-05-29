@@ -1,14 +1,14 @@
 package com.example.sidepot.command.work.app;
 
-import com.example.sidepot.command.work.domain.Sender;
+import com.example.sidepot.command.member.domain.Staff;
+import com.example.sidepot.command.member.domain.StaffRepository;
+import com.example.sidepot.command.work.domain.Receiver;
 import com.example.sidepot.command.work.domain.CoverManager;
+import com.example.sidepot.command.work.event.CoverNoticeAllRejectedEvent;
 import com.example.sidepot.global.event.Events;
 import com.example.sidepot.global.security.LoginMember;
-import com.example.sidepot.command.work.domain.CoverManagerId;
 import com.example.sidepot.command.work.domain.RejectMessage;
 import com.example.sidepot.command.work.repository.CoverManagerRepository;
-import com.example.sidepot.command.work.event.AcceptedCoverCanceledEvent;
-import com.example.sidepot.command.work.event.RequestedCoverCanceledEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,32 +20,47 @@ import java.util.Optional;
 public class CoverCancelService {
 
     private final CoverManagerRepository coverManagerRepository;
+    private final StaffRepository staffRepository;
 
     /**
-     * 대타 요청 자체를 취소한다 -> 삭제처리
+     *  ----------------- 수락되지 않은 요청을 취소하는 기획이 안 보임
+     * 대타 요청자가 대타 요청 자체를 취소한다 -> 삭제처리
+     *
      */
     @Transactional
-    public void cancelRequestedCover(LoginMember loginMember, Long coverManagerId) {
+    public void cancelCoverByRequestedStaff(LoginMember member, Long coverManagerId) {
         CoverManager coverManagerPs = coverManagerRepository.findById(coverManagerId).orElseThrow();
-        coverManagerPs.delete(); //삭제 처리
-        Events.raise(new RequestedCoverCanceledEvent(
-                        new CoverManagerId(coverManagerPs.getId()))); //직원 노티에서 삭제처리
+        coverManagerPs.isRequestedByMe(member.getMemberId());
+        coverManagerPs.delete(); //취소 처리 // 및 알림 이벤트 발행
     }
 
     /**
      * 대타 수락을 취소한다 -> 정책없음
+     * 다시 대타 알림이 유효하기 바뀌는지 아예 삭제되는지 등등등
      */
     @Transactional
-    public void cancelAcceptedCover(LoginMember loginMember, Long coverNoticeId, RejectMessage rejectMessage) {
+    public void cancelAcceptedCover(LoginMember member, Long coverNoticeId, RejectMessage rejectMessage) {
         Optional<CoverManager> coverNoticeOp = coverManagerRepository.findById(coverNoticeId);
         CoverManager coverManagerPs = coverNoticeOp.orElseThrow();
 
-        coverManagerPs.isMyNotice(loginMember.getMemberId());
-        coverManagerPs.cancel(); //취소 처리
-        //
-        Events.raise(new AcceptedCoverCanceledEvent(   // 취소 후 알림에 대한 정책이 없음, 개발자가 임시적용
-                new CoverManagerId(coverManagerPs.getId()),
-                new Sender(coverManagerPs.getAcceptedStaff().getId(), coverManagerPs.getAcceptedStaff().getName()),
-                rejectMessage));
-        }
+        coverManagerPs.isAcceptedByMe(member.getMemberId());
+        coverManagerPs.cancel(rejectMessage); //취소 처리 // 및 알림 이벤트 발행
+    }
+
+    /**
+     * 알림함에서 개인 알림으로 거절했을 때,
+     */
+    @Transactional
+    public void rejectNotice(LoginMember member, Long coverNoticeId, Long coverManagerId, RejectMessage rejectMessage) {
+        CoverManager coverManagerPs = coverManagerRepository.findById(coverNoticeId).orElseThrow();// # error
+        coverManagerPs.rejectNotice(coverNoticeId, rejectMessage);
+
+        //모두 거절 되었는가?
+        coverManagerPs.createAllRejectedNoticeIfPresent();
+    }
+
+    private Staff findStaffById(CoverManager coverManagerPs) {
+        return staffRepository.findById(coverManagerPs.getRequestedStaff().getId())
+                .orElseThrow(() -> new IllegalStateException("요청자가 없네요???"));
+    }
 }

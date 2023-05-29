@@ -4,13 +4,14 @@ import com.example.sidepot.command.work.domain.CoverManager;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
-public class RequestedCoverCanceledEvent {
+@NoArgsConstructor
+public class CoverNoticeAllRejectedEvent {
 
     private CoverManager coverManager;
 
-    public RequestedCoverCanceledEvent(CoverManager coverManager) {
+    public CoverNoticeAllRejectedEvent(CoverManager coverManager) {
         this.coverManager = coverManager;
+
     }
 }

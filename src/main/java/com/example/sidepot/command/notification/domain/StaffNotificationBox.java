@@ -1,4 +1,4 @@
-package com.example.sidepot.command.notification.common;
+package com.example.sidepot.command.notification.domain;
 
 import com.example.sidepot.command.work.domain.Receiver;
 import com.example.sidepot.global.domain.BaseEntity;
@@ -15,18 +15,20 @@ import javax.persistence.*;
 public class StaffNotificationBox extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notification_id")
-    private Notification notification;
+    private SNotification sNotification;
     @Column(name = "is_read")
     private Boolean isRead;
     @Embedded
     private Receiver receiver;
 
-    public StaffNotificationBox(Notification notification, Receiver receiver) {
-        this.notification = notification;
+    public StaffNotificationBox(Receiver receiver) {
         this.isRead = false;
         this.receiver = receiver;
+    }
+
+    public void setNotification(SNotification sNotification) {
+        this.sNotification = sNotification;
     }
 }

@@ -2,11 +2,8 @@ package com.example.sidepot.command.work.app;
 
 import com.example.sidepot.command.member.domain.Staff;
 import com.example.sidepot.command.member.domain.StaffRepository;
-import com.example.sidepot.command.work.domain.CoverManagerId;
-import com.example.sidepot.command.work.domain.Receiver;
-import com.example.sidepot.command.work.domain.Sender;
-import com.example.sidepot.command.work.domain.AcceptedStaff;
-import com.example.sidepot.command.work.domain.CoverManager;
+import com.example.sidepot.command.notification.domain.NoticeType;
+import com.example.sidepot.command.work.domain.*;
 import com.example.sidepot.command.work.event.CoverWorkAcceptedEvent;
 import com.example.sidepot.command.work.repository.CoverManagerRepository;
 import com.example.sidepot.global.event.Events;
@@ -14,6 +11,7 @@ import com.example.sidepot.global.security.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Optional;
 
@@ -23,25 +21,30 @@ public class CoverAcceptService {
 
     private final CoverManagerRepository coverManagerRepository;
     private final StaffRepository staffRepository;
-    private final WorkPossibleCheckService workPossibleCheckService;
 
+    /**
+     * 대타 수락
+     */
     @Transactional
-    public void acceptCoverWork(LoginMember loginMember, Long coverManagerId){
+    public void acceptCoverWork(LoginMember member, Long coverManagerId) {
+        Staff acceptedStaff = findStaff(member.getMemberId());
+
         CoverManager coverManagerPs = findCoverManager(coverManagerId);
 
-        //workPossibleCheckService.coverWorkabilityScheduleCheck();
-
-        Staff acceptedStaff = findStaff(loginMember.getMemberId());
+        //workPossibleCheckService.coverWorkabilityScheduleCheck(coverManagerPs.getCoverWorkList());
 
         coverManagerPs.accepted(new AcceptedStaff(acceptedStaff.getMemberId(), acceptedStaff.getMemberName()));
 
-        Staff receiver = findStaff(coverManagerPs.getRequestedStaff().getId());
+        Staff requestedStaff = findStaff(coverManagerPs.getRequestedStaff().getId());
 
-        Events.raise(new CoverWorkAcceptedEvent(
-                new CoverManagerId(coverManagerPs.getId()),
-                new Sender(acceptedStaff.getMemberId(), acceptedStaff.getMemberName()),
-                new Receiver(receiver.getMemberId(), receiver.getMemberName(), receiver.getUuid())));
+        Sender sender = new Sender(acceptedStaff);
+        Receiver receiver = new Receiver(requestedStaff);
+        coverManagerPs.addCoverNotice(new CoverNotice(sender,receiver, NoticeType.STAFF_COVER_ACCEPTED));
 
+        Events.raise(new CoverWorkAcceptedEvent(coverManagerPs, sender, receiver));
+
+        // 사장님 스케쥴 변동 알림함 이벤트 레이즈
+        // 사장님 공통 알림 위임 이벤트
     }
 
 

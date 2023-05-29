@@ -12,10 +12,8 @@ import java.util.Set;
 public class CoverWorkRequestedEvent {
 
     private List<CoverManager> coverManagerList;
-    private Set<Long> storeIds;
 
-    public CoverWorkRequestedEvent(List<CoverManager> coverManagerList, Set<Long> storeIds) {
+    public CoverWorkRequestedEvent(List<CoverManager> coverManagerList) {
         this.coverManagerList = coverManagerList;
-        this.storeIds =  storeIds;
     }
 }

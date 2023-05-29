@@ -1,7 +1,7 @@
 package com.example.sidepot.command.work.dto;
 
-import com.example.sidepot.command.notification.common.NoticeType;
-import com.example.sidepot.command.work.domain.StaffCoverNoticeBox;
+import com.example.sidepot.command.notification.domain.NoticeType;
+import com.example.sidepot.command.work.domain.CoverNotice;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -34,9 +34,9 @@ public class CoverNoticeResDto {
         private Long notReadNum;
         private ThumbnailNoticeBox thumbnailNoticeBox;
 
-        public CoverNoticeThumbnailResDto(Long notReadNum, StaffCoverNoticeBox staffCoverNoticeBox) {
+        public CoverNoticeThumbnailResDto(Long notReadNum, CoverNotice coverNotice) {
             this.notReadNum = notReadNum != null ? notReadNum : 0L; // 기본값으로 0L 할당
-            this.thumbnailNoticeBox = new ThumbnailNoticeBox(staffCoverNoticeBox);
+            this.thumbnailNoticeBox = new ThumbnailNoticeBox(coverNotice);
         }
     }
 
@@ -46,10 +46,10 @@ public class CoverNoticeResDto {
         private String message;
         private LocalDateTime create_dt;
 
-        public ThumbnailNoticeBox(StaffCoverNoticeBox staffCoverNoticeBox) {
-            this.senderName = staffCoverNoticeBox != null ? staffCoverNoticeBox.getSender().getSenderName() : ""; // 기본값으로 빈 문자열 할당
-            this.message = staffCoverNoticeBox != null ? staffCoverNoticeBox.getNoticeType().getMessage() : "최신 알림이 없네요?"; // 기본값으로 빈 문자열 할당
-            this.create_dt = staffCoverNoticeBox != null ? staffCoverNoticeBox.getCreateDt() : LocalDateTime.now();
+        public ThumbnailNoticeBox(CoverNotice coverNotice) {
+            this.senderName = coverNotice != null ? coverNotice.getSender().getSenderName() : ""; // 기본값으로 빈 문자열 할당
+            this.message = coverNotice != null ? coverNotice.getNoticeType().getMessage() : "최신 알림이 없네요?"; // 기본값으로 빈 문자열 할당
+            this.create_dt = coverNotice != null ? coverNotice.getCreateDt() : LocalDateTime.now();
         }
     }
 }

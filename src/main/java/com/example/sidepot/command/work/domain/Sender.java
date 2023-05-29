@@ -1,5 +1,6 @@
 package com.example.sidepot.command.work.domain;
 
+import com.example.sidepot.command.member.domain.Staff;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,27 @@ public class Sender {
 
     private Long senderId;
     private String senderName;
-    //private String senderToken;
 
     public Sender(Long senderId, String senderName) {
         this.senderId = senderId;
         this.senderName = senderName;
-
     }
+
+    public Sender(RequestedStaff requestedStaff){
+        this.senderId = requestedStaff.getId();
+        this.senderName = requestedStaff.getName();
+    }
+
+    public Sender(AcceptedStaff acceptedStaff){
+        this.senderId = acceptedStaff.getId();
+        this.senderName = acceptedStaff.getName();
+    }
+
+    public Sender(Staff staff){
+        this.senderId = staff.getMemberId();
+        this.senderName = staff.getMemberName();
+    }
+
 
     @Override
     public boolean equals(Object o) {

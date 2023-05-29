@@ -29,7 +29,10 @@ public class CoverWork extends BaseEntity {
     @Embedded
     private WorkTimeId workTime;
     @Column(name = "is_accepted")
-    private Boolean isAccepted;
+    private Boolean isAccepted;  //수락자 스탯
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted; //요청자 스텟
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_manager_id")
     private CoverManager coverManager;
@@ -39,6 +42,7 @@ public class CoverWork extends BaseEntity {
         this.workTime = workTimeId;
         this.requestedStaff = requestedStaff;
         this.isAccepted = false;
+        this.isDeleted = false;
     }
     //테스트 셋
     public CoverWork(RequestedStaff requestedStaff, AcceptedStaff acceptedStaff, CoverDateTime coverDateTime, WorkTimeId workTime) {
@@ -47,15 +51,16 @@ public class CoverWork extends BaseEntity {
         this.coverDateTime = coverDateTime;
         this.workTime = workTime;
         this.isAccepted = true;
+        this.isDeleted = false;
     }
 
+    //모든 시간 커버
     public static CoverWork newCoverWork(Staff requestedStaff, CreateCoverWorkReqDto createCwReqDto, WorkTime wtPs){
         return new CoverWork(
                 new CoverDateTime(createCwReqDto.getCoverDate(), wtPs.getStartTime(), wtPs.getEndTime()),
                 new WorkTimeId(wtPs.getWorkTimeId()),
                 new RequestedStaff(requestedStaff.getMemberId(), requestedStaff.getMemberName()));
     }
-
 
     public CoverWork setCoverManager(CoverManager coverManager){
         this.coverManager = coverManager;
@@ -65,6 +70,11 @@ public class CoverWork extends BaseEntity {
     public void cancel(){
         this.isAccepted = false;
         this.acceptedStaff = null;
+    }
+
+    public void delete(){
+        this.isAccepted = false;
+        this.isDeleted = true;
     }
 
     public void acceptCover(AcceptedStaff acceptedStaff) {
@@ -77,21 +87,6 @@ public class CoverWork extends BaseEntity {
                 && (this.coverDateTime.getStartTime().isBefore(coverDateTime.getEndTime()))
                 && (this.coverDateTime.getEndTime().isAfter(coverDateTime.getStartTime())));
 
-    }
-
-
-    public void isNotWorkStartTime(LocalDateTime now){
-        isWorkingDay(now);
-        if (this.coverDateTime.getStartTime().isBefore(now.toLocalTime().minusMinutes(10))){
-            throw new IllegalStateException("출근시간이 아닙니다");
-        }
-    }
-
-    public void isNotWorkOffTime(LocalDateTime now, Long allowedLeaveTime){
-        isWorkingDay(now);
-        if (this.getCoverDateTime().getEndTime().isBefore(now.toLocalTime().minusMinutes(allowedLeaveTime))){
-            throw new IllegalStateException("아칙 퇴근 시간이 아닙니다.");
-        }
     }
 
     public AttendanceStatus checkIn(LocalDateTime now, Long allowedLateTime) {

@@ -16,11 +16,18 @@ public class RequestedStaff {
     private Long id;
     @Column(name = "requested_staff_name")
     private String name;
-    //private List<String> tokens;
+    @Column(name = "requested_staff_token")
+    private String token;
 
     public RequestedStaff(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public RequestedStaff(Long id, String name, String token) {
+        this.id = id;
+        this.name = name;
+        this.token = token;
     }
 
     @Override

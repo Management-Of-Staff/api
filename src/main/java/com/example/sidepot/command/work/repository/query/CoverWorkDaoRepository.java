@@ -28,10 +28,9 @@ public class CoverWorkDaoRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
 
-    /** 안쓰는 메서드
-     * 날짜로 수락한 대타가 있는지 판단한다.
+    /**
+     * 날짜로 수락한 대타가 있는지 판단한다. - 스펙으로 동적쿼리 범용으로 써야댐
      */
-    @Deprecated
     @Transactional(readOnly = true)
     public List<CoverWork> getStaffAcceptedCoversByOnDay(Long staffId, LocalDate today) {
         return jpaQueryFactory

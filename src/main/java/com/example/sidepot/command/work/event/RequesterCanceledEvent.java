@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CoverWorkAcceptedEvent {
+public class RequesterCanceledEvent {
+    private CoverManager coverManager;
+    private Sender sender;
+    private Receiver receiver;
 
-   private CoverManager coverManager;
-   private Sender sender;
-   private Receiver receiver;
-
-    public CoverWorkAcceptedEvent(CoverManager coverManager, Sender sender, Receiver receiver) {
+    public RequesterCanceledEvent(CoverManager coverManager, Sender sender, Receiver receiver) {
         this.coverManager = coverManager;
         this.sender = sender;
         this.receiver = receiver;

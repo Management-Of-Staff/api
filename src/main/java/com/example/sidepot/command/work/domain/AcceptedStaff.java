@@ -1,5 +1,6 @@
 package com.example.sidepot.command.work.domain;
 
+import com.example.sidepot.command.member.domain.Staff;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,16 @@ public class AcceptedStaff {
     @Column(name = "accepted_staff_name")
     private String name;
 
+    @Column(name = "accepted_staff_token")
+    private String token; ///안씀 // 검색할 거임
+
     public AcceptedStaff(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+    public AcceptedStaff(Staff staff) {
+        this.id = staff.getMemberId();
+        this.name = staff.getMemberName();
     }
 
     @Override

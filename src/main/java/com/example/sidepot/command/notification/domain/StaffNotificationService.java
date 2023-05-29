@@ -1,4 +1,4 @@
-package com.example.sidepot.command.notification.common;
+package com.example.sidepot.command.notification.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

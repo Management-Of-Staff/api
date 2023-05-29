@@ -36,7 +36,7 @@ public class CoverWorkCommandController {
                                                               @RequestBody List<CoverWorkRequestDto.CreateCoverWorkReqDto> createCoverWorkReqDtoList,
                                                               @ApiIgnore HttpServletRequest httpServletRequest) {
 
-        coverRequestService.requestCoverWork(member, createCoverWorkReqDtoList);
+        coverRequestService.createCoverManager(member, createCoverWorkReqDtoList);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())
@@ -82,7 +82,7 @@ public class CoverWorkCommandController {
     public ResponseEntity<ResponseDto> requestedCoverWorkCancel(@ApiIgnore @AuthenticationPrincipal LoginMember member,
                                                                 @ApiIgnore HttpServletRequest httpServletRequest,
                                                                 @PathVariable Long coverManagerId) {
-        coverCancelService.cancelRequestedCover(member, coverManagerId);
+        coverCancelService.cancelCoverByRequestedStaff(member, coverManagerId);
         return ResponseEntity.ok(ResponseDto.builder()
                 .path(httpServletRequest.getServletPath())
                 .statusCode(HttpStatus.OK.value())

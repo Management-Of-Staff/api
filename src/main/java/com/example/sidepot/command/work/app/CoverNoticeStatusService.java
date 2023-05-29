@@ -1,8 +1,8 @@
 package com.example.sidepot.command.work.app;
 
+import com.example.sidepot.command.work.domain.CoverNotice;
 import com.example.sidepot.command.work.domain.RejectMessage;
-import com.example.sidepot.command.work.domain.StaffCoverNoticeBox;
-import com.example.sidepot.command.work.presentation.StaffCoverNoticeRepository;
+import com.example.sidepot.command.work.presentation.CoverNoticeRepository;
 import com.example.sidepot.global.security.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,15 @@ import java.util.List;
 @Service
 public class CoverNoticeStatusService {
 
-    private final StaffCoverNoticeRepository staffCoverNoticeRepository;
+    private final CoverNoticeRepository coverNoticeRepository;
 
     /**
      *  알림 읽음 처리
      */
     @Transactional
     public void checkNotice(LoginMember loginMember, Long staffNoticeId){
-        StaffCoverNoticeBox staffCoverNoticeBoxPs = staffCoverNoticeRepository.findById(staffNoticeId).orElseThrow();
-        staffCoverNoticeBoxPs.checkNotice();
+        CoverNotice coverNoticePs = coverNoticeRepository.findById(staffNoticeId).orElseThrow();
+        coverNoticePs.checkNotice();
     }
 
     /**
@@ -30,8 +30,8 @@ public class CoverNoticeStatusService {
      */
     @Transactional
     public void hideNotice(Long staffNoticeId){
-        StaffCoverNoticeBox staffCoverNoticeBoxPs = staffCoverNoticeRepository.findById(staffNoticeId).orElseThrow();
-        staffCoverNoticeBoxPs.delete();
+        CoverNotice coverNoticePs = coverNoticeRepository.findById(staffNoticeId).orElseThrow();
+        coverNoticePs.delete();
     }
 
 
@@ -40,17 +40,10 @@ public class CoverNoticeStatusService {
      */
     @Transactional
     public void hideAllNotice(List<Long> staffNoticeIds){
-        staffCoverNoticeRepository.findAllById(staffNoticeIds)
+        coverNoticeRepository.findAllById(staffNoticeIds)
                 .stream()
                 .forEach(st -> st.delete());
     }
 
-    /**
-     *  대타 알림함에서 거절
-     */
-    @Transactional
-    public void rejectNotice(LoginMember member, Long staffCoverNoticeId, RejectMessage rejectMessage){
-        StaffCoverNoticeBox coverNotiBoxPs = staffCoverNoticeRepository.findById(staffCoverNoticeId).orElseThrow();// #error
-        coverNotiBoxPs.rejected(rejectMessage);
-    }
+
 }

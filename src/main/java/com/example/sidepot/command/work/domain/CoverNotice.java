@@ -1,6 +1,6 @@
 package com.example.sidepot.command.work.domain;
 
-import com.example.sidepot.command.notification.common.NoticeType;
+import com.example.sidepot.command.notification.domain.NoticeType;
 import com.example.sidepot.global.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,13 +10,16 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "staff_cover_notice_box")
+@Table(name = "cover_notice")
 @Entity
-public class StaffCoverNoticeBox extends BaseEntity {
+public class CoverNotice extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Embedded
-    private CoverManagerId coverManagerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cover_manager_id")
+    private CoverManager coverManager;
+
     @Embedded
     private Sender sender;
     @Embedded
@@ -42,26 +45,23 @@ public class StaffCoverNoticeBox extends BaseEntity {
     @Column(name = "details_url")
     private String detailsUrl;
 
-    public StaffCoverNoticeBox(CoverManagerId coverManagerId, Sender sender, Receiver receiver, NoticeType noticeType) {
-        this.coverManagerId = coverManagerId;
+    public CoverNotice(Sender sender, Receiver receiver, NoticeType noticeType) {
         this.sender = sender;
         this.receiver = receiver;
         this.isRead = false;
         this.isRejected = false;
         this.isDeleted = false;
         this.noticeType = noticeType;
-        this.detailsUrl = "/rest/v1/cover-works/notice-box/" + coverManagerId.getCoverManagerId();  //DNS 풀네임 넣어야됨
+
     }
 
-    public static StaffCoverNoticeBox newStaffNotice(CoverManager coverManager, Receiver receiver, NoticeType noticeType){
-        return new StaffCoverNoticeBox(
-                new CoverManagerId(coverManager.getId()),
-                new Sender(coverManager.getRequestedStaff().getId(), coverManager.getRequestedStaff().getName()),
-                receiver,
-                noticeType);
+    public static CoverNotice newCoverNotice(Sender sender, Receiver receiver, NoticeType noticeType){
+        return new CoverNotice(sender, receiver, noticeType);
     }
 
-    private void setDetailsUrl(){
+    public void setCoverManager(CoverManager coverManager){
+        this.coverManager = coverManager;
+        this.detailsUrl = "/rest/v1/cover-works/notice-box/" + coverManager.getId();
     }
 
     public void rejected(RejectMessage rejectMessage){

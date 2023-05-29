@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface CoverManagerRepository extends JpaRepository<CoverManager, Long> {
 
-    @EntityGraph(attributePaths = {"coverWorkList"})
+    @EntityGraph(attributePaths = {"coveNoticeList"})
     Optional<CoverManager> findById(Long coverNoticeId);
+
 }

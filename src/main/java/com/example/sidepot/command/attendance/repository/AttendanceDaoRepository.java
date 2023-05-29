@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static  com.example.sidepot.command.attendance.domain.QAttendance.attendance;
+import static com.example.sidepot.command.attendance.domain.QAttendance.attendance;
 import static com.example.sidepot.command.attendance.domain.QCoverAttendance.coverAttendance;
 
 @RequiredArgsConstructor
